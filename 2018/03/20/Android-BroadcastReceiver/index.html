@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.3.3 -->
+
+    <!-- Title -->
+    
+    <title>
+        
+            深入浅出 Android 广播机制 | 
+        
+        morninggeng
+    </title>
+
+    <!-- Meta & Info -->
+    <meta charset="utf-8">
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    
+    
+    
+        <link rel="dns-prefetch" href="https://changyan.sohu.com"/>
+    
+    
+    
+    
+
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="morninggeng">
+    <meta name="description" content="你和你羡慕的人之间也许只差了一个「坚持」">
+    <meta name="keywords" content="null,Android">
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/androidmorninggeng.png">
+    <link rel="icon" sizes="192x192" href="/img/androidmorninggeng.png">
+    <link rel="apple-touch-icon" href="/img/androidmorninggeng.png">
+
+    <!--iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="morninggeng">
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://morninggeng.cn">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="深入浅出 Android 广播机制 | morninggeng">
+    <meta property="og:description" content="你和你羡慕的人之间也许只差了一个「坚持」">
+    <meta property="og:article:tag" content="Android"> 
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import CSS & jQuery -->
+    
+        <link rel="stylesheet" href="/css/material.min.css">
+        <link rel="stylesheet" href="/css/style.min.css">
+        <!-- Config CSS -->
+
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
+
+  a {
+    color: #29d;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #29d;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body {
+        <!--background-color: #F5F5F5;-->
+		background-image: url(https://api.i-meto.com/bing?color=white);
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text {
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/queue.js"></script>
+    
+
+    <!-- UC Browser Compatible -->
+    <script>
+        var agent = navigator.userAgent.toLowerCase();
+        if(agent.indexOf('ucbrowser')>0) {
+            document.write("<link rel=\"stylesheet\" href=\"/css/uc.css\">");
+            alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+        }
+    </script>
+
+    
+
+    
+
+
+    <!-- Bing Background -->
+    
+        <script type="text/javascript">
+            queue.offer(function(){
+                $('body').attr('data-original', 'https://api.i-meto.com/bing?color=white');
+            });
+        </script>
+    
+
+    <!-- Custom Head -->
+    
+</head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#广播机制简介"><span class="post-toc-number">1.</span> <span class="post-toc-text">广播机制简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#注册方法"><span class="post-toc-number">2.</span> <span class="post-toc-text">注册方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#动态注册"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">动态注册</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#静态注册"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">静态注册</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#发送自定义广播"><span class="post-toc-number">3.</span> <span class="post-toc-text">发送自定义广播</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#发送标准广播"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">发送标准广播</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#发送有序广播"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">发送有序广播</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#发送本地广播"><span class="post-toc-number">4.</span> <span class="post-toc-text">发送本地广播</span></a></li></ol>
+
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        <!-- Custom Thumbnail -->
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://opmd2oxww.bkt.clouddn.com/17-10-24/95845970.jpg)">
+    
+            <p class="article-headline-p">
+                深入浅出 Android 广播机制
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/androidmorninggeng.png" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>morninggeng</strong>
+        <span>3月 20, 2018</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/Android/">Android</a>
+    </ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=深入浅出 Android 广播机制&url=http://morninggeng.cn//2018/03/20/Android-BroadcastReceiver/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=深入浅出 Android 广播机制&url=http://morninggeng.cn//2018/03/20/Android-BroadcastReceiver/index.html&via=morninggeng" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://morninggeng.cn//2018/03/20/Android-BroadcastReceiver/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://morninggeng.cn//2018/03/20/Android-BroadcastReceiver/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <h2 id="广播机制简介"><a href="#广播机制简介" class="headerlink" title="广播机制简介"></a>广播机制简介</h2><blockquote>
+<p>今天是一年一度的1024程序员节，好长时间没更博了，这里写一篇介绍 Android 广播机制。</p>
+<p>Android 提供了一套完整的 API，允许应用程序自由的发送和接收广播，发送广播的方法需要借助 Intent，接收广播则需要使用广播接收者(BroadcastReceiver)。</p>
+<p>Android 中的广播主要分为两种类型：标准广播和有序广播。</p>
+<ul>
+<li>标准广播：是一种完全异步执行的广播，广播发送之后，所有广播接收器几乎同时接收到这条广播，接收广播没有先后顺序。这种广播效率比较高，无法被截断。</li>
+<li>有序广播：是一种同步执行的广播，广播发送之后，只有一个广播接收器会接收到广播，当这个接收器的逻辑处理完毕之后，才会继续向下传播。广播接收器是有先后顺序的，优先级搞得接收器会先收到广播，前面的广播可以截断正在传递的广播。</li>
+</ul>
+<p>广播接收器可以自由的对自己感兴趣的广播进行注册，当有广播发出时，接收器就会收到该广播。</p>
+<p>广播接收器张不允许开启线程，对用于打开程序其他组件，或启动服务。</p>
+</blockquote>
+<h2 id="注册方法"><a href="#注册方法" class="headerlink" title="注册方法"></a>注册方法</h2><h3 id="动态注册"><a href="#动态注册" class="headerlink" title="动态注册"></a>动态注册</h3><blockquote>
+<p>动态注册：在代码中注册。</p>
+<p>优点：动态注册的广播接收器，可以自由的控制注册与注销。</p>
+<p>缺点：必须在程序执行之后才能接收到广播。</p>
+<p>动态注册的广播需要在合适的时机解注册。采用 unregistReceiver 方法。</p>
+</blockquote>
+<p>例：监听系统网络发生变化</p>
+<ul>
+<li>自定义广播接收器 MyBroadcastReceiver 继承 BroadcastReceiver，重写 onReceive ()方法。</li>
+<li>在 onReceive ()方法中添加网络变化监听代码。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 获取网络连接管理器</span><br><span class="line">ConnectivityManager connManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_CHANGE);</span><br><span class="line">// 获取网络状态信息</span><br><span class="line">NetWorkInfo netWorkInfo = connManager.getActiveNetworkInfo();</span><br><span class="line">// 判断网络连接状态，并给出相应提示</span><br><span class="line">if(netWorkInfo != null &amp;&amp; netWorkInfo.isAvailable())&#123;</span><br><span class="line">	Toast.makeText(context, &quot;当前网络已连接&quot;, Toast.LENGTH_SHORT).show();</span><br><span class="line">&#125;else &#123;</span><br><span class="line">	Toast.makeText(context, &quot;当前网络已断开&quot;, Toast.LENGTH_SHORT).show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 MianActivity 的 onCreate ()方法中动态注册广播。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 获取意图过滤器</span><br><span class="line">IntentFilter intentFilter = new IntentFilter();</span><br><span class="line">// 添加监听网络变化动作</span><br><span class="line">intentFilter.addAction(&quot;android.net.conn.CONCTIVITY_CHANGE&quot;);</span><br><span class="line">// 获取自定义广播接收器</span><br><span class="line">MyBroadcastReceiver myReceiver = new MyBroadcastReceiver();</span><br><span class="line">// 注册广播接收器</span><br><span class="line">registerReceiver(receiver, intentFilter);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 MianActivity 的 onDestory ()方法中取消注册。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 取消注册接收器</span><br><span class="line">unregisterReceiver(receiver);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 AndroidManifast 中声明自定义的广播接收器。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;receiver android:name=&quot;.MyBroadcastReceiver&quot;&gt;&lt;/receiver&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="静态注册"><a href="#静态注册" class="headerlink" title="静态注册"></a>静态注册</h3><blockquote>
+<p>静态注册：在 AndroidManifest (清单文件)中注册。</p>
+<p>静态注册的广播，在应用安装时由系统自动注册，具体是由 PMS(PackgeManagerService)来完成整个注册过程的。其它三大组件也都是在应用安装时由 PMS 解析注册的。</p>
+</blockquote>
+<p>例：开机自启动</p>
+<ul>
+<li>创建自定义广播 BootCompleteReceiver，在 onReceive() 方法中添加提示信息。</li>
+<li>在 AndroidManifest 清单文件中注册广播，并添加系统启动完成发出的广播。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;receiver android:name=&quot;.BootCompeleteReceiver&quot;</span><br><span class="line">		  android:enable=&quot;true&quot;</span><br><span class="line">		  android:expurte+&quot;true&quot;&gt;</span><br><span class="line">	&lt;intent-filter&gt; </span><br><span class="line">		&lt;action android:name=&quot;android.inent.action.BOOT_COMPLETED&quot;/&gt;</span><br><span class="line">	&lt;/intent-filter&gt;</span><br><span class="line">&lt;/receiver&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>添加相应权限信息。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=&quot;android.permission.RECEIVE_BOOT_COMPLETED&quot;/&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="发送自定义广播"><a href="#发送自定义广播" class="headerlink" title="发送自定义广播"></a>发送自定义广播</h2><blockquote>
+<p>发送全局广播存在安全隐患，发出去的广播可以被其他任何程序接收到，同样也能接受其他程序发送的广播。如果发送携带数据的广播，容易被其他程序所截获。</p>
+</blockquote>
+<h3 id="发送标准广播"><a href="#发送标准广播" class="headerlink" title="发送标准广播"></a>发送标准广播</h3><ul>
+<li>创建广播接收器，填写逻辑信息。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public void onReceive(Context context, Intent intent) &#123;</span><br><span class="line">		// TODO Auto-generated method stub</span><br><span class="line">		// onReceive 方法不能添加耗时操作，参考值：10s以内</span><br><span class="line">		Toast.makeText(context, &quot;接收到广播&quot;, Toast.LENGTH_SHORT).show();</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 AndroidManifest 文件中注册该广播接收器，并在intentfilter标签中添加自定义意图。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;receiver android:name=&quot;.MyBroadcastReceiver&quot;</span><br><span class="line">		  android:enable=&quot;true&quot;</span><br><span class="line">		  android:expurte+&quot;true&quot;&gt;</span><br><span class="line">	&lt;intent-filter&gt; </span><br><span class="line">		&lt;action android:name=&quot;com.mybroadcast.MY_RECEIVER&quot;/&gt;</span><br><span class="line">	&lt;/intent-filter&gt;</span><br><span class="line">&lt;/receiver&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 MainActivity 中发送广播。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent(&quot;com.mybroadcast.MY_RECEIVER&quot;);</span><br><span class="line">// 发送标准广播</span><br><span class="line">sendBroadcast(intent);</span><br></pre></td></tr></table></figure>
+<h3 id="发送有序广播"><a href="#发送有序广播" class="headerlink" title="发送有序广播"></a>发送有序广播</h3><ul>
+<li>创建广播接收器，填写逻辑信息。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public void onReceive(Context context, Intent intent) &#123;</span><br><span class="line">		// TODO Auto-generated method stub</span><br><span class="line">		// onReceive 方法不能添加耗时操作，参考值：10s以内 </span><br><span class="line">		Toast.makeText(context, &quot;接收到广播&quot;, Toast.LENGTH_SHORT).show();</span><br><span class="line">		// 拦截广播，不继续向下传播</span><br><span class="line">		abortBroadcast();</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 AndroidManifest 文件中注册该广播接收器，并在intentfilter标签中添加自定义意图。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;receiver android:name=&quot;.MyBroadcastReceiver&quot;</span><br><span class="line">		  android:enable=&quot;true&quot;</span><br><span class="line">		  android:expurte+&quot;true&quot;&gt;</span><br><span class="line">	&lt;intent-filter android:priority=&quot;100&quot;&gt; &lt;--给广播设定优先级--&gt;</span><br><span class="line">		&lt;action android:name=&quot;com.mybroadcast.MY_RECEIVER&quot;/&gt;</span><br><span class="line">	&lt;/intent-filter&gt;</span><br><span class="line">&lt;/receiver&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 MainActivity 中发送广播。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent(&quot;com.mybroadcast.MY_RECEIVER&quot;);</span><br><span class="line">// 发送有序广播</span><br><span class="line">sendOrderedBroadcast(intent,null);</span><br></pre></td></tr></table></figure>
+<h2 id="发送本地广播"><a href="#发送本地广播" class="headerlink" title="发送本地广播"></a>发送本地广播</h2><blockquote>
+<p>为了解决广播的安全性问题，Android 提供了一套本地广播机制。使用这套机制发送的广播，只能在应用内部传播，并且也只能接受应用内部发出的广播。</p>
+<p>本地广播无法采用静态方式注册，静态方式注册适用于程序不启动的情况下发送，而本地广播发送时程序已经启动，因此完全不需要使用静态注册功能。</p>
+</blockquote>
+<p>本地广播主要使用 LocalBroadcastManager 进行管理。具体使用步骤如下：</p>
+<ul>
+<li>创建本地广播管理器：LocalBroadcastManager localBroadcast = new LocalBroadcastManager();</li>
+<li>发送本地广播：localBroadcast .sendBroadcast(intent);</li>
+<li>注册本地广播监听器：localBroadcast .registerReceive(broadcastReceiver , intentFilter);</li>
+<li>取消注册本地广播监听器：localBroadcast .unregisterReceive(broadcastReceiver);</li>
+</ul>
+
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+
+
+    <!-- 使用 changyan -->
+    <div id="changyan-comment">
+        <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid="2018/03/20/Android-BroadcastReceiver/"  ></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cyt3rd4GP';
+var conf = '19d9568ec935e313a737aa1c3f7e35dd';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+
+    </div>
+    <style>
+        #changyan-comment{
+            background-color: #eee;
+            padding: 2pc;
+        }
+    </style>
+
+
+
+
+
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2018/03/20/Android-Service/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            旧篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2018/03/20/Android-Animation/" id="post_nav-older" class="next-content">
+            新篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/img/daily_pic.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/androidmorninggeng.png" alt="morninggeng's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        morninggeng@gmail.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="mailto: morninggeng@gmail.com" target="_blank" title="Email Me">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/" target="_self">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+    
+
+    <!-- Archives  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">inbox</i>
+                
+                    归档
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+            <li>
+                <a class="sidebar_archives-link" href="/archives/2018/03/">三月 2018<span class="sidebar_archives-count">12</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Categories  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/Android/">Android<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/categories/Python/">Python<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/工具/">工具<span class="sidebar_archives-count">5</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Pages  -->
+    
+        <li>
+            <a href="/about" title="关于">
+                
+                    <i class="material-icons sidebar-material-icons">person pin</i>
+                
+                关于
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/links" title="链接">
+                
+                    <i class="material-icons sidebar-material-icons">link</i>
+                
+                链接
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/tags" title="标签">
+                
+                    <i class="material-icons sidebar-material-icons">loyalty</i>
+                
+                标签
+            </a>
+        </li>
+        
+    
+
+    <!-- Article Number  -->
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+
+<!-- Theme Material -->
+
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+        <a href="https://twitter.com/morninggeng" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-twitter.svg);">
+                <span class="visuallyhidden">Twitter</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Facebook -->
+    
+        <a href="https://www.facebook.com/weiming.geng" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-facebook.svg);">
+                <span class="visuallyhidden">Facebook</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Google + -->
+    
+        <a href="https://www.google.com/" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-gplus.svg);">
+                <span class="visuallyhidden">Google Plus</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="http://github.com/morninggeng" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-github.svg);">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Zhihu -->
+    
+
+    <!-- Bilibili -->
+    
+
+    <!-- Telegram -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©&nbsp;
+            <script type="text/javascript">
+                var fd = new Date();
+                document.write(fd.getFullYear());
+            </script>
+            &nbsp;morninggeng
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import File -->
+
+    <script src="/js/lazyload.min.js"></script>
+    <script src="/js/js.min.js"></script>
+
+
+
+    <script src="/js/nprogress.js"></script>
+
+
+<script type="text/javascript">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+    
+        <script src="/js/smoothscroll.js"></script>
+    
+
+
+
+
+
+
+
+
+    <!-- 畅言公共 js 代码 start -->
+		<script id="cy_cmt_num" src="https://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cyt3rd4GP">
+</script>
+    <!-- 畅言公共 js 代码 end -->
+
+
+
+
+
+
+
+<!-- Window Load-->
+<script>
+    $(window).load(function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+</script>
+
+<!-- MathJax Load-->
+
+<script>
+    <!-- Offer LazyLoad -->
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    <!-- Start Queue -->
+    $(document).ready(function(){
+        setTimeout(function(){
+            setInterval(function(){
+                queue.execNext();
+            },200);
+        },3000);
+    });
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+</html>

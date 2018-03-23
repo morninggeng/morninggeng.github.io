@@ -1,0 +1,1155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+    
+    <entry>
+      <title><![CDATA[SMTP 发送邮件]]></title>
+      <url>/2018/03/23/Python-SMTPSendEmail/</url>
+      <content type="html"><![CDATA[<blockquote>
+<p>SMTP：是发送邮件的协议，Python 内置对 SMTP 的支持，可以发送纯文本、html和带有附件的邮件。</p>
+<p>Python 对 SMTP 的支持有 smtplib 和 email 两个模块，email 负责构造邮件，smtplib 负责发送邮件。</p>
+<ol>
+<li><p>发送纯文本/ html 邮件</p>
+<p>发送纯文本文件或 html 文件时，需要用到 email 的 MIMEText 模块，导入方法为 from email.mime.text improt MIMEText。</p>
+<p>构造 MIMEText 对象需要传入三个参数：</p>
+<ul>
+<li>第一个参数为要发送邮件的内容，必须为 str 格式。</li>
+<li>第二个参数为 subtype，传入 plain 为纯文本格式邮件，传入 html 为 html 格式邮件。</li>
+<li>第三个参数为编码格式，一般填写 utf-8 保证多语言兼容性。</li>
+</ul>
+</li>
+<li><p>发送带附件邮件</p>
+<p>发送纯文本文件或 html 文件时，需要用到 email 的 MIMEMultipart 模块，导入方法为 from email.mime.multipart import MIMEMultipart。</p>
+<p>构造 MIMEMultipart 不需要传入参数，要将内容附加到邮件主体中调用 attach() 方法。</p>
+</li>
+</ol>
+</blockquote>
+<h5 id="1-MIMEText-编辑纯文本邮件"><a href="#1-MIMEText-编辑纯文本邮件" class="headerlink" title="1. MIMEText 编辑纯文本邮件"></a>1. MIMEText 编辑纯文本邮件</h5><p>例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">with open(&apos;abc.txt&apos;, &apos;r&apos;) as file_read:</span><br><span class="line">	content = file_read.read()</span><br><span class="line">msg_1 = MIMEText(content, &apos;plain&apos;, &apos;utf-8&apos;)</span><br></pre></td></tr></table></figure>
+<h5 id="2-MIMEText-编辑-html-邮件"><a href="#2-MIMEText-编辑-html-邮件" class="headerlink" title="2. MIMEText 编辑 html 邮件"></a>2. MIMEText 编辑 html 邮件</h5><p>例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">with open(&apos;abc.html&apos;, &apos;r&apos;) as file_read:</span><br><span class="line">	content = file_read.read()</span><br><span class="line">msg_2 = MIMEText(content, &apos;html&apos;, &apos;utf-8&apos;)</span><br></pre></td></tr></table></figure>
+<h5 id="3-MIMTImage-编辑图片邮件"><a href="#3-MIMTImage-编辑图片邮件" class="headerlink" title="3. MIMTImage 编辑图片邮件"></a>3. MIMTImage 编辑图片邮件</h5><p>例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">with open(&apos;1.jpg&apos;, &apos;r&apos;) as file_read:</span><br><span class="line">	content = file_read.read()</span><br><span class="line">msg_3 = MIMEImage(content)</span><br></pre></td></tr></table></figure>
+<h5 id="4-MIMEMultipart-编辑带附件邮件"><a href="#4-MIMEMultipart-编辑带附件邮件" class="headerlink" title="4. MIMEMultipart 编辑带附件邮件"></a>4. MIMEMultipart 编辑带附件邮件</h5><p>例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 构建邮件信息</span><br><span class="line">message = MIMEMultipart()</span><br><span class="line">message[&apos;From&apos;] = &apos;发件箱地址&apos;</span><br><span class="line">message[&apos;To&apos;] = &apos;收件箱地址&apos;</span><br><span class="line">message[&apos;Subject&apos;] = Header(&apos;邮件主题&apos;, &apos;utf-8&apos;).encode()</span><br><span class="line"></span><br><span class="line"># 将内容附加到邮件主体中</span><br><span class="line">message.attch(msg_1)</span><br><span class="line">message.attch(msg_2)</span><br><span class="line">message.attch(msg_3)</span><br></pre></td></tr></table></figure>
+<h5 id="5-登陆并发送邮件"><a href="#5-登陆并发送邮件" class="headerlink" title="5. 登陆并发送邮件"></a>5. 登陆并发送邮件</h5><p>实践出真知，我们结合一个小场景理解一下该过程：登录 163 邮箱向 qq 邮箱发送邮件。</p>
+<p>代码实现分为三个步骤：</p>
+<ul>
+<li><p>设置好服务器端信息</p>
+<p>smtplib.SMTP(‘服务器地址’, 服务器端口号)</p>
+</li>
+<li><p>邮件主体信息</p>
+<p>login() 登录 smtp 邮箱服务器</p>
+</li>
+<li><p>发送邮件</p>
+<p>sendmail() 发送邮件，需要传入三个参数</p>
+<p>参数一：发件箱 参数二：收件箱（注意需要[]包裹，这意味着你可以写多个邮件地址群发） 参数三：邮件正文信息</p>
+</li>
+</ul>
+<p>例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"># 设置登录及服务器信息</span><br><span class="line"># SMTP 服务器地址 163为例</span><br><span class="line">smtp_server = &apos;smtp.163.com&apos;</span><br><span class="line"># 邮箱登录用户名</span><br><span class="line">login_mail_user = &apos;XXXX&apos;</span><br><span class="line"># 邮箱登录密码</span><br><span class="line">login_mail_pass = &apos;XXXX&apos;</span><br><span class="line"># 发件箱</span><br><span class="line">from_mail = &apos;XXXX@163.com&apos;</span><br><span class="line"># 收件箱</span><br><span class="line">to_mail = [&apos;XXXX@qq.com&apos;, ...]</span><br><span class="line"></span><br><span class="line"># 获取服务器</span><br><span class="line"># 网易 163 为例，端口号为 25</span><br><span class="line">smtp = smtplib.SMTP(smtp_server, 25)</span><br><span class="line"># 登陆邮箱</span><br><span class="line">smtp.login(login_mail_user, login_mail_pass)</span><br><span class="line"></span><br><span class="line"># 发送邮件 </span><br><span class="line">smtp.sendmail(from_mail, to_mail, message.as_string())</span><br><span class="line"># 发送完毕，退出服务器</span><br><span class="line">smtp.quit()</span><br></pre></td></tr></table></figure>
+<h5 id="6-项目实战"><a href="#6-项目实战" class="headerlink" title="6. 项目实战"></a>6. 项目实战</h5><p>需求：</p>
+<ol>
+<li>爬取百度首页 html 源代码</li>
+<li>将源代码分别保存为 abc.txt 和 abc.html 文件到本地</li>
+<li>将 abc.txt 和 abc.html 和本地 1.jpg 图片作为附件发送到指定邮箱内</li>
+</ol>
+<p>项目代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"># coding=utf-8</span><br><span class="line">from email.mime.text import MIMEText</span><br><span class="line">from email.mime.image import MIMEImage</span><br><span class="line">from email.mime.multipart import MIMEMultipart</span><br><span class="line">import smtplib</span><br><span class="line">import requests</span><br><span class="line"></span><br><span class="line"># 爬取百度首页源码</span><br><span class="line">response = requests.get(&apos;http://www.baidu.com&apos;)</span><br><span class="line">response.encoding = &apos;utf-8&apos;</span><br><span class="line"></span><br><span class="line">with open(&apos;abc.html&apos;, &apos;w&apos;) as file_read:</span><br><span class="line">    file_read.write(response.text)</span><br><span class="line"></span><br><span class="line">with open(&apos;abc.txt&apos;, &apos;w&apos;) as file_read:</span><br><span class="line">    file_read.write(response.text)</span><br><span class="line"></span><br><span class="line"># 设置登录及服务器信息</span><br><span class="line">mail_host = &apos;smtp.163.com&apos;</span><br><span class="line">mail_user = &apos;XXX&apos;</span><br><span class="line">mail_pass = &apos;XXX&apos;</span><br><span class="line">sender = &apos;XXX@163.com&apos;</span><br><span class="line">receivers = [&apos;XXX@qq.com&apos;]</span><br><span class="line"></span><br><span class="line"># 设置eamil信息</span><br><span class="line"># 添加一个MIMEmultipart类，处理正文及附件</span><br><span class="line">message = MIMEMultipart()</span><br><span class="line">message[&apos;From&apos;] = sender</span><br><span class="line">message[&apos;To&apos;] = receivers[0]</span><br><span class="line">message[&apos;Subject&apos;] = &apos;title&apos;</span><br><span class="line"></span><br><span class="line"># 推荐使用 html 格式的正文内容，这样比较灵活，可以附加图片地址，调整格式等</span><br><span class="line">with open(&apos;abc.html&apos;, &apos;r&apos;) as f:</span><br><span class="line">    content = f.read()</span><br><span class="line"># 设置html格式参数</span><br><span class="line">part1 = MIMEText(content, &apos;html&apos;, &apos;utf-8&apos;)</span><br><span class="line"></span><br><span class="line"># 添加一个txt文本附件</span><br><span class="line">with open(&apos;abc.txt&apos;, &apos;r&apos;)as h:</span><br><span class="line">    content2 = h.read()</span><br><span class="line"># 设置txt参数</span><br><span class="line">part2 = MIMEText(content2, &apos;plain&apos;, &apos;utf-8&apos;)</span><br><span class="line"># 附件设置内容类型，方便起见，设置为二进制流</span><br><span class="line">part2[&apos;Content-Type&apos;] = &apos;application/octet-stream&apos;</span><br><span class="line"># 设置附件头，添加文件名</span><br><span class="line">part2[&apos;Content-Disposition&apos;] = &apos;attachment;filename=&quot;abc.txt&quot;&apos;</span><br><span class="line"></span><br><span class="line"># 添加照片附件</span><br><span class="line">with open(&apos;1.jpg&apos;, &apos;rb&apos;)as fp:</span><br><span class="line">    picture = MIMEImage(fp.read())</span><br><span class="line">    # 与txt文件设置相似</span><br><span class="line">    picture[&apos;Content-Type&apos;] = &apos;application/octet-stream&apos;</span><br><span class="line">    picture[&apos;Content-Disposition&apos;] = &apos;attachment;filename=&quot;1.jpg&quot;&apos;</span><br><span class="line"></span><br><span class="line"># 将内容附加到邮件主体中</span><br><span class="line">message.attach(part1)</span><br><span class="line">message.attach(part2)</span><br><span class="line">message.attach(picture)</span><br><span class="line"></span><br><span class="line"># 登录并发送</span><br><span class="line">try:</span><br><span class="line">    smtpObj = smtplib.SMTP(mail_host, 25)</span><br><span class="line">    # smtpObj.connect()</span><br><span class="line">    smtpObj.login(mail_user, mail_pass)</span><br><span class="line">    smtpObj.sendmail(</span><br><span class="line">        sender, receivers, message.as_string())</span><br><span class="line">    print(&apos;success&apos;)</span><br><span class="line">    smtpObj.quit()</span><br><span class="line">except smtplib.SMTPException as e:</span><br><span class="line">    print(&apos;error&apos;, e)</span><br></pre></td></tr></table></figure>
+<p><strong>原创不易，请尊重他人的劳动成果，欢迎转载，但请注明出处。</strong></p>
+<hr>
+<p>morninggeng</p>
+<p>03/23/2018</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Python </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Python </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[lxml（Xpath） 爬取豆瓣读书 Top 250]]></title>
+      <url>/2018/03/23/Python-lxmlCrawlDouBanBook/</url>
+      <content type="html"><![CDATA[<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><blockquote>
+<p>lxml 是一款高性能的 python XML 解析库，支持 python 风格的数据绑定接口。</p>
+<p>lxml 使用的是 Xpath 语法，Xpath 语法参考 <a href="http://www.w3school.com.cn/xpath/index.asp" target="_blank" rel="noopener">w3cSchool</a>，解析方法简单高效。</p>
+<p>本文只介绍在爬取<a href="https://book.douban.com/top250?start=0" target="_blank" rel="noopener">豆瓣读书 Top 250</a> 涉及到的基本方法。并没有介绍 lxml 所有方法，查看详细方法<a href="http://lxml.de/index.html" target="_blank" rel="noopener">戳这里</a></p>
+<p>话不多说，上车吧。</p>
+</blockquote>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>利用 pip 安装即可。<code>pip install lxml</code></p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from lxml import etree</span><br><span class="line">infos = etree.HTML(源码) #将源码转化为能被 Xpath 匹配的格式</span><br><span class="line">infos.xpath(Xpath表达式) #返回为一个列表</span><br></pre></td></tr></table></figure>
+<h4 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h4><ol>
+<li>// 双斜杠 定位根节点，会对全文进行扫描，在文档中选取所有符合条件的内容，以列表的形式返回。</li>
+<li>/ 单斜杠寻找当前标签路径的下一层路径标签或者对当前路标签内容进行操作。</li>
+<li>/text() 获取当前路径下的文本内容。</li>
+<li>/@xxxx 提取当前路径下标签的属性值。</li>
+<li>| 可选符 使用|可选取若干个路径 如 //p | //div 即在当前路径下选取所有符合条件的p标签和div标签。</li>
+<li>. 点用来选取当前节点。</li>
+<li>.. 双点选取当前节点的父节点。</li>
+</ol>
+<h4 id="现学现用"><a href="#现学现用" class="headerlink" title="现学现用"></a>现学现用</h4><p>在爬取之前我们先来看一下网页展示的信息，以及确定我们要爬取的具体信息。如下图所示：</p>
+<p><img src="http://opmd2oxww.bkt.clouddn.com/18-3-22/79841441.jpg" alt=""></p>
+<h5 id="生成动态爬取链接"><a href="#生成动态爬取链接" class="headerlink" title="生成动态爬取链接"></a>生成动态爬取链接</h5><p>首先我们通过豆瓣读书访问链接 <code>https://book.douban.com/top250?start=0</code>进入网页，网页每页展示 25 条书籍信息，可以看到下面有页码分 10 页展示。</p>
+<p><img src="http://opmd2oxww.bkt.clouddn.com/18-3-22/62879434.jpg" alt=""></p>
+<p>当我们点击第二页时，链接变为<code>https://book.douban.com/top250?start=25</code>，点击第三页、第四页，发现只有<code>start=</code>后面的数字在发生改变，由此我们可以通过动态更改 start 后面的数字来分页爬取页面信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for i in range(10):</span><br><span class="line">	url = &apos;https://book.douban.com/top250?start=&#123;&#125;&apos;.format(i * 25)</span><br></pre></td></tr></table></figure>
+<h5 id="获取书名"><a href="#获取书名" class="headerlink" title="获取书名"></a>获取书名</h5><p>在书籍名称右键点击“检查”（或者按 F12），会自动显示并定位到对应的源代码。然后在源码右键选择 Copy –&gt;Copy Xpath。</p>
+<p><img src="http://opmd2oxww.bkt.clouddn.com/18-3-22/47394007.jpg" alt=""></p>
+<p>这里我们获取书籍名称的 Xpath：<code>//*[@id=&quot;content&quot;]/div/div[1]/div/table[1]/tbody/tr/td[2]/div[1]/a</code></p>
+<p>由于我们要获取书籍名称，需要在 Xpath 后面追加<code>/text()</code>，然后编写代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># coding=utf-8</span><br><span class="line">from lxml import etree</span><br><span class="line">import requests</span><br><span class="line"></span><br><span class="line">url = &apos;https://book.douban.com/top250?start=0&apos;</span><br><span class="line"></span><br><span class="line">html = requests.get(url).text</span><br><span class="line">selector = etree.HTML(html)</span><br><span class="line">infos = selector.xpath(&apos;//*[@id=&quot;content&quot;]/div/div[1]/div/table[1]/tbody/tr/td[2]/div[1]/a&apos;)</span><br><span class="line">print(infos)</span><br></pre></td></tr></table></figure>
+<p>纳尼！运行后得到的<code>infos</code>居然是空的。这是由于浏览器在渲染页面时有时会增加多余的<code>tbody</code>标签，这里我们可以拿浏览器显示的代码结构和页面源码做下对比就明白了。</p>
+<p><img src="http://opmd2oxww.bkt.clouddn.com/18-3-22/24862334.jpg" alt=""></p>
+<p>左边为浏览器显示代码，右边为页面源代码，可以看到源代码中并没有<code>tbody</code>这个字段，所以我们在爬取时手动删除即可。</p>
+<p>删除后重新运行得到一串数字：<code>[&lt;Element a at 0x1dc911d6e88&gt;]</code>，由于我们要获取书籍名称，所以要在 Xpath 表达式后追加<code>/text()</code>，然后再运行，得到<code>[&#39;\n                追风筝的人\n\n                \n              &#39;]</code>，由于<code>xpath()</code>方法返回一个列表，可以添加<code>[0]</code>，拿取第一条数据，得到两边带有空格的书籍名称，然后利用<code>string.strip()</code>方法去掉空格，最终得到我们想要的书名。</p>
+<h5 id="获取图片链接"><a href="#获取图片链接" class="headerlink" title="获取图片链接"></a>获取图片链接</h5><p>还是右键查看，只不过这次是在图片上进行的 Copy Xpath。<code>//*[@id=&quot;content&quot;]/div/div[1]/div/table[1]/tbody/tr/td[1]/a/img</code>，同样我们要把其中的<code>tbody</code>字段去掉，由于是获取图片的链接，需要在 Xpath 后追加<code>/@src</code>，然后运行代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># coding=utf-8</span><br><span class="line">from lxml import etree</span><br><span class="line">import requests</span><br><span class="line"></span><br><span class="line">url = &apos;https://book.douban.com/top250?start=0&apos;</span><br><span class="line"></span><br><span class="line">html = requests.get(url).text</span><br><span class="line">selector = etree.HTML(html)</span><br><span class="line">book_names = selector.xpath(&apos;//*[@id=&quot;content&quot;]/div/div[1]/div/table[1]/tr/td[2]/div[1]/a/text()&apos;)</span><br><span class="line">image_links = selector.xpath(&apos;//*[@id=&quot;content&quot;]/div/div[1]/div/table[1]/tr/td[1]/a/img/@src&apos;)</span><br><span class="line">print(book_names[0].strip(), image_links[0].strip())</span><br></pre></td></tr></table></figure>
+<p>得到：<code>追风筝的人 https://img3.doubanio.com/mpic/s1727290.jpg</code></p>
+<p>然后以同样的套路获取豆瓣评分和评价人数和评语。这里要注意，有的书下面没有评语，所以在获取时要进行判断，以免程序报错影响爬取进度。这里一条简单的判断语句就可以搞定，<code>remark = remarks[0].strip() if len(remarks) != 0 else &#39;空&#39;</code>，是不是真正体会到 python 的强大和简洁。</p>
+<h5 id="获取书籍信息"><a href="#获取书籍信息" class="headerlink" title="获取书籍信息"></a>获取书籍信息</h5><p>拿第一本书的书籍信息为例，Xpath：<code>//*[@id=&quot;content&quot;]/div/div[1]/div/table[1]/tbody/tr/td[2]/p[1]</code>，去掉<code>tbody</code>字段，追加<code>/text()</code>字段，最后得到：<code>[美] 卡勒德·胡赛尼 / 李继宏 / 上海人民出版社 / 2006-5 / 29.00元</code>，这里由于书籍信息连在一起我们利用<code>string.split(&#39;/&#39;)</code>方法分别截取原作者、译者、出版社、出版日期和定价。由于有的书籍没有译者这项，所以在获取时处理方式和上面处理评语一样，一条简单的判断语句就搞定。</p>
+<h5 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"># coding=utf-8</span><br><span class="line">from lxml import etree</span><br><span class="line">import requests</span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    &apos;User-Agent&apos;: &apos;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 &apos;</span><br><span class="line">                  &apos;Safari/537.36&apos;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def getURL():</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    获取网页 url 地址</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    for i in range(10):</span><br><span class="line">        url = &apos;https://book.douban.com/top250?start=&#123;&#125;&apos;.format(i * 25)</span><br><span class="line">        crawlPage(url)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def crawlPage(url):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    网页信息爬取</span><br><span class="line">    :param url: 网页链接</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    html = requests.get(url, headers=headers).text</span><br><span class="line">    selector = etree.HTML(html)</span><br><span class="line">    infos = selector.xpath(&apos;//*[@id=&quot;content&quot;]/div/div[1]/div/table/tr&apos;)</span><br><span class="line">    for info in infos:</span><br><span class="line">        book_name = info.xpath(&apos;./td[2]/div[1]/a/text()&apos;)[0].strip()  # 书名</span><br><span class="line">        img_link = info.xpath(&apos;./td[1]/a/img/@src&apos;)[0].strip()  # 图片链接</span><br><span class="line">        book_infos = info.xpath(&apos;./td[2]/p[1]/text()&apos;)[0]  # 书籍信息集合</span><br><span class="line">        author = book_infos.split(&apos;/&apos;)[0].strip()  # 作者</span><br><span class="line">        translate = book_infos.split(&apos;/&apos;)[1]</span><br><span class="line">        translate.strip() if len(translate) != 0 else &apos;&apos;</span><br><span class="line">        price = book_infos.split(&apos;/&apos;)[-1].strip()  # 价格</span><br><span class="line">        date = book_infos.split(&apos;/&apos;)[-2].strip()  # 出版时间</span><br><span class="line">        publisher = book_infos.split(&apos;/&apos;)[-3].strip()  # 出版社</span><br><span class="line">        remarks = info.xpath(&apos;./td[2]/p[2]/span/text()&apos;)  # 评语</span><br><span class="line">        remark = remarks[0].strip() if len(remarks) != 0 else &apos;&apos;</span><br><span class="line">        score = info.xpath(&apos;./td[2]/div[2]/span[2]/text()&apos;)[0].strip()  # 评分</span><br><span class="line">        appraise = info.xpath(&apos;./td[2]/div[2]/span[3]/text()&apos;)[0]  # 评价人数</span><br><span class="line">        print(img_link, book_name, author, translate, price, date, publisher, remark, score,</span><br><span class="line">              ((appraise.replace(&apos;(&apos;, &apos;&apos;)).replace(&apos;)&apos;, &apos;&apos;)).strip())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if &apos;__main__&apos;:</span><br><span class="line">    getURL()</span><br></pre></td></tr></table></figure>
+<p>代码经过优化就是上面那个样子，当然还可以深度优化下，这个任务就交给你了。</p>
+<h5 id="爬取部分数据展示"><a href="#爬取部分数据展示" class="headerlink" title="爬取部分数据展示"></a>爬取部分数据展示</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">https://img3.doubanio.com/mpic/s1727290.jpg 追风筝的人 [美] 卡勒德·胡赛尼  李继宏  29.00元 2006-5 上海人民出版社 为你，千千万万遍 8.9 307895人评价</span><br><span class="line">https://img1.doubanio.com/mpic/s1237549.jpg 小王子 [法] 圣埃克苏佩里  马振聘  22.00元 2003-8 人民文学出版社 献给长成了大人的孩子们 9.0 238582人评价</span><br><span class="line">https://img3.doubanio.com/mpic/s1070222.jpg 围城 钱锺书  人民文学出版社  19.00 1991-2 人民文学出版社 对于“人艰不拆”四个字最彻底的违抗 8.9 197116人评价</span><br><span class="line">https://img3.doubanio.com/mpic/s27264181.jpg 解忧杂货店 [日] 东野圭吾  李盈春  39.50元 2014-5 南海出版公司 一碗精心熬制的东野牌鸡汤，拒绝很难 8.6 274201人评价</span><br><span class="line">https://img3.doubanio.com/mpic/s23836852.jpg 活着 余华  南海出版公司  12.00元 1998-5 南海出版公司 活着本身就是人生最大的意义 9.1 143310人评价</span><br><span class="line">https://img3.doubanio.com/mpic/s4610502.jpg 白夜行 [日] 东野圭吾  刘姿君  29.80元 2008-9 南海出版公司 暗夜独行的残破灵魂，爱与恶本就难分难舍 9.1 207752人评价</span><br><span class="line">https://img3.doubanio.com/mpic/s1228930.jpg 挪威的森林 [日] 村上春树  林少华  18.80元 2001-2 上海译文出版社 村上之发轫，多少人的青春启蒙 8.0 193001人评价</span><br><span class="line">https://img3.doubanio.com/mpic/s3254244.jpg 嫌疑人X的献身 [日] 东野圭吾  刘子倩  28.00 2008-9 南海出版公司 数学好是一种极致的浪漫 8.9 160193人评价</span><br><span class="line">https://img1.doubanio.com/mpic/s2768378.jpg 三体 刘慈欣  重庆出版社  23.00 2008-1 重庆出版社 你我不过都是虫子 8.8 163172人评价</span><br><span class="line">https://img1.doubanio.com/mpic/s1091698.jpg 不能承受的生命之轻 [捷克] 米兰·昆德拉  许钧  23.00元 2003-7 上海译文出版社 朝向媚俗的一次伟大的进军 8.5 139076人评价</span><br><span class="line">https://img1.doubanio.com/mpic/s1070959.jpg 红楼梦 [清] 曹雪芹 著  人民文学出版社  59.70元 1996-12 人民文学出版社 谁解其中味？ 9.6 128740人评价</span><br></pre></td></tr></table></figure>
+<p><strong>原创不易，请尊重他人的劳动成果，欢迎转载，但请注明出处。</strong></p>
+<hr>
+<p>morninggeng</p>
+<p>03/23/2018</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Python </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Python </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[PyCharm 快捷键]]></title>
+      <url>/2018/03/23/Python-PyCharmShortcutKey/</url>
+      <content type="html"><![CDATA[<h4 id="PyCharm-for-Windows-Shortcut-Key"><a href="#PyCharm-for-Windows-Shortcut-Key" class="headerlink" title="PyCharm for Windows Shortcut Key"></a>PyCharm for Windows Shortcut Key</h4><p><img src="http://opmd2oxww.bkt.clouddn.com/18-3-23/57619359.jpg" alt=""></p>
+<h4 id="PyCharm-for-Mac-Shortcut-Key"><a href="#PyCharm-for-Mac-Shortcut-Key" class="headerlink" title="PyCharm for Mac Shortcut Key"></a>PyCharm for Mac Shortcut Key</h4><p><img src="http://opmd2oxww.bkt.clouddn.com/18-3-23/18677402.jpg" alt=""></p>
+]]></content>
+      
+        <categories>
+            
+            <category> 工具 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Python </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[从现在开始使用 Markdown]]></title>
+      <url>/2018/03/20/Markdown/</url>
+      <content type="html"><![CDATA[<blockquote>
+<p><a href="http://zh.wikipedia.org/wiki/Markdown" target="_blank" rel="noopener">Markdown</a> 是一种轻量级的<strong>「标记语言」</strong>，它的优点很多，目前也被越来越多的写作爱好者，撰稿者广泛使用。看到这里请不要被<strong>「标记」</strong>、<strong>「语言」</strong>所迷惑，Markdown 的语法十分简单。常用的标记符号也不超过十个，这种相对于更为复杂的 HTML 标记语言来说，Markdown 可谓是十分轻量的，学习成本也不需要太多，且一旦熟悉这种语法规则，会有一劳永逸的效果。</p>
+</blockquote>
+<h2 id="语法介绍"><a href="#语法介绍" class="headerlink" title="语法介绍"></a>语法介绍</h2><h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><p>这是最为常用的格式，在平时常用的的文本编辑器中大多是这样实现的：输入文本、选中文本、设置标题格式。</p>
+<p>而在 Markdown 中，你只需要在文本前面加上 <code>#</code> 即可，同理、你还可以增加二级标题、三级标题、四级标题、五级标题和六级标题，总共六级，只需要增加 <code>#</code> 即可，标题字号相应降低。例如：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/259-7424a9a21a2cb81b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
+<p><em>注：# 和「一级标题」之间建议保留一个字符的空格，这是最标准的 Markdown 写法。</em></p>
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><ol>
+<li><p>有序列表，只需要在文字前面加上 <code>1. 2. 3.</code> 就可以了，例如：</p>
+<ol>
+<li>文本1</li>
+<li>文本2</li>
+<li>文本3</li>
+</ol>
+</li>
+<li><p>无序列表，只需要在文字前面加上 <code>-</code> 就可以了，例如：</p>
+<ul>
+<li>文本1</li>
+<li>文本2</li>
+<li>文本3</li>
+</ul>
+</li>
+</ol>
+<p><em>注：-、1.和文本之间要保留一个字符的空格。</em></p>
+<h3 id="链接和图片"><a href="#链接和图片" class="headerlink" title="链接和图片"></a>链接和图片</h3><ol>
+<li><p>链接</p>
+<p>在 Markdown 中，插入链接不需要其他按钮，你只需要使用 <code>[显示文本](链接地址)</code> 这样的语法即可，例如：</p>
+<p><code>[morninggeng](https://morninggeng.github.io)</code> 的 blog。</p>
+<p>Markdown 显示效果：</p>
+<p><a href="https://morninggeng.github.io" target="_blank" rel="noopener">morninggeng</a> 的 blog。</p>
+</li>
+<li><p>图片</p>
+<p>在 Markdown 中，插入图片不需要其他按钮，你只需要使用 <code>![](图片链接地址)</code> 这样的语法即可，例如：</p>
+<p><code>![drag-img](http://support.typora.io/media/about-image/drag-img.gif)</code></p>
+<p>Markdown 显示效果：</p>
+<p><img src="http://support.typora.io/media/about-image/drag-img.gif" alt="drag-img"></p>
+<p><em>注：插入图片的语法和链接的语法很像，只是前面多了一个 ！。</em></p>
+</li>
+</ol>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p>在我们写作的时候经常需要引用他人的文字，这个时候引用这个格式就很有必要了，在 Markdown 中，你只需要在你希望引用的文字前面加上 <code>&gt;</code> 就好了，例如：</p>
+<p>> 你和你羡慕的人之间也许只差了一个坚持。</p>
+<p>Markdown 显示效果：</p>
+<blockquote>
+<p>你和你羡慕的人之间也许只差了一个坚持。</p>
+</blockquote>
+<p><em>注：&gt; 和文本之间要保留一个字符的空格。</em></p>
+<h3 id="粗体和斜体"><a href="#粗体和斜体" class="headerlink" title="粗体和斜体"></a>粗体和斜体</h3><ol>
+<li><p>粗体</p>
+<p>用两个 <code>*</code> 包含一段文本就是粗体的语法，例如：</p>
+<p>你和你羡慕的人之间也许只差了一个<strong>坚持</strong>。</p>
+</li>
+<li><p>斜体</p>
+<p>用一个 <code>*</code> 包含一段文本就是粗体的语法，例如：</p>
+<p>你和你羡慕的人之间也许只差了一个<em>坚持</em>。</p>
+</li>
+</ol>
+<h3 id="代码引用"><a href="#代码引用" class="headerlink" title="代码引用"></a>代码引用</h3><p>需要引用代码时，如果引用的语句只有一段，不分行，可以用 ` 将语句包起来。<br>如果引用的语句为多行，可以将 ``` 置于这段代码的首行和末行。</p>
+<ol>
+<li><p>单行引用</p>
+<p><code>Hello World</code></p>
+</li>
+<li><p>多行引用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Hello World</span><br><span class="line">Hello World</span><br><span class="line">Hello World</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p>相关代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">| Tables        | Are           | Cool  |</span><br><span class="line">| ------------- |:-------------:| -----:|</span><br><span class="line">| col 3 is      | right-aligned | $1600 |</span><br><span class="line">| col 2 is      | centered      |   $12 |</span><br><span class="line">| zebra stripes | are neat      |    $1 |</span><br></pre></td></tr></table></figure>
+<p>Markdown 显示效果：</p>
+<table>
+<thead>
+<tr>
+<th>Tables</th>
+<th style="text-align:center">Are</th>
+<th style="text-align:right">Cool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>col 3 is</td>
+<td style="text-align:center">right-aligned</td>
+<td style="text-align:right">$1600</td>
+</tr>
+<tr>
+<td>col 2 is</td>
+<td style="text-align:center">centered</td>
+<td style="text-align:right">$12</td>
+</tr>
+<tr>
+<td>zebra stripes</td>
+<td style="text-align:center">are neat</td>
+<td style="text-align:right">$1</td>
+</tr>
+</tbody>
+</table>
+<p><em>注：代码块表格中内容排列样式，:—— 表示居左，:——: 表示居中，——: 表示居右。</em></p>
+<h2 id="推荐工具"><a href="#推荐工具" class="headerlink" title="推荐工具"></a>推荐工具</h2><p><strong><a href="https://www.typora.io/" target="_blank" rel="noopener">Typora</a></strong></p>
+<p><img src="https://cdn.sspai.com/attachment/origin/2015/07/25/268915.png?imageMogr2/quality/95/thumbnail/!700x233r/gravity/Center/crop/700x233" alt="让 Markdown 写作更简单，免费极简编辑器：Typora"></p>
+<p>在这里我只推荐 Typora Markdown 编辑器，有以下优点：</p>
+<ul>
+<li>极简界面，搭配优雅的 Markdown 语法，保证一上手就会爱上它。</li>
+<li>非双栏式实时预览，节省屏幕空间。</li>
+<li>支持 「PDF」「HTML」 「EPUB」「WROD」「IMAGE」「RTF」 … 多种格式导出。</li>
+<li>多主题设置，总有一款你中意。</li>
+<li>支持 Windows、IOS、Linux 多平台。</li>
+<li>相比较其他的 Markdown 编辑器，绝对是你的 Markdown 编辑器终结者。</li>
+<li>只专注你的文字。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上是介绍 Markdown 几种比较常用的格式和推荐使用的 Markdown 编辑器。我针对这些语法做了比较详细的说明。除这些之外，Markdown 还有其他语法，如想了解和学习更多，可以参考这篇<a href="http://wowubuntu.com/markdown/" target="_blank" rel="noopener">『Markdown 语法说明』</a>。</p>
+<p>强烈建议您现在就立马用 Markdown 写一篇文章吧，体会一下 Markdown 的优雅之处！最后，希望我的指南可以帮助到您，也希望 Markdown 能够成为您书写的最佳选择。</p>
+<p><strong><em>原创不易，请尊重他人的劳动成果，欢迎转载，但请注明出处。</em></strong></p>
+<hr>
+<p>morninggeng</p>
+<p>04/13/2017</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 工具 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Markdown </tag>
+            
+            <tag> 工具 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Kotlin 一门强大的语言]]></title>
+      <url>/2018/03/20/Kotlin/</url>
+      <content type="html"><![CDATA[<blockquote>
+<p> 2017 Google I/O 大会钦点 <a href="https://www.kotlincn.net/" target="_blank" rel="noopener">Kotlin</a> 成为 Android 的官方开发语言，并在 Android Studio 3.0 默认支持 Kotlin，Kotlin 语言是沉淀多年并不断进化的语言。其语言简洁高效作为一名 Android 开发鸟，怎么能不及时尝尝鲜呢?</p>
+</blockquote>
+<h3 id="Kotlin-简介"><a href="#Kotlin-简介" class="headerlink" title="Kotlin 简介"></a>Kotlin 简介</h3><p>它主要是由俄罗斯圣彼得堡的 <a href="https://zh.wikipedia.org/wiki/JetBrains" target="_blank" rel="noopener">JetBrains</a> 开发团队所发展出来的编程语言，很多优秀的 IDE，如 <a href="https://zh.wikipedia.org/wiki/IntelliJ_IDEA" target="_blank" rel="noopener">IntelliJ IDEA</a>、<a href="https://zh.wikipedia.org/w/index.php?title=PhpStorm&amp;action=edit&amp;redlink=1" target="_blank" rel="noopener">PhpStorm</a>、<a href="https://zh.wikipedia.org/w/index.php?title=Webstorm&amp;action=edit&amp;redlink=1" target="_blank" rel="noopener">Webstorm</a>、<a href="https://zh.wikipedia.org/w/index.php?title=AppCode&amp;action=edit&amp;redlink=1" target="_blank" rel="noopener">AppCode</a> 等都是它的杰作，其名称来自于圣彼得堡附近的科特林岛 ( <a href="https://zh.wikipedia.org/wiki/%E7%A7%91%E7%89%B9%E6%9E%97%E5%B3%B6" target="_blank" rel="noopener">Kotlin Island</a> )。</p>
+<p>基于JVM 的现代编程语言。Kotlin 是一门静态类型、面向对象，旨在避免由 Java 的向后兼容性引起的问题的编程语言。Kotlin 语言最初设计的目的是替代 Java 语言。Kotlin 的既定目标之一是像 Java 一样快速编译，虽然与 Java 语法并不兼容，但 Kotlin 被设计成可以和 Java 代码相互运作，并可以重复使用如 <a href="https://zh.wikipedia.org/wiki/Java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6" target="_blank" rel="noopener">Java集合框架</a> 等的现有 <a href="https://zh.wikipedia.org/w/index.php?title=Java%E9%A1%9E%E5%88%A5%E5%BA%AB&amp;action=edit&amp;redlink=1" target="_blank" rel="noopener">Java类库</a>。</p>
+<p>2011 年 7 月，JetBrains 推出 Kotlin 项目，2012 年 2 月，JetBrains 以 Apache 2 许可证开源此项目。2016 年 2 月 15 日发布 Kotlin V1.0 稳定版。2017 年 5 月，在 <a href="https://zh.wikipedia.org/wiki/Google_I/O" target="_blank" rel="noopener">Google I/O</a> 大会中，Google 宣布在 Android 上为 Kotlin 提供一等支持。</p>
+<h3 id="为什么选择-Kotlin"><a href="#为什么选择-Kotlin" class="headerlink" title="为什么选择 Kotlin"></a>为什么选择 Kotlin</h3><p>Kotlin 被定位于用于现代多平台应用的静态编程语言。其优点有：</p>
+<ol>
+<li>与 Java 和 Android 100％ 可互操作。</li>
+<li>可构建多平台应用，包括 JVM、Android、JavaScript、Native 开发。</li>
+<li>具有代码简洁、安全性高、互操作性强、工具友好等特点。</li>
+</ol>
+<h3 id="Kotlin-基本语法"><a href="#Kotlin-基本语法" class="headerlink" title="Kotlin 基本语法"></a>Kotlin 基本语法</h3><h5 id="包"><a href="#包" class="headerlink" title="包"></a>包</h5><blockquote>
+<p>包的声明处于源文件顶部，目录与包的结构无需匹配，源文件可以在文件系统的任意位置。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">package my.demo</span><br><span class="line">import java.util.*</span><br><span class="line">// ....</span><br></pre></td></tr></table></figure>
+<h5 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h5><blockquote>
+<p> 函数名以 fun 关键字声明，方法内的参数先写形参名后添加 : 然后写形参类型，多个参数以 , 隔开。函数如有返回值添加 : 然后填写返回值类型，无返回值在 : 后添加 Unit 字段，无返回值时也可省略 Unit 字段。若函数是重载父类的方法需要加 override 关键字。</p>
+</blockquote>
+<p>例：带有两个 Int 参数，返回 Int 值的函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fun sum(a: Int, b: Int): Int &#123;</span><br><span class="line">  return a + b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将表达式作为函数体，返回值类型自动推算的函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fun sum(a: Int, b: Int) = a + b // 智能推算返回值类型</span><br></pre></td></tr></table></figure>
+<p>例：返回无意义的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fun printSum(a: Int, b: Int): Unit&#123;</span><br><span class="line">  println(&quot;sun of $a and $b is $&#123;a + b&#125;&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>省略 : Unit 的写法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fun printSum(a: Int, b: Int)&#123;</span><br><span class="line">  println(&quot;sun of $a and $b is $&#123;a + b&#125;&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>例：如果是一个 public 方法，必须明确返回值类型。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public fun sum(a: Int, b: Int): Int = a + b</span><br></pre></td></tr></table></figure>
+<h5 id="局部变量"><a href="#局部变量" class="headerlink" title="局部变量"></a>局部变量</h5><p>一次性赋值(只读)的局部变量使用 val 关键字声明。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val name: String = &quot;morninggeng&quot; // 立即赋值</span><br><span class="line">val name = &quot;morninggeng&quot; // 自动推算出 String 类型</span><br><span class="line">val name: String // 如果没有初始值类型不能省略</span><br><span class="line">    name = &quot;morninggeng&quot; // 明确赋值</span><br></pre></td></tr></table></figure>
+<p>可变变量，使用 var 关键字声明。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var name = &quot;morning&quot; // 自动推算出 String 类型</span><br><span class="line">    name += &quot;geng&quot;</span><br></pre></td></tr></table></figure>
+<h5 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h5><p>Kotlin 支持单行注释和块注释，Kotlin 的块注释可以嵌套。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 单行注释</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 块注释</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+<h5 id="字符串模板"><a href="#字符串模板" class="headerlink" title="字符串模板"></a>字符串模板</h5><h5 id="条件表达式"><a href="#条件表达式" class="headerlink" title="条件表达式"></a>条件表达式</h5><p><strong><em>原创不易，请尊重他人的劳动成果，欢迎转载，但请注明出处。</em></strong></p>
+<hr>
+<p>morninggeng</p>
+<p>05/25/2017</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Android </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Kotlin </tag>
+            
+            <tag> 开发语言 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[从 0 开始学 Git]]></title>
+      <url>/2018/03/20/Git/</url>
+      <content type="html"><![CDATA[<h3 id="初识-git"><a href="#初识-git" class="headerlink" title="初识 git"></a>初识 git</h3><blockquote>
+<p>Git 是一个<a href="https://git-scm.com/about/free-and-open-source" target="_blank" rel="noopener">免费的开放源码的</a> 分布式版本控制系统，用于处理从小到大的项目，速度和效率的一切。</p>
+<p>Git <a href="https://git-scm.com/documentation" target="_blank" rel="noopener">易于学习</a>，具有 <a href="https://git-scm.com/about/small-and-fast" target="_blank" rel="noopener">闪电般快速的性能，占地面积小</a>。它超越了像 Subversion，CVS，Perforce 和 ClearCase 这样的 SCM 工具，具有<a href="https://git-scm.com/about/branching-and-merging" target="_blank" rel="noopener">易操作的本地分支</a>，便利的<a href="https://git-scm.com/about/staging-area" target="_blank" rel="noopener">分段区域</a>和 <a href="https://git-scm.com/about/distributed" target="_blank" rel="noopener">多个工作流等功能</a>。</p>
+</blockquote>
+<h3 id="git-命令"><a href="#git-命令" class="headerlink" title="git 命令"></a>git 命令</h3><ul>
+<li>git：查看 git 是否安装成功</li>
+<li>git init：创建仓库</li>
+<li>git status：查看当前状态</li>
+<li>git add：添加到暂存区，等待被提交，还没真正在仓库</li>
+<li>git rm –cached：移除添加的缓存，与 git add 相对应</li>
+<li>git commit -m “描述信息”：提交到仓库，并添加描述信息</li>
+<li>git log：查看所有产生的 commit 记录</li>
+<li>git branch：查看当前分支情况</li>
+<li>git branch -r：查看远程分支</li>
+<li>git branch X：创建 X 分支</li>
+<li>git checkout X：切换到 X 分支</li>
+<li>git checkout X.XX：撤销到原来的 X.XX 文件（只对没有执行 git add 文件有效）</li>
+<li>git checkout -b X：创建 X 分支，并且自动切换到 X 分支</li>
+<li>git merge X：将 X 分支合并到主分支，前提是先切换到主分支（暴力合并但条理清晰）</li>
+<li>git rebase X：将 X 分支合并到主分支，前提是先切换到主分支（进行比较排序合并但条理不清晰）</li>
+<li>git branch -d X：删除 X 分支，前提是已经合并到主分支，否则不能删除</li>
+<li>git branch -D X：强行删除 X 分支，无论什么情况</li>
+<li>git push origin :X：删除远程 X 分支</li>
+<li>git checkout X origin/X：将远程 X 分支迁到本地并以 X 命名分支（远程有 X 分支而本地没有的情况下）</li>
+<li>git checkout -b X origin/X：将远程 X 分支迁到本地并以 X 命名分支并切换到该分支（远程有 X 分支而本地没有的情况下）</li>
+<li>git tag：查看历史 tag 记录</li>
+<li>git tag v1.0：创建 v1.0 标签</li>
+<li>git checkout v1.0：切换到 v1.0 版本状态</li>
+<li>git diff：比较差异（红色显示删除的内容，绿色显示增加的内容）</li>
+<li>git diff &lt;$id1&gt; &lt;$id2&gt;：比较两次提交之间的差异</li>
+<li>git diff &lt; branch1&gt;..<branch2>：比较两分支之间的差异</branch2></li>
+<li>git diff –staged：比较暂存区和版本库之间的差异</li>
+<li>git stash：把当前分支所有没 commit 得代码暂存起来</li>
+<li>git stash list：查看暂存区记录</li>
+<li>git stash apply：暂存申请还原，继续上次暂存处</li>
+<li>git stash drop：删除最近一条暂存区记录</li>
+<li>git stash pop：还原上次暂存处并删除最近一条暂存区记录（相当于执行 git stash apply + git stash drop）</li>
+<li>git stash clear：清空所有暂存区记录</li>
+<li>ssh：查看是否安装 SSH（一种网络协议，用于计算机之间加密登陆）</li>
+<li>ssh-keygen -t rsa：指定 rsa 算法生成密钥，接着连续三个回车生成两个文件 id_rsa 和 id_rsa.pub，id_rsa 是密钥，id_rsa.pub 是公钥，两个文件默认生成目录：Mac/Linux 系统在：~/.ssh 下，Windows 系统在：/c/Documents and Settings/username/.ssh 下，为隐藏文件</li>
+<li>ssh -T git@github.com：测试 SSH key 是否添加成功</li>
+<li>git clone git@github.com:github用户名/仓库名称：将远程 github 仓库克隆到本地</li>
+<li>git push origin master：将本地代码推到远程 master 分支，保持代码同步（push 之前先 pull，避免冲突）</li>
+<li>git pull origin master：把远程 master 分支代码拉到本地，保持代码同步（push 之前先 pull，避免冲突）</li>
+<li>git remote -v：查看当前项目有哪些远程仓库</li>
+<li>git config –global user.name “用户名”：设置全局用户名</li>
+<li>git config –global user.email “邮箱”：设置全局邮箱</li>
+<li>git config –global user.name ：查询全局用户名</li>
+<li>git config –global user.email：查询全局邮箱</li>
+<li>git config user.name “用户名”：设置当前用户名</li>
+<li>git config user.email “邮箱”：设置当前邮箱</li>
+<li>git config user.name ：查询当前用户名</li>
+<li>git config user.email：查询当前邮箱</li>
+<li>git config –global alias.co commit：给 commit 指令设置全局别名为co（其他指令以此类推）</li>
+<li>git config –global alias.psm ‘push origin master’：给 push origin master 组合指令设置全局别名为 psm（其他组合指令以此类推）</li>
+</ul>
+<h3 id="git-设置"><a href="#git-设置" class="headerlink" title="git 设置"></a>git 设置</h3><ul>
+<li>git config –global core.editor “vim”：设置 editor 使用 vim </li>
+<li>git config –global color.ui true：开启 git 着色</li>
+<li>git config –global core.quotepath false：设置显示中文文件名</li>
+</ul>
+<h3 id="团队合作利器-Git-Flow"><a href="#团队合作利器-Git-Flow" class="headerlink" title="团队合作利器 Git Flow"></a>团队合作利器 Git Flow</h3><blockquote>
+<p><a href="https://github.com/nvie/gitflow" target="_blank" rel="noopener">Git Flow</a> 是一种比较成熟的分支管理流程，比较适合三五个人团队合作开发项目，是一种多人协作下的分支管理规范。<a href="http://stormzhang.com/git/2014/01/29/git-flow/" target="_blank" rel="noopener">点此查看 Git Flow 安装使用</a></p>
+</blockquote>
+<ul>
+<li><p>工作流程</p>
+<p>通过一张图描述整个工作流程：</p>
+<p><img src="http://nvie.com/img/git-model@2x.png" alt="Git Flow 分支工作流程图"></p>
+</li>
+<li><p>各阶段名词解释</p>
+<ul>
+<li>master：永远处在即将发布状态。</li>
+<li>develop：最新开发状态。</li>
+<li>feature：开发新功能的分支，基于 develop 分支，完成后 merge 回 develop。</li>
+<li>release：准备要发布版本的分支，用来修复 bug，基于 develop，完成后 merge 回 develop 和 master。</li>
+<li>hotfix：修复 master 上的问题，等不及 release 版本就必须马上上线，基于 master，完成后 merge 回 master 和 develop。</li>
+</ul>
+</li>
+<li><p>相关规范</p>
+<ul>
+<li>git branch feature/A：假设已经有 master 和 develop 两个分支，需要添加新功能 A，第一步要做的就是基于 develop 新建一个分支 A，规定所有开发的功能都以 feature 为前缀。</li>
+<li>git branch hotfix/B：出现紧急 bug 修复的情况下，立刻切换到 master 分支，然后在此基础上新建分支 B，代表新建了一个紧急修复分支，修复完成后合并到 develop 和 master，然后发布。</li>
+<li>git branch release/1.0：feature 新功能开发完了，合并回 develop 分支，感觉可以发布到正式环境了，新建一个 release 分支。期间发现 bug 直接修改，直到达到发布标准，最后把该分支合并到 develop 和 master 然后进行发布。</li>
+</ul>
+<p>​</p>
+</li>
+</ul>
+<h3 id="专业名词解释"><a href="#专业名词解释" class="headerlink" title="专业名词解释"></a>专业名词解释</h3><ul>
+<li>status：状态</li>
+<li>cached：贮藏</li>
+<li>stash：暂存</li>
+<li>commit：提交</li>
+<li>checkout：切换</li>
+<li>branch：分支</li>
+<li>diff：差异</li>
+<li>clone：克隆</li>
+<li>push：推</li>
+<li>pull：拉</li>
+<li>origin：原点</li>
+<li>remote：远程</li>
+<li>global：全局</li>
+<li>conflicts：冲突</li>
+</ul>
+<h3 id="吐血推荐"><a href="#吐血推荐" class="headerlink" title="吐血推荐"></a>吐血推荐</h3><p> <a href="http://stormzhang.com/2017/01/20/learn-github-from-zero-pdf/" target="_blank" rel="noopener">learn-github-from-zero-pdf</a> 是 Android 大神 <a href="http://stormzhang.com/" target="_blank" rel="noopener">stormzhang</a> 的良心之作，本篇博客就是阅读此教程提炼的。希望你看完他的教程能有自己的收获。</p>
+<p><strong><em>原创不易，请尊重他人的劳动成果，欢迎转载，但请注明出处。</em></strong></p>
+<hr>
+<p>morninggeng</p>
+<p>05/04/2017</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 工具 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Git </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[［转］用插件将 Chrome 打造成利器]]></title>
+      <url>/2018/03/20/Chrome-Plugin/</url>
+      <content type="html"><![CDATA[<h3 id="一个页面-一个世界"><a href="#一个页面-一个世界" class="headerlink" title="一个页面 一个世界"></a>一个页面 一个世界</h3><p>Chrome 默认的新标签页既不美观也不实用, 用好 Chrome, 从标签页开始</p>
+<ul>
+<li><a href="https://chrome.google.com/webstore/detail/dream-afar-new-tab/henmfoppjjkcencpbjaigfahdjlgpegn" target="_blank" rel="noopener">远方 New Tab</a><br>每天打开新页面都是一段不期而遇的旅行</li>
+<li><a href="https://chrome.google.com/webstore/detail/earth-view-from-google-ea/bhloflhklmhfpedakmangadcdofhnnoh" target="_blank" rel="noopener">Earth View from Google Earth</a><br>每次打开新页面都能被Google Earth卫星照片所惊艳</li>
+<li><a href="https://chrome.google.com/webstore/detail/ichrome-a-fast-productive/oghkljobbhapacbahlneolfclkniiami" target="_blank" rel="noopener">iChrome</a><br>可以任意定制的主题和小部件, 数以千计的背景图片和丰富的功能</li>
+<li><a href="https://chrome.google.com/webstore/detail/infinity-new-tab/dbfmnekepjoapopniengjbcpnbljalfg" target="_blank" rel="noopener">Infinity</a><br>客制化你的上网导航，200多个扁平化网站图标, 每日一张高清壁纸, 同样具有便捷的小工具</li>
+</ul>
+<h3 id="广告终结者"><a href="#广告终结者" class="headerlink" title="广告终结者"></a>广告终结者</h3><p>带来清爽的上网体验 你们资瓷不资瓷呀?</p>
+<ul>
+<li><a href="https://chrome.google.com/webstore/detail/adblock-plus/cfhdojbkjhnklbpkdaibdccddilifddb" target="_blank" rel="noopener">Adblock Plus</a><br>超千万用户的免费开源项目</li>
+<li><a href="https://chrome.google.com/webstore/detail/ublock/epcnnfbjfcgphgdmggkamkmgojdagdnn?hl=zh-CN" target="_blank" rel="noopener">uBlock</a><br>一款高效的请求过滤工具, 占用极低的内存和CPU</li>
+</ul>
+<h3 id="沉浸阅读"><a href="#沉浸阅读" class="headerlink" title="沉浸阅读"></a>沉浸阅读</h3><p>没有了广告确实清爽了许多, 但是如果想要静静地阅读一篇文章, 而页面又有一些干扰元素存在, 那就需要这些插件来拯救你的阅读体验</p>
+<ul>
+<li><a href="https://chrome.google.com/webstore/detail/reader-view/iibolhpkjjmoepndefdmdlmbpfhlgjpl" target="_blank" rel="noopener">阅读模式</a><br>比Safari阅读模式功能更完善的轻量级插件, 可设置背景色, 字体以及字体大小</li>
+<li><a href="https://chrome.google.com/webstore/detail/easyreader/boamfheepdiallipiieadpmnklbhadhc" target="_blank" rel="noopener">EasyReader</a><br>功能更强大的阅读插件, 可自选区域, 自动识别目录, 还能对样式进行详细的设置</li>
+</ul>
+<h3 id="保存媒体文件有妙招"><a href="#保存媒体文件有妙招" class="headerlink" title="保存媒体文件有妙招"></a>保存媒体文件有妙招</h3><p>遇到漂亮的图片还在一张张保存? 遇到好听的音乐还在找下载按钮?<br>有了这些插件, 一键保存到本地, 随时欣赏 (๑•̀ㅂ•́)و✧</p>
+<ul>
+<li><a href="https://chrome.google.com/webstore/detail/fatkun-batch-download-ima/nnjjahlikiabnchcpehcpkdeckfgnohf" target="_blank" rel="noopener">Fatkun 图片批量下载</a><br>找出当前页面的所有图片，提供按分辨率、链接等筛选图片</li>
+<li><a href="https://chrome.google.com/webstore/detail/image-downloader/cnpniohnfphhjihaiiggeabnkjhpaldj" target="_blank" rel="noopener">Image Downloader</a><br>浏览并下载当且网页上的图片</li>
+<li><a href="https://chrome.google.com/webstore/detail/%E5%A3%B0%E6%B5%B7%E7%9B%97/idleenniidjlnmnjkjmmnocnkmjibadd" target="_blank" rel="noopener">声海盗</a><br>一键下载当且网页所播放的音乐</li>
+</ul>
+<h3 id="Coder-专区"><a href="#Coder-专区" class="headerlink" title="Coder 专区"></a>Coder 专区</h3><p>既然搞定了基本需求, 那就开始干活吧!<br>怎么少得了这些 Web 前端开发神器</p>
+<ul>
+<li><a href="https://chrome.google.com/webstore/detail/chrome-sniffer-plus/fhhdlnnepfjhlhilgmeepgkhjmhhhjkh" target="_blank" rel="noopener">Chrome Sniffer Plus</a><br>探测当前网页正在使用的开源软件或者js类库</li>
+<li><a href="https://chrome.google.com/webstore/detail/page-ruler/jlpkojjdgbllmedoapgfodplfhcbnbpn" target="_blank" rel="noopener">Page Ruler</a><br>用鼠标画出尺子, 获得具体像素和位置, 并可以测量任何网页上的元素</li>
+<li><a href="https://chrome.google.com/webstore/detail/web-developer-checklist/iahamcpedabephpcgkeikbclmaljebjp" target="_blank" rel="noopener">Web Developer Checklist</a><br>分析网站不足之处</li>
+<li><a href="https://chrome.google.com/webstore/detail/yslow/ninejjcohidippngpapiilnmkgllmakh" target="_blank" rel="noopener">YSlow</a><br>根据雅虎军规的页面性能分析工具让你的网页更快</li>
+<li><a href="https://chrome.google.com/webstore/detail/window-resizer/kkelicaakdanhinjdeammmilcgefonfh" target="_blank" rel="noopener">Window Resizer</a><br>调整浏览器窗口来模拟各种屏幕分辨率</li>
+<li><a href="https://chrome.google.com/webstore/detail/whatfont/jabopobgcpjmedljpbcaablpmlmfcogm" target="_blank" rel="noopener">WhatFont</a><br>识别网页用了哪些字体, 以及字体的大小</li>
+<li><a href="https://chrome.google.com/webstore/detail/colorpick-eyedropper/ohcpnigalekghcmgcdcenkpelffpdolg" target="_blank" rel="noopener">ColorPick Eyedropper</a><br>从网页上取色, 获取颜色代码/RGB</li>
+</ul>
+<h3 id="如何优雅地使用-Chrome"><a href="#如何优雅地使用-Chrome" class="headerlink" title="如何优雅地使用 Chrome?"></a>如何优雅地使用 Chrome?</h3><p>进一步提高 Chrome 使用效率和舒适度, 使用 Chrome 将更加如鱼得水</p>
+<ul>
+<li><a href="https://chrome.google.com/webstore/detail/%E7%82%BA%E4%BB%80%E9%BA%BC%E4%BD%A0%E5%80%91%E5%B0%B1%E6%98%AF%E4%B8%8D%E8%83%BD%E5%8A%A0%E5%80%8B%E7%A9%BA%E6%A0%BC%E5%91%A2%EF%BC%9F/paphcfdffjnbcgkokihcdjliihicmbpd" target="_blank" rel="noopener">为什么你们就是不能加个空格呢</a><br>自动在网页中所有的中文字和半形的英文、数字、符号之间插入空白</li>
+<li><a href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo" target="_blank" rel="noopener">Tampermonkey</a><br>浏览器用户脚本管理器</li>
+<li><a href="https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbadohgkifijomclgjgif" target="_blank" rel="noopener">Proxy SwitchyOmega</a><br>轻松快捷地管理和切换多个代理设置</li>
+<li><a href="https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb" target="_blank" rel="noopener">Vimium</a><br>键盘流/Vim党必备</li>
+</ul>
+<h3 id="管理好你的臃肿插件"><a href="#管理好你的臃肿插件" class="headerlink" title="管理好你的臃肿插件"></a>管理好你的臃肿插件</h3><p>装了以上辣么多的插件, Chrome 工具栏和电脑内存都要炸了. 以下两个插件, 即可自定义情景模式也可逐个开关插件</p>
+<ul>
+<li><a href="https://chrome.google.com/webstore/detail/context/aalnjolghjkkogicompabhhbbkljnlka" target="_blank" rel="noopener">Context</a><br>分组排序扩展并轻易切换, 不同环境一键切换插件</li>
+<li><a href="https://chrome.google.com/webstore/detail/%E4%B8%80%E9%94%AE%E7%AE%A1%E7%90%86%E6%89%80%E6%9C%89%E6%89%A9%E5%B1%95/niemebbfnfbjfojajlmnbiikmcpjkkja" target="_blank" rel="noopener">一键管理所有扩展</a><br>一键开启/关闭扩展,扩展的逐个禁用和开启</li>
+</ul>
+<p><strong><em>感谢此篇博客的作者，原创不易，请尊重他人的劳动成果。转载出处：<a href="https://blog.viosey.com/2016/04/09/Chrome-extensions/" target="_blank" rel="noopener">https://blog.viosey.com/2016/04/09/Chrome-extensions/</a></em></strong></p>
+<hr>
+<p>morninggeng</p>
+<p>04/27/2017</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 工具 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 插件 </tag>
+            
+            <tag> Chrome </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android 自定义 View 从入门到懵逼]]></title>
+      <url>/2018/03/20/Android-View/</url>
+      <content type="html"><![CDATA[<h2 id="为什么要自定义控件"><a href="#为什么要自定义控件" class="headerlink" title="为什么要自定义控件"></a>为什么要自定义控件</h2><blockquote>
+<p>Android 系统强大且原生控件丰富，但是也不能满足我们日益变化的需求，所以我们要根据具体需求自定义控件。</p>
+</blockquote>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="坐标系"><a href="#坐标系" class="headerlink" title="坐标系"></a>坐标系</h3><p>由于移动设备一般定义屏幕左上角为坐标原点，向右为x轴增大方向，向下为y轴增大方向， 所以在手机屏幕上的坐标系与数学中常见的坐标系是稍微有点差别的，详情如下：</p>
+<h3 id="角度-amp-弧度"><a href="#角度-amp-弧度" class="headerlink" title="角度 &amp; 弧度"></a>角度 &amp; 弧度</h3><p>在我们自定义View，尤其是制作一些复杂炫酷的效果的时候，实际上是将一些简单的东西通过数学上精密的计算组合到一起形成的效果。</p>
+<h3 id="颜色"><a href="#颜色" class="headerlink" title="颜色"></a>颜色</h3><p>简要介绍安卓中的颜色相关内容，包括颜色的定义，创建颜色的几种方式，以及颜色的混合模式等。</p>
+<h2 id="自定义-View-分类"><a href="#自定义-View-分类" class="headerlink" title="自定义 View 分类"></a>自定义 View 分类</h2><h3 id="自定义-View-Group"><a href="#自定义-View-Group" class="headerlink" title="自定义 View Group"></a>自定义 View Group</h3><blockquote>
+<p>自定义ViewGroup一般是利用现有的组件根据特定的布局方式来组成新的组件，大多继承自ViewGroup或各种Layout，包含有子View。</p>
+</blockquote>
+<h3 id="自定义-View"><a href="#自定义-View" class="headerlink" title="自定义 View"></a>自定义 View</h3><blockquote>
+<p>在没有现成的View，需要自己实现的时候，就使用自定义View，一般继承自View，SurfaceView或其他的View，不包含子View。</p>
+</blockquote>
+]]></content>
+      
+        <categories>
+            
+            <category> Android </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Android </tag>
+            
+            <tag> 自定义控件 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[［转］Android Studio 插件整理]]></title>
+      <url>/2018/03/20/Android-Studio-Plugin/</url>
+      <content type="html"><![CDATA[<blockquote>
+<p><a href="https://developer.android.com/studio/index.html?hl=zh-cn" target="_blank" rel="noopener">Android Studio</a> 提供用于为各类 Android 设备开发应用的最快速的工具。</p>
+<p>Android Studio 是一款专门为 Android 平台开发程序的集成开发环境，强大 Gradle 构建系统的和丰富的插件提高开发者的开发效率。</p>
+<p>利用世界一流的代码编辑、调试、性能工具、一套灵活的构建系统以及一套即时构建部署系统，您可以专注于构建独特的高品质应用。</p>
+<p>现在 Android 的开发者基本上都使用 Android Studio 进行开发(如果你还在使用 eclipse 那也行，毕竟你乐意怎么样都行)。使用好 Android Studio 插件能大量的减少我们的工作量。</p>
+</blockquote>
+<p>插件安装方法：</p>
+<p>方法一：</p>
+<p>1.Android studio File —&gt; Settings.. —&gt; Plugins —&gt; Browse repositores..搜索 GsonFormat<br>2.安装插件,重启 Android Studio</p>
+<p>方法二：</p>
+<p>1.下载 GsonFormat.jar ;<br>2.Android studio File —&gt; Settings.. —&gt; Plugins —&gt; install plugin from disk..导入下载 GsonFormat.jar<br>3.重启 Android Studio</p>
+<p>以上插件安装方法适用于大部分插件，个别插件安装方法请自行 google。</p>
+<p>言归正传，下面介绍几十款强大且实用的插件。摆好姿势了么，走你 ┏ (゜ω゜)=☞</p>
+<hr>
+<h1 id="GsonFormat"><a href="#GsonFormat" class="headerlink" title="GsonFormat"></a><a href="http://plugins.jetbrains.com/plugin/7654?pr=androidstudio" target="_blank" rel="noopener">GsonFormat</a></h1><p>快速将 json 字符串转换成一个 Java Bean，免去我们根据 json 字符串手写对应 Java Bean 的过程。</p>
+<p><a href="http://plugins.jetbrains.com/files/7654/screenshot_15729.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7654/screenshot_15729.png" alt="img"></a></p>
+<p>使用方法：快捷键 Alt+S 也可以使用 Alt+Insert 选择 GsonFormat</p>
+<h1 id="Android-ButterKnife-Zelezny"><a href="#Android-ButterKnife-Zelezny" class="headerlink" title="Android ButterKnife Zelezny"></a><a href="http://plugins.jetbrains.com/plugin/7369?pr=androidstudio" target="_blank" rel="noopener">Android ButterKnife Zelezny</a></h1><p>配合 ButterKnife 实现注解，从此不用写 findViewById，想着就爽啊。在 Activity，Fragment，Adapter 中选中布局 xml 的资源 id 自动生成 butterknife 注解。</p>
+<p><a href="http://plugins.jetbrains.com/files/7369/screenshot_14384.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7369/screenshot_14384.png" alt="img"></a></p>
+<p>使用方法：Ctrl+Shift+B 选择图上所示选项</p>
+<h1 id="Android-Code-Generator"><a href="#Android-Code-Generator" class="headerlink" title="Android Code Generator"></a><a href="http://plugins.jetbrains.com/plugin/7595?pr=androidstudio" target="_blank" rel="noopener">Android Code Generator</a></h1><p>根据布局文件快速生成对应的 Activity，Fragment，Adapter，Menu。</p>
+<p><a href="http://plugins.jetbrains.com/files/7595/screenshot_14834.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7595/screenshot_14834.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7595/screenshot_14833.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7595/screenshot_14833.png" alt="img"></a></p>
+<h1 id="Android-Parcelable-code-generator"><a href="#Android-Parcelable-code-generator" class="headerlink" title="Android Parcelable code generator"></a><a href="http://plugins.jetbrains.com/plugin/7332?pr=androidstudio" target="_blank" rel="noopener">Android Parcelable code generator</a></h1><p>JavaBean 序列化，快速实现 Parcelable 接口。</p>
+<p><a href="https://segmentfault.com/image?src=http://img.blog.csdn.net/20160416104459926&amp;objectId=1190000005092842&amp;token=ab29ed79d41be9e42b3a3d2ed1ec3bef" target="_blank" rel="noopener"><img src="https://segmentfault.com/image?src=http://img.blog.csdn.net/20160416104459926&amp;objectId=1190000005092842&amp;token=ab29ed79d41be9e42b3a3d2ed1ec3bef" alt="img"></a></p>
+<h1 id="Android-Methods-Count"><a href="#Android-Methods-Count" class="headerlink" title="Android Methods Count"></a><a href="http://plugins.jetbrains.com/plugin/8076?pr=androidstudio" target="_blank" rel="noopener">Android Methods Count</a></h1><p>显示依赖库中得方法数</p>
+<p><a href="http://plugins.jetbrains.com/files/8076/screenshot_15509.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/8076/screenshot_15509.png" alt="img"></a></p>
+<h1 id="Lifecycle-Sorter"><a href="#Lifecycle-Sorter" class="headerlink" title="Lifecycle Sorter"></a><a href="http://plugins.jetbrains.com/plugin/7742?pr=androidstudio" target="_blank" rel="noopener">Lifecycle Sorter</a></h1><p>可以根据 Activity 或者 Fragment 的生命周期对其生命周期方法位置进行先后排序，快捷键 Ctrl + alt + K</p>
+<p><a href="http://plugins.jetbrains.com/files/7742/screenshot_15071.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7742/screenshot_15071.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7742/screenshot_15070.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7742/screenshot_15070.png" alt="img"></a></p>
+<h1 id="CodeGlance"><a href="#CodeGlance" class="headerlink" title="CodeGlance"></a><a href="http://plugins.jetbrains.com/plugin/7275?pr=androidstudio" target="_blank" rel="noopener">CodeGlance</a></h1><p>在右边可以预览代码，实现快速定位</p>
+<p><img src="https://plugins.jetbrains.com/files/7275/screenshot_16821.png" alt=""></p>
+<h1 id="findBugs-IDEA"><a href="#findBugs-IDEA" class="headerlink" title="findBugs-IDEA"></a><a href="http://plugins.jetbrains.com/plugin/3847?pr=androidstudio" target="_blank" rel="noopener">findBugs-IDEA</a></h1><p>查找 bug 的插件，Android Studio 也提供了代码审查的功能（Analyze-Inspect Code…）</p>
+<p><img src="https://plugins.jetbrains.com/files/3847/screenshot_2538.png" alt=""></p>
+<p><img src="https://plugins.jetbrains.com/files/3847/screenshot_3017.png" alt=""></p>
+<p><img src="https://plugins.jetbrains.com/files/3847/screenshot_2542.png" alt=""></p>
+<h1 id="ADB-WIFI"><a href="#ADB-WIFI" class="headerlink" title="ADB WIFI"></a><a href="http://plugins.jetbrains.com/plugin/7856?pr=androidstudio" target="_blank" rel="noopener">ADB WIFI</a></h1><p>使用 wifi 无线调试你的 app，无需 root 权限<br>也可参考以下文章：<br><a href="http://www.jianshu.com/p/21d1b65d92a4" target="_blank" rel="noopener">Android wifi 无线调试 App 新玩法 ADB WIFI</a></p>
+<p><a href="http://plugins.jetbrains.com/files/7856/screenshot_15153.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7856/screenshot_15153.png" alt="img"></a></p>
+<h1 id="AndroidPixelDimenGenerator"><a href="#AndroidPixelDimenGenerator" class="headerlink" title="AndroidPixelDimenGenerator"></a><a href="https://github.com/succlz123/AndroidPixelDimenGenerator" target="_blank" rel="noopener">AndroidPixelDimenGenerator</a></h1><p>Android Studio 自动生成 dimen.xml 文件插件</p>
+<p><img src="https://github.com/succlz123/AndroidPixelDimenGenerator/raw/master/snapshot/1.webp" alt=""></p>
+<h1 id="JsonOnlineViewer"><a href="#JsonOnlineViewer" class="headerlink" title="JsonOnlineViewer"></a><a href="http://plugins.jetbrains.com/plugin/7838?pr=androidstudio" target="_blank" rel="noopener">JsonOnlineViewer</a></h1><p>在 Android Studio 中请求、调试接口</p>
+<p><a href="http://plugins.jetbrains.com/files/7838/screenshot_15113.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7838/screenshot_15113.png" alt="img"></a></p>
+<h1 id="Android-Styler"><a href="#Android-Styler" class="headerlink" title="Android Styler"></a><a href="http://plugins.jetbrains.com/plugin/7972?pr=androidstudio" target="_blank" rel="noopener">Android Styler</a></h1><p>根据 xml 自动生成 style 代码的插件</p>
+<p><a href="http://plugins.jetbrains.com/files/7972/screenshot_15340.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7972/screenshot_15340.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7972/screenshot_15339.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7972/screenshot_15339.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7972/screenshot_15338.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7972/screenshot_15338.png" alt="img"></a></p>
+<p>Usage:</p>
+<p>a. copy lines with future style from your layout.xml file<br>b. paste it to styles.xml file with Ctrl+Shift+D (or context menu)<br>c. enter name of new style in the modal window<br>d. your style is prepared!</p>
+<h1 id="Android-Drawable-Importer"><a href="#Android-Drawable-Importer" class="headerlink" title="Android Drawable Importer"></a><a href="http://plugins.jetbrains.com/plugin/7658?pr=androidstudio" target="_blank" rel="noopener">Android Drawable Importer</a></h1><p>这是一个非常强大的图片导入插件。它导入 Android 图标与 Material 图标的 Drawable ，批量导入 Drawable ，多源导入Drawable（即导入某张图片各种 dpi 对应的图片）</p>
+<p><a href="http://plugins.jetbrains.com/files/7658/screenshot_15535.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7658/screenshot_15535.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7658/screenshot_15691.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7658/screenshot_15691.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7658/screenshot_15533.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7658/screenshot_15533.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7658/screenshot_15537.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7658/screenshot_15537.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7658/screenshot_15536.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7658/screenshot_15536.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7658/screenshot_15534.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7658/screenshot_15534.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7658/screenshot_15532.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7658/screenshot_15532.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7658/screenshot_15351.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7658/screenshot_15351.png" alt="img"></a></p>
+<h1 id="SelectorChapek-for-Android"><a href="#SelectorChapek-for-Android" class="headerlink" title="SelectorChapek for Android"></a><a href="http://plugins.jetbrains.com/plugin/7298?pr=androidstudio" target="_blank" rel="noopener">SelectorChapek for Android</a></h1><p>通过资源文件命名自动生成 Selector 文件。</p>
+<p><a href="http://plugins.jetbrains.com/files/7298/screenshot_14292.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7298/screenshot_14292.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7298/screenshot_14291.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7298/screenshot_14291.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7298/screenshot_14290.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7298/screenshot_14290.png" alt="img"></a></p>
+<h1 id="GenerateSerialVersionUID"><a href="#GenerateSerialVersionUID" class="headerlink" title="GenerateSerialVersionUID"></a><a href="http://plugins.jetbrains.com/plugin/185?pr=androidstudio" target="_blank" rel="noopener">GenerateSerialVersionUID</a></h1><p>实现 Serializable 序列化 bean</p>
+<p>Adds a new action ‘SerialVersionUID’ in the generate menu (alt + ins). The action adds an serialVersionUID field in the current class or updates it if it already exists, and assigns it the same value the standard ‘serialver’ JDK tool would return. The action is only visible when IDEA is not rebuilding its indexes, the class is serializable and either no serialVersionUID field exists or its value is different from the one the ‘serialver’ tool would return.</p>
+<h1 id="genymotion"><a href="#genymotion" class="headerlink" title="genymotion"></a><a href="http://plugins.jetbrains.com/plugin/7269?pr=androidstudio" target="_blank" rel="noopener">genymotion</a></h1><p>速度较快的 Android 模拟器</p>
+<p><a href="http://plugins.jetbrains.com/files/7269/screenshot_14278.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7269/screenshot_14278.png" alt="img"></a></p>
+<h1 id="SQLScout"><a href="#SQLScout" class="headerlink" title="SQLScout"></a><a href="https://plugins.jetbrains.com/plugin/8322-sqlscout-sqlite-support-" target="_blank" rel="noopener">SQLScout</a></h1><p>在 Android Studio 上调试数据库 ( SQLite )</p>
+<p>详细使用参考：<a href="https://juejin.im/post/58e0d781a0bb9f0069ec08d3" target="_blank" rel="noopener">在 Android Studio 上调试数据库 ( SQLite )</a></p>
+<p><a href="https://plugins.jetbrains.com/files/8322/screenshot_15823.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/8322/screenshot_15823.png" alt="img"></a></p>
+<h1 id="Android-Postfix-Completion"><a href="#Android-Postfix-Completion" class="headerlink" title="Android Postfix Completion"></a><a href="http://plugins.jetbrains.com/plugin/7775?pr=androidstudio" target="_blank" rel="noopener">Android Postfix Completion</a></h1><p>可根据后缀快速完成代码，这个属于拓展吧，系统已经有这些功能，如 sout、notnull 等，这个插件在原有的基础上增添了一些新的功能，我更想做的是通过原作者的代码自己定制功能，那就更爽了</p>
+<p><a href="http://plugins.jetbrains.com/files/7775/screenshot_15042.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7775/screenshot_15042.png" alt="img"></a></p>
+<h1 id="Android-Holo-Colors-Generator"><a href="#Android-Holo-Colors-Generator" class="headerlink" title="Android Holo Colors Generator"></a><a href="https://plugins.jetbrains.com/plugin/7366?pr=" target="_blank" rel="noopener">Android Holo Colors Generator</a></h1><p>通过自定义 Holo 主题颜色生成对应的 Drawable 和布局文件</p>
+<p><a href="https://plugins.jetbrains.com/files/7366/screenshot_14379.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7366/screenshot_14379.png" alt="img"></a></p>
+<h1 id="dagger-intellij-plugin"><a href="#dagger-intellij-plugin" class="headerlink" title="dagger-intellij-plugin"></a><a href="https://github.com/square/dagger-intellij-plugin" target="_blank" rel="noopener">dagger-intellij-plugin</a></h1><p>dagger 可视化辅助工具</p>
+<p><a href="https://github.com/square/dagger-intellij-plugin/raw/master/images/inject-to-provide.gif" target="_blank" rel="noopener"><img src="https://github.com/square/dagger-intellij-plugin/raw/master/images/inject-to-provide.gif" alt="img"></a></p>
+<h1 id="GradleDependenciesHelperPlugin"><a href="#GradleDependenciesHelperPlugin" class="headerlink" title="GradleDependenciesHelperPlugin"></a><a href="https://github.com/ligi/GradleDependenciesHelperPlugin" target="_blank" rel="noopener">GradleDependenciesHelperPlugin</a></h1><p>maven gradle 依赖支持自动补全</p>
+<p><a href="https://camo.githubusercontent.com/d9b1b39eda21e0e33b656e2821f01897d915f7c5/68747470733a2f2f6c68332e676f6f676c6575736572636f6e74656e742e636f6d2f2d51364e7970315864594c772f556a73325a5175666634492f414141414141414144624d2f624d704c516742664d6b632f773538372d683330392d6e6f2f696465615f677261646c655f706c7567696e2e706e67" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/d9b1b39eda21e0e33b656e2821f01897d915f7c5/68747470733a2f2f6c68332e676f6f676c6575736572636f6e74656e742e636f6d2f2d51364e7970315864594c772f556a73325a5175666634492f414141414141414144624d2f624d704c516742664d6b632f773538372d683330392d6e6f2f696465615f677261646c655f706c7567696e2e706e67" alt="img"></a></p>
+<h1 id="RemoveButterKnife"><a href="#RemoveButterKnife" class="headerlink" title="RemoveButterKnife"></a><a href="https://github.com/u3shadow/RemoveButterKnife" target="_blank" rel="noopener">RemoveButterKnife</a></h1><p>ButterKnife 这个第三方库每次更新之后，绑定 view 的注解都会改变，从 bind 到inject 再到 bindview，搞得很多人都不敢升级，一旦升级，就会有巨量的代码需要手动修改，非常痛苦<br>当我们有一些非常棒的代码需要拿到其他项目使用，但是我们发现，那个项目对第三方库的使用是有限制的，我们不能使用Butterknife，这时候，我们又得从注解改回 FindViewById，针对上面的两种情况，如果 view 比较少还好说，如果有几十个view，那么我们一个个的手动删除注解，写 FindViewById语句，简直是一场噩梦（别问我为什么知道这是噩梦）<br>所以，这种有规律又重复简单的工作为什么不能用一个插件来实现呢？于是 RemoveButterKnife 的想法就出现了。</p>
+<p><a href="http://www.u3coding.com/2016/06/24/androidstudio-plugin-removebutterknife-di/" target="_blank" rel="noopener">具体介绍</a></p>
+<p><a href="https://camo.githubusercontent.com/0327cda5b531ab6f2b803abe295c42225668d28d/687474703a2f2f7777772e7533636f64696e672e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031362f30362f312e676966" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/0327cda5b531ab6f2b803abe295c42225668d28d/687474703a2f2f7777772e7533636f64696e672e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031362f30362f312e676966" alt="img"></a></p>
+<h1 id="AndroidProguardPlugin"><a href="#AndroidProguardPlugin" class="headerlink" title="AndroidProguardPlugin"></a><a href="https://github.com/zhonghanwen/AndroidProguardPlugin" target="_blank" rel="noopener">AndroidProguardPlugin</a></h1><p>一键生成项目混淆代码插件，值得你安装~(不过目前可能有些第三方项目的混淆还未添加完全)</p>
+<p><a href="http://7xrnko.com1.z0.glb.clouddn.com/androidproguard1.gif" target="_blank" rel="noopener"><img src="http://7xrnko.com1.z0.glb.clouddn.com/androidproguard1.gif" alt="img"></a></p>
+<h1 id="otto-intellij-plugin"><a href="#otto-intellij-plugin" class="headerlink" title="otto-intellij-plugin"></a><a href="https://github.com/square/otto-intellij-plugin" target="_blank" rel="noopener">otto-intellij-plugin</a></h1><p>otto 事件导航工具。</p>
+<p><a href="https://github.com/square/otto-intellij-plugin/raw/master/images/produce-to-subscribe.gif" target="_blank" rel="noopener"><img src="https://github.com/square/otto-intellij-plugin/raw/master/images/produce-to-subscribe.gif" alt="img"></a><br><a href="https://github.com/square/otto-intellij-plugin/raw/master/images/event-to-subscribe.gif" target="_blank" rel="noopener"><img src="https://github.com/square/otto-intellij-plugin/raw/master/images/event-to-subscribe.gif" alt="img"></a></p>
+<h1 id="eventbus-intellij-plugin"><a href="#eventbus-intellij-plugin" class="headerlink" title="eventbus-intellij-plugin"></a><a href="https://github.com/kgmyshin/eventbus-intellij-plugin" target="_blank" rel="noopener">eventbus-intellij-plugin</a></h1><p>eventbus 导航插件(对于最新版的 EventBus 3.0.0 好像无效,请替换为 eventbus3-intellij-plugin 此插件地址在本文第 51 个)</p>
+<p><a href="https://raw.githubusercontent.com/kgmyshin/eventbus-intellij-plugin/master/art/cap.gif" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/kgmyshin/eventbus-intellij-plugin/master/art/cap.gif" alt="img"></a></p>
+<h1 id="idea-markdown"><a href="#idea-markdown" class="headerlink" title="idea-markdown"></a><a href="https://github.com/nicoulaj/idea-markdown" target="_blank" rel="noopener">idea-markdown</a></h1><p>markdown 插件</p>
+<p><a href="https://github.com/nicoulaj/idea-markdown/raw/assets/screenshots/preview.png" target="_blank" rel="noopener"><img src="https://github.com/nicoulaj/idea-markdown/raw/assets/screenshots/preview.png" alt="img"></a></p>
+<h1 id="Sexy-Editor"><a href="#Sexy-Editor" class="headerlink" title="Sexy Editor"></a><a href="https://plugins.jetbrains.com/plugin/1833?pr=androidstudio" target="_blank" rel="noopener">Sexy Editor</a></h1><p>设置 AS 代码编辑区的背景图</p>
+<p>首先点击界面的设置按钮 进入设置界面，选中 Plugins，右边选择 Browser … ，输入Sexy … 下面自动弹出候选插件，右边点击 Install 安装<br><a href="http://d.hiphotos.baidu.com/zhidao/wh%3D600%2C800/sign=f57bdd37f0246b607b5bba72dbc83674/4b90f603738da9777260054fb651f8198618e303.jpg" target="_blank" rel="noopener"><img src="http://d.hiphotos.baidu.com/zhidao/wh%3D600%2C800/sign=f57bdd37f0246b607b5bba72dbc83674/4b90f603738da9777260054fb651f8198618e303.jpg" alt="img"></a><br>安装成功 后需要重启AS<br><a href="http://h.hiphotos.baidu.com/zhidao/wh%3D600%2C800/sign=77e4e517fdf2b211e47b8d48fab04900/1c950a7b02087bf46d0dd48df4d3572c10dfcff5.jpg" target="_blank" rel="noopener"><img src="http://h.hiphotos.baidu.com/zhidao/wh%3D600%2C800/sign=77e4e517fdf2b211e47b8d48fab04900/1c950a7b02087bf46d0dd48df4d3572c10dfcff5.jpg" alt="img"></a><br>重启完成之后 进入设置界面 选择 other Setting 下的 Sexy Editor ， 右侧 insert 一张或多张图片即可，上面的其他设置可以设置方位 间隔时间 透明度等等，设置完成后，要关闭打开的文件，重新打开项目文件即可在代码编辑区显示插入的图片，作为代码编辑区的背景图。<br><a href="http://h.hiphotos.baidu.com/zhidao/wh%3D600%2C800/sign=5cd9b28564d9f2d320442ce999dca62b/34fae6cd7b899e51289eb77044a7d933c8950d45.jpg" target="_blank" rel="noopener"><img src="http://h.hiphotos.baidu.com/zhidao/wh%3D600%2C800/sign=5cd9b28564d9f2d320442ce999dca62b/34fae6cd7b899e51289eb77044a7d933c8950d45.jpg" alt="img"></a></p>
+<h1 id="folding-plugin"><a href="#folding-plugin" class="headerlink" title="folding-plugin"></a><a href="https://github.com/dmytrodanylyk/folding-plugin" target="_blank" rel="noopener">folding-plugin</a></h1><p>布局文件分组的插件</p>
+<p><a href="https://github.com/dmytrodanylyk/folding-plugin/raw/master/screenshots/Preview.png" target="_blank" rel="noopener"><img src="https://github.com/dmytrodanylyk/folding-plugin/raw/master/screenshots/Preview.png" alt="img"></a></p>
+<h1 id="Android-DPI-Calculator"><a href="#Android-DPI-Calculator" class="headerlink" title="Android-DPI-Calculator"></a><a href="https://github.com/JerzyPuchalski/Android-DPI-Calculator" target="_blank" rel="noopener">Android-DPI-Calculator</a></h1><p>DPI 计算插件</p>
+<p><a href="https://camo.githubusercontent.com/ce3be2aaa3b1f70b90f5b825c529694509d70313/68747470733a2f2f7261772e6769746875622e636f6d2f4a65727a7950756368616c736b692f416e64726f69642d4450492d43616c63756c61746f722f6d61737465722f696d672f6469616c6f672e706e67" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/ce3be2aaa3b1f70b90f5b825c529694509d70313/68747470733a2f2f7261772e6769746875622e636f6d2f4a65727a7950756368616c736b692f416e64726f69642d4450492d43616c63756c61746f722f6d61737465722f696d672f6469616c6f672e706e67" alt="img"></a></p>
+<p>使用：<br><a href="https://camo.githubusercontent.com/598d3b5c9efc5f0b57b58c25a79a323d06307fad/68747470733a2f2f7261772e6769746875622e636f6d2f4a65727a7950756368616c736b692f416e64726f69642d4450492d43616c63756c61746f722f6d61737465722f696d672f616374696f6e2e706e67" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/598d3b5c9efc5f0b57b58c25a79a323d06307fad/68747470733a2f2f7261772e6769746875622e636f6d2f4a65727a7950756368616c736b692f416e64726f69642d4450492d43616c63756c61746f722f6d61737465722f696d672f616374696f6e2e706e67" alt="img"></a><br>或者<br><a href="https://camo.githubusercontent.com/7a8f977de7a1ba6cd23fb64cbd37566690c27cdc/68747470733a2f2f7261772e6769746875622e636f6d2f4a65727a7950756368616c736b692f416e64726f69642d4450492d43616c63756c61746f722f6d61737465722f696d672f6d656e752e706e67" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/7a8f977de7a1ba6cd23fb64cbd37566690c27cdc/68747470733a2f2f7261772e6769746875622e636f6d2f4a65727a7950756368616c736b692f416e64726f69642d4450492d43616c63756c61746f722f6d61737465722f696d672f6d656e752e706e67" alt="img"></a></p>
+<h1 id="gradle-retrolambda"><a href="#gradle-retrolambda" class="headerlink" title="gradle-retrolambda"></a><a href="https://github.com/evant/gradle-retrolambda" target="_blank" rel="noopener">gradle-retrolambda</a></h1><p>在 java 6 7中使用 lambda表达式插件</p>
+<p>修改编译的 jdk 为 java8:<br><a href="http://img.blog.csdn.net/20160311101644127" target="_blank" rel="noopener"><img src="http://img.blog.csdn.net/20160311101644127" alt="img"></a></p>
+<h1 id="Android-Studio-Prettify"><a href="#Android-Studio-Prettify" class="headerlink" title="Android Studio Prettify"></a><a href="https://plugins.jetbrains.com/plugin/7405" target="_blank" rel="noopener">Android Studio Prettify</a></h1><p>可以将代码中的字符串写在 string.xml 文件中</p>
+<p>选中字符串鼠标右键选择图中所示<br><a href="https://plugins.jetbrains.com/files/7405/screenshot_14417.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7405/screenshot_14417.png" alt="img"></a></p>
+<p>这个插件还可以自动书写 FindViewById<br><a href="https://plugins.jetbrains.com/files/7405/screenshot_14418.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7405/screenshot_14418.png" alt="img"></a></p>
+<p><a href="https://plugins.jetbrains.com/files/7405/screenshot_14416.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7405/screenshot_14416.png" alt="img"></a></p>
+<p><a href="https://plugins.jetbrains.com/files/7405/screenshot_14501.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7405/screenshot_14501.png" alt="img"></a></p>
+<p><a href="https://plugins.jetbrains.com/files/7405/screenshot_14419.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7405/screenshot_14419.png" alt="img"></a></p>
+<p><a href="https://plugins.jetbrains.com/files/7405/screenshot_14415.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7405/screenshot_14415.png" alt="img"></a></p>
+<h1 id="Material-Theme-UI"><a href="#Material-Theme-UI" class="headerlink" title="Material Theme UI"></a><a href="https://plugins.jetbrains.com/plugin/8006?pr=" target="_blank" rel="noopener">Material Theme UI</a></h1><p>添加 Material 主题到你的 AS</p>
+<p><a href="https://plugins.jetbrains.com/files/8006/screenshot_15722.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/8006/screenshot_15722.png" alt="img"></a></p>
+<p><a href="https://plugins.jetbrains.com/files/8006/screenshot_15723.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/8006/screenshot_15723.png" alt="img"></a></p>
+<p><a href="https://plugins.jetbrains.com/files/8006/screenshot_15721.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/8006/screenshot_15721.png" alt="img"></a></p>
+<h1 id="ignore"><a href="#ignore" class="headerlink" title=".ignore"></a><a href="https://plugins.jetbrains.com/plugin/7495?pr=" target="_blank" rel="noopener">.ignore</a></h1><p>我们都知道在 Git 中想要过滤掉一些不想提交的文件，可以把相应的文件添加到 .gitignore 中，而 .gitignore 这个Android Studio 插件根据不同的语言来选择模板，就不用自己在费事添加一些文件了，而且还有自动补全功能，过滤文件再也不要复制文件名了。我们做项目的时候，并不是所有文件都是要提交的，比如构建的 build 文件夹，本地配置文件，每个 Module 生成的iml 文件，但是我们每次 add，commit  都会不小心把它们添加上去，而 gitignore 就是解决这种痛点的，如果你不想提交的文件，就可以在创建项目的时候将这个文件中添加即可，将一些通用的东西屏蔽掉。</p>
+<p><a href="https://plugins.jetbrains.com/files/7495/screenshot_14960.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7495/screenshot_14960.png" alt="img"></a></p>
+<p><a href="https://plugins.jetbrains.com/files/7495/screenshot_14958.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7495/screenshot_14958.png" alt="img"></a></p>
+<p><a href="https://plugins.jetbrains.com/files/7495/screenshot_14959.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7495/screenshot_14959.png" alt="img"></a></p>
+<h1 id="CheckStyle-IDEA"><a href="#CheckStyle-IDEA" class="headerlink" title="CheckStyle-IDEA"></a><a href="https://plugins.jetbrains.com/plugin/1065?pr=" target="_blank" rel="noopener">CheckStyle-IDEA</a></h1><p>CheckStyle-IDEA 是一个检查代码风格的插件，比如像命名约定，Javadoc，类设计等方面进行代码规范和风格的检查，你们可以遵从像 Google Oracle 的 Java 代码指南 ，当然也可以按照自己的规则来设置配置文件，从而有效约束你自己更好地遵循代码编写规范。</p>
+<h1 id="Markdown-Navigator"><a href="#Markdown-Navigator" class="headerlink" title="Markdown Navigator"></a><a href="https://plugins.jetbrains.com/plugin/7896?pr=" target="_blank" rel="noopener">Markdown Navigator</a></h1><p>github:<a href="https://github.com/vsch/idea-multimarkdown/wiki" target="_blank" rel="noopener">Markdown Navigator</a><br>Markdown 插件</p>
+<p><a href="https://plugins.jetbrains.com/files/7896/screenshot_15818.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7896/screenshot_15818.png" alt="img"></a></p>
+<h1 id="ECTranslation"><a href="#ECTranslation" class="headerlink" title="ECTranslation"></a><a href="https://github.com/Skykai521/ECTranslation" target="_blank" rel="noopener">ECTranslation</a></h1><p>Android Studio Plugin,Translate English to Chinese. Android Studio 翻译插件,可以将英文翻译为中文。</p>
+<p><a href="https://github.com/Skykai521/ECTranslation/raw/master/img/translation_img.png" target="_blank" rel="noopener"><img src="https://github.com/Skykai521/ECTranslation/raw/master/img/translation_img.png" alt="img"></a></p>
+<h1 id="PermissionsDispatcher-plugin"><a href="#PermissionsDispatcher-plugin" class="headerlink" title="PermissionsDispatcher plugin"></a><a href="https://plugins.jetbrains.com/plugin/8349" target="_blank" rel="noopener">PermissionsDispatcher plugin</a></h1><p>github:<a href="https://github.com/shiraji/permissions-dispatcher-plugin" target="_blank" rel="noopener">PermissionsDispatcher plugin</a><br>自动生成 6.0 权限的代码</p>
+<p><a href="https://github.com/shiraji/permissions-dispatcher-plugin/raw/master/website/images/pd.gif" target="_blank" rel="noopener"><img src="https://github.com/shiraji/permissions-dispatcher-plugin/raw/master/website/images/pd.gif" alt="img"></a></p>
+<h1 id="WakaTime"><a href="#WakaTime" class="headerlink" title="WakaTime"></a><a href="https://plugins.jetbrains.com/plugin/7425?pr=" target="_blank" rel="noopener">WakaTime</a></h1><p>github:<a href="https://github.com/wakatime/jetbrains-wakatime" target="_blank" rel="noopener">WakaTime</a><br>记录你在 IDE 上的工作时间</p>
+<p><a href="https://plugins.jetbrains.com/files/7425/screenshot_14794.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7425/screenshot_14794.png" alt="img"></a></p>
+<h1 id="AndroidWiFiADB"><a href="#AndroidWiFiADB" class="headerlink" title="AndroidWiFiADB"></a><a href="https://github.com/pedrovgs/AndroidWiFiADB" target="_blank" rel="noopener">AndroidWiFiADB</a></h1><p>无线调试应用</p>
+<p><a href="https://github.com/pedrovgs/AndroidWiFiADB/raw/master/art/screenshot1.gif" target="_blank" rel="noopener"><img src="https://github.com/pedrovgs/AndroidWiFiADB/raw/master/art/screenshot1.gif" alt="img"></a></p>
+<p><a href="https://github.com/pedrovgs/AndroidWiFiADB/raw/master/art/android_devices_window.png" target="_blank" rel="noopener"><img src="https://github.com/pedrovgs/AndroidWiFiADB/raw/master/art/android_devices_window.png" alt="img"></a></p>
+<h1 id="AndroidLocalizationer"><a href="#AndroidLocalizationer" class="headerlink" title="AndroidLocalizationer"></a><a href="https://github.com/westlinkin/AndroidLocalizationer" target="_blank" rel="noopener">AndroidLocalizationer</a></h1><p>可用于将项目中的 string 资源自动翻译为其他语言的 Android Studio/IntelliJ IDEA 插件</p>
+<p><a href="https://raw.githubusercontent.com/westlinkin/AndroidLocalizationer/master/screen_shot_3.png" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/westlinkin/AndroidLocalizationer/master/screen_shot_3.png" alt="img"></a></p>
+<p><a href="https://raw.githubusercontent.com/westlinkin/AndroidLocalizationer/master/screen_shot_2.png" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/westlinkin/AndroidLocalizationer/master/screen_shot_2.png" alt="img"></a></p>
+<h1 id="TranslationPlugin"><a href="#TranslationPlugin" class="headerlink" title="TranslationPlugin"></a><a href="https://github.com/YiiGuxing/TranslationPlugin" target="_blank" rel="noopener">TranslationPlugin</a></h1><p>又一翻译插件,可中英互译。</p>
+<ul>
+<li><p><strong>Show Translation Dialog…:</strong> 打开翻译对话框。默认显示在工具栏上，默认快捷键为Alt + 0</p>
+<p><a href="https://github.com/YiiGuxing/TranslationPlugin/blob/master/images/action0.gif" target="_blank" rel="noopener"><img src="https://github.com/YiiGuxing/TranslationPlugin/raw/master/images/action0.gif" alt="Translate"></a></p>
+</li>
+<li><p><strong>Translate:</strong> 取词并翻译。如果有已选择的文本，优先从选择的文本内取词，否则默认以最大范围自动取词（该取词模式可在Settings中配置）。默认显示在编辑器右键菜单上，默认快捷键为Alt + 1</p>
+<p><a href="https://github.com/YiiGuxing/TranslationPlugin/blob/master/images/action1.gif" target="_blank" rel="noopener"><img src="https://github.com/YiiGuxing/TranslationPlugin/raw/master/images/action1.gif" alt="Translate"></a></p>
+</li>
+<li><p><strong>Translate(Inclusive):</strong> 取词并翻译。自动以最大范围取最近的所有词，忽略手动选择的文本。默认快捷键为Alt + 2</p>
+<p><a href="https://github.com/YiiGuxing/TranslationPlugin/blob/master/images/action2.gif" target="_blank" rel="noopener"><img src="https://github.com/YiiGuxing/TranslationPlugin/raw/master/images/action2.gif" alt="Translate(Inclusive)"></a></p>
+</li>
+<li><p><strong>Translate(Exclusive):</strong> 取词并翻译。自动取最近的单个词，忽略手动选择的文本。默认快捷键为Alt + 3</p>
+<p><a href="https://github.com/YiiGuxing/TranslationPlugin/blob/master/images/action3.gif" target="_blank" rel="noopener"><img src="https://github.com/YiiGuxing/TranslationPlugin/raw/master/images/action3.gif" alt="Translate(Exclusive)"></a></p>
+</li>
+<li><p><strong>Translate And Replace…:</strong> 翻译并替换。取词方式同<code>Translate</code>操作。默认显示在编辑器右键菜单上，默认快捷键为Alt + R</p>
+<p><a href="https://github.com/YiiGuxing/TranslationPlugin/blob/master/images/replace.gif" target="_blank" rel="noopener"><img src="https://github.com/YiiGuxing/TranslationPlugin/raw/master/images/replace.gif" alt="Translate(Exclusive)"></a></p>
+</li>
+<li><p><strong>Translate Text Component:</strong> 翻译一些文本组件（如快速文档、提示气泡、输入框……）中选中的文本。默认快捷键为Alt + T</p>
+<p><a href="https://github.com/YiiGuxing/TranslationPlugin/blob/master/images/text_component.gif" target="_blank" rel="noopener"><img src="https://github.com/YiiGuxing/TranslationPlugin/raw/master/images/text_component.gif" alt="Translate(Exclusive)"></a></p>
+</li>
+</ul>
+<p>使用</p>
+<ol>
+<li><p><strong>打开翻译对话框:</strong></p>
+<p>点击工具栏上的 <a href="https://github.com/YiiGuxing/TranslationPlugin/blob/master/images/icon.png" target="_blank" rel="noopener"><img src="https://github.com/YiiGuxing/TranslationPlugin/raw/master/images/icon.png" alt="图标"></a> 图标即可打开翻译对话框。</p>
+</li>
+<li><p><strong>翻译编辑器中的文本:</strong></p>
+<p>在编辑器中 选择文本或者鼠标指向文本 &gt; 单击鼠标右键 &gt; Translate</p>
+<p><a href="https://github.com/YiiGuxing/TranslationPlugin/blob/master/images/editor_popup_menu.png" target="_blank" rel="noopener"><img src="https://github.com/YiiGuxing/TranslationPlugin/raw/master/images/editor_popup_menu.png" alt="翻译"></a></p>
+<p>或者使用快捷键Alt + 1/2/3/T/R进行翻译（Mac下默认快捷键可能无效，需要自定义快捷键），详见 <strong>Actions</strong></p>
+</li>
+<li><p><strong>自定义快捷键（Mac下默认快捷键可能无效）:</strong></p>
+<p>Preferences(Settings) &gt; Keymap &gt; 搜索Translation。在需要添加快捷键Action上 右键 &gt; add Keyboard Shortcut… 设置快捷键（按ESC键可关闭气泡和翻译对话框）。</p>
+<p><a href="https://github.com/YiiGuxing/TranslationPlugin/blob/master/images/keymap.png" target="_blank" rel="noopener"><img src="https://github.com/YiiGuxing/TranslationPlugin/raw/master/images/keymap.png" alt="keymap"></a></p>
+</li>
+<li><p><strong>设置有道API KEY:</strong></p>
+<p>Preferences(Settings) &gt; Other Settings &gt; Translation。 由于有道的API在查询请求数量上存在限制，如果在1小时内查询请求次数达到一定数量后将会暂时禁止查询一段时间（大概1小时）。如果很多人同时使用同一个KEY，可能会很容易就达到了限制条件，这就可以通过使用自己的KEY来避免（一人一个KEY基本足够用了）。</p>
+</li>
+<li><p><strong>如何获取有道API KEY？</strong></p>
+<p>Preferences(Settings) &gt; Other Settings &gt; Translation &gt; 获取有道API KEY</p>
+<p>或者 <a href="http://fanyi.youdao.com/openapi?path=data-mode" target="_blank" rel="noopener"><strong>点击这里</strong></a> 也可申请有道API KEY。</p>
+</li>
+<li><p><strong>网络代理</strong></p>
+<p>支持HTTP代理，可到这里设置HTTP代理： Preferences(Settings) &gt; Appearance &amp; Behavior &gt; System Settings &gt; HTTP Proxy</p>
+</li>
+<li><p><strong>Settings(Preferences)</strong></p>
+<p><a href="https://github.com/YiiGuxing/TranslationPlugin/blob/master/images/settings.png" target="_blank" rel="noopener"><img src="https://github.com/YiiGuxing/TranslationPlugin/raw/master/images/settings.png" alt="Settings"></a></p>
+</li>
+</ol>
+<h1 id="SingletonTest"><a href="#SingletonTest" class="headerlink" title="SingletonTest"></a><a href="https://github.com/luhaoaimama1/SingletonTest" target="_blank" rel="noopener">SingletonTest</a></h1><p>快速生成单例模式的预设</p>
+<p><a href="https://github.com/luhaoaimama1/SingletonTest/raw/master/demo/tip1.png" target="_blank" rel="noopener"><img src="https://github.com/luhaoaimama1/SingletonTest/raw/master/demo/tip1.png" alt="img"></a></p>
+<p><a href="https://github.com/luhaoaimama1/SingletonTest/raw/master/demo/tip2.png" target="_blank" rel="noopener"><img src="https://github.com/luhaoaimama1/SingletonTest/raw/master/demo/tip2.png" alt="img"></a></p>
+<p><a href="https://github.com/luhaoaimama1/SingletonTest/raw/master/demo/tip3.png" target="_blank" rel="noopener"><img src="https://github.com/luhaoaimama1/SingletonTest/raw/master/demo/tip3.png" alt="img"></a></p>
+<h1 id="BorePlugin"><a href="#BorePlugin" class="headerlink" title="BorePlugin"></a><a href="https://github.com/boredream/BorePlugin" target="_blank" rel="noopener">BorePlugin</a></h1><p>Android Studio 自动生成布局代码插件</p>
+<p><a href="https://github.com/boredream/BorePlugin/raw/master/screenshot/LayoutCreator.gif" target="_blank" rel="noopener"><img src="https://github.com/boredream/BorePlugin/raw/master/screenshot/LayoutCreator.gif" alt="img"></a></p>
+<p>代码生成规则</p>
+<p>a.自动遍历目标布局中所有带 id 的文件, 无 id 的不会识别处理<br>b.控件生成的变量名默认为 id 名称, 可以在弹出确认框右侧的名称输入栏中自行修改<br>c.所有的 Button 或者带 clickable=true 的控件, 都会自动在代码中生成 setOnClickListener 相关代码<br>d.所有 EditText 控件, 都会在代码中生成非空判断代码, 如果为空会提示 EditText 的 hint 内容, 如果 hint 为空则提示 xxx 字符串不能为空字样, 最后会把所有输入框的验证合并到一个 submit 方法中<br>e.会自动识别布局中的 include 标签, 并读取对应布局中的控件</p>
+<h1 id="jimu-Mirror"><a href="#jimu-Mirror" class="headerlink" title="jimu Mirror"></a><a href="http://www.jimumirror.com/mirror-downloads/" target="_blank" rel="noopener">jimu Mirror</a></h1><p>能够实时预览 Android 布局，它会监听布局文件的改动，如果有代码变化，就会立即刷新UI。</p>
+<h1 id="jRebel-For-Android"><a href="#jRebel-For-Android" class="headerlink" title="jRebel For Android"></a><a href="http://zeroturnaround.com/software/jrebel-for-android/" target="_blank" rel="noopener">jRebel For Android</a></h1><p>不仅能够做到 UI 布局的实时预览，它甚至做到了让你更改 java 代码后就能实时替换 apk 中的类文件，达到应用实时刷新，官网的介绍是：Skip build, install and run，因此它可以节约我们很多很多的时间，它的效果也十分不错。</p>
+<p><a href="http://zeroturnaround.com/wp-content/uploads/2015/04/Android_Card1_2x.png" target="_blank" rel="noopener"><img src="http://zeroturnaround.com/wp-content/uploads/2015/04/Android_Card1_2x.png" alt="img"></a></p>
+<p><a href="http://zeroturnaround.com/wp-content/uploads/2015/04/Android_Card2_2x.png" target="_blank" rel="noopener"><img src="http://zeroturnaround.com/wp-content/uploads/2015/04/Android_Card2_2x.png" alt="img"></a></p>
+<p><a href="http://zeroturnaround.com/wp-content/uploads/2015/04/Android_Card3_2x.png" target="_blank" rel="noopener"><img src="http://zeroturnaround.com/wp-content/uploads/2015/04/Android_Card3_2x.png" alt="img"></a></p>
+<h1 id="sdk-manager-plugin"><a href="#sdk-manager-plugin" class="headerlink" title="sdk-manager-plugin"></a><a href="https://github.com/JakeWharton/sdk-manager-plugin" target="_blank" rel="noopener">sdk-manager-plugin</a></h1><p>SDK 管理插件，自动检测更新并下载。(图片与插件无关哈)</p>
+<p><a href="https://camo.githubusercontent.com/95469d65798f62a50a9fcabe21e2cc303a1b859c/687474703a2f2f692e696d6775722e636f6d2f384a734a587a6e2e6a7067" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/95469d65798f62a50a9fcabe21e2cc303a1b859c/687474703a2f2f692e696d6775722e636f6d2f384a734a587a6e2e6a7067" alt="img"></a></p>
+<h1 id="Codota"><a href="#Codota" class="headerlink" title="Codota"></a><a href="http://www.codota.com/" target="_blank" rel="noopener">Codota</a></h1><p>搜索最好的 Android 代码。(Studio 里面直接可以搜到此插件)</p>
+<h1 id="LayoutFormatter"><a href="#LayoutFormatter" class="headerlink" title="LayoutFormatter"></a><a href="https://github.com/drakeet/LayoutFormatter" target="_blank" rel="noopener">LayoutFormatter</a></h1><p>drakeet 开发一个一键格式化你的 XML 文件的 Android Studio 插件，至于为什么不用 Android Studio 自带的格式化功能而用这个插件，可以看下作者的一篇 Blog -&gt; <a href="https://drakeet.me/layoutformatter" target="_blank" rel="noopener">当我们谈 XML 布局文件代码的优雅性</a></p>
+<p><a href="http://ww1.sinaimg.cn/large/86e2ff85gw1f383wa95tej21ge0m5ai0.jpg" target="_blank" rel="noopener"><img src="http://ww1.sinaimg.cn/large/86e2ff85gw1f383wa95tej21ge0m5ai0.jpg" alt="img"></a></p>
+<h1 id="android-strings-search-plugin"><a href="#android-strings-search-plugin" class="headerlink" title="android-strings-search-plugin"></a><a href="https://github.com/konifar/android-strings-search-plugin" target="_blank" rel="noopener">android-strings-search-plugin</a></h1><p>一个可以通过输入文字找到 strings.xml 资源的插件</p>
+<p><a href="https://github.com/konifar/android-strings-search-plugin/raw/master/art/demo.gif" target="_blank" rel="noopener"><img src="https://github.com/konifar/android-strings-search-plugin/raw/master/art/demo.gif" alt="img"></a></p>
+<h1 id="ideaVim"><a href="#ideaVim" class="headerlink" title="ideaVim"></a><a href="http://plugins.jetbrains.com/plugin/164?pr=androidstudio" target="_blank" rel="noopener">ideaVim</a></h1><p>vim 本身就是一款很优秀的文本编辑器，而 Android Studio 更是一款编写 APP 应用的神器。如果两个款优秀的软件结合在一起感觉会怎样呢？<br>详细请看文章:<a href="http://www.jianshu.com/p/43862126b88f" target="_blank" rel="noopener">Android Studio ＋Vim</a></p>
+<p><a href="http://upload-images.jianshu.io/upload_images/1825722-8b55d9654777599e.gif?imageMogr2/auto-orient/strip" target="_blank" rel="noopener"><img src="http://upload-images.jianshu.io/upload_images/1825722-8b55d9654777599e.gif?imageMogr2/auto-orient/strip" alt="img"></a></p>
+<h1 id="eventbus3-intellij-plugin"><a href="#eventbus3-intellij-plugin" class="headerlink" title="eventbus3-intellij-plugin"></a><a href="https://github.com/likfe/eventbus3-intellij-plugin/blob/master/README-zh.md" target="_blank" rel="noopener">eventbus3-intellij-plugin</a></h1><p>引导 EventBus 的 post 和 event (对于最新版的 EventBus 3.0.0 有效)<br>主要 Bug 修复工作：<br>修改包名和方法名以适应 EventBus 3.X<br>替换一个在新版的 intellij plugin SDK 已经不存在的类<br>增加若干 try-catch ，防止插件崩溃</p>
+<p><a href="https://raw.githubusercontent.com/likfe/eventbus3-intellij-plugin/master/art/cap.gif" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/likfe/eventbus3-intellij-plugin/master/art/cap.gif" alt="img"></a></p>
+<h1 id="Exynap"><a href="#Exynap" class="headerlink" title="Exynap"></a><a href="http://exynap.com/" target="_blank" rel="noopener">Exynap</a></h1><p>Exynap 一个帮助开发者自动生成样板代码的 AndroidStudio 插件</p>
+<p><a href="http://exynap.com/images/anim01.gif" target="_blank" rel="noopener"><img src="http://exynap.com/images/anim01.gif" alt="img"></a></p>
+<h1 id="gradle-cleaner-intellij-plugin"><a href="#gradle-cleaner-intellij-plugin" class="headerlink" title="gradle-cleaner-intellij-plugin"></a><a href="https://github.com/Softwee/gradle-cleaner-intellij-plugin" target="_blank" rel="noopener">gradle-cleaner-intellij-plugin</a></h1><p>Force clear delaying &amp; no longer needed Gradle tasks.</p>
+<p><a href="https://camo.githubusercontent.com/cb48bca7f8bd0b513f350f7320c74054d1b9fbce/687474703a2f2f6936352e74696e797069632e636f6d2f726a687863382e706e67" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/cb48bca7f8bd0b513f350f7320c74054d1b9fbce/687474703a2f2f6936352e74696e797069632e636f6d2f726a687863382e706e67" alt="img"></a></p>
+<h1 id="MVPHelper"><a href="#MVPHelper" class="headerlink" title="MVPHelper"></a><a href="http://androidwing.net/index.php/27" target="_blank" rel="noopener">MVPHelper</a></h1><p>一款 Intellj IDEA 和 Android Studio 的插件，可以为 MVP 生成接口以及实现类，解放双手。<br>具体请查 <a href="http://androidwing.net/index.php/27" target="_blank" rel="noopener">Android Studio 插件之 MVPHelper，一键生成 MVP 代码</a>一文</p>
+<p><a href="https://github.com/githubwing/MVPHelper/raw/master/img/mvp_presenter.gif" target="_blank" rel="noopener"><img src="https://github.com/githubwing/MVPHelper/raw/master/img/mvp_presenter.gif" alt="img"></a></p>
+<h1 id="Matchmaker"><a href="#Matchmaker" class="headerlink" title="Matchmaker"></a><a href="https://github.com/lypeer/Matchmaker" target="_blank" rel="noopener">Matchmaker</a></h1><p>这是一款专为微信小程序开发的插件，目前可在 IntelliJ IDEA 中使用。它可以帮你完成重复机械无趣麻烦的绑定方法的过程，自动的将需要新建的方法注入到 js 文件中去。</p>
+<p><a href="https://raw.githubusercontent.com/lypeer/Matchmaker/master/gif/plugin.gif" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/lypeer/Matchmaker/master/gif/plugin.gif" alt="img"></a></p>
+<h1 id="Emoji-Support-Plugin"><a href="#Emoji-Support-Plugin" class="headerlink" title="Emoji Support Plugin"></a><a href="https://plugins.jetbrains.com/plugin/9174" target="_blank" rel="noopener">Emoji Support Plugin</a></h1><p>让 Intellij 支持 Emoji 输入提醒</p>
+<p><a href="https://github.com/shiraji/emoji/raw/master/website/images/commit.gif" target="_blank" rel="noopener"><img src="https://github.com/shiraji/emoji/raw/master/website/images/commit.gif" alt="img"></a></p>
+<h1 id="Open-Uploader"><a href="#Open-Uploader" class="headerlink" title="Open-Uploader"></a><a href="https://github.com/fingerart/Open-Uploader" target="_blank" rel="noopener">Open-Uploader</a></h1><p>上传 apk 文件到指定的地址，提供自定义参数</p>
+<p><img src="https://camo.githubusercontent.com/aa9d4468da25629928fc71256834a81fdaf2bebc/687474703a2f2f66696e6765726172742e71696e6975646e2e636f6d2f323031362d31302d31322d6f70656e5f75706c6f616465725f707265766965772e676966" alt=""></p>
+<h1 id="MultiTypeTemplates"><a href="#MultiTypeTemplates" class="headerlink" title="MultiTypeTemplates"></a><a href="https://github.com/drakeet/MultiTypeTemplates" target="_blank" rel="noopener">MultiTypeTemplates</a></h1><p>生成 MultiType 和 itemviewprovider (关于 MultiType 请查看<a href="http://gank.io/post/5823bcf6421aa90e799ec2ad" target="_blank" rel="noopener">Android 复杂的列表视图新写法 MultiType</a>)</p>
+<p><a href="https://camo.githubusercontent.com/d43ec0344dcce348e663ba57303fa6a26e4d1bf2/687474703a2f2f7777342e73696e61696d672e636e2f6c617267652f3836653266663835677731663933356c306b77696c6a32316b77307433616b6d2e6a7067" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/d43ec0344dcce348e663ba57303fa6a26e4d1bf2/687474703a2f2f7777342e73696e61696d672e636e2f6c617267652f3836653266663835677731663933356c306b77696c6a32316b77307433616b6d2e6a7067" alt="img"></a></p>
+<p><a href="https://camo.githubusercontent.com/1eb2599f0689134d0bfc728b0ae38a4ead4010d3/687474703a2f2f7777342e73696e61696d672e636e2f6c617267652f38366532666638356777316638796a3073656a64366a323133343062656e31732e6a7067" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/1eb2599f0689134d0bfc728b0ae38a4ead4010d3/687474703a2f2f7777342e73696e61696d672e636e2f6c617267652f38366532666638356777316638796a3073656a64366a323133343062656e31732e6a7067" alt="img"></a></p>
+<h1 id="Android-ButterKnife-Plugin-Plus"><a href="#Android-ButterKnife-Plugin-Plus" class="headerlink" title="Android-ButterKnife-Plugin-Plus"></a><a href="https://github.com/OriginalLove/Android-ButterKnife-Plugin-Plus" target="_blank" rel="noopener">Android-ButterKnife-Plugin-Plus</a></h1><p>Android Studio 的插件，方便快速实现 ButterKnife 注解框架，包含了android-butterknife-zelezny 1.6版本的所有功能，并在此基础上新增如下功能：</p>
+<p>1.可以自由选择是否在当前类中对 ButterKnife 进行初始化，避免了原版本只要使用插件初始化控件会自动在 onCreate 中进行 ButterKnife.bind(this) 的尴尬。</p>
+<p><a href="https://github.com/OriginalLove/Android-ButterKnife-Plugin-Plus/raw/master/img/1.png" target="_blank" rel="noopener"><img src="https://github.com/OriginalLove/Android-ButterKnife-Plugin-Plus/raw/master/img/1.png" alt="img"></a></p>
+<p>这样就可以在基类中进行 ButterKnife 的初始化，不必要每个类中都要初始化，对开发框架的搭建更加方便。</p>
+<p>2.在 Android Studio 的设置界面，对在当前类中是否强制初始化提供了默认值设置，这样就可以让插件使用更符合自己的操作习惯。</p>
+<p><a href="https://github.com/OriginalLove/Android-ButterKnife-Plugin-Plus/raw/master/img/2.png" target="_blank" rel="noopener"><img src="https://github.com/OriginalLove/Android-ButterKnife-Plugin-Plus/raw/master/img/2.png" alt="img"></a></p>
+<h1 id="ApkMultiChannelPlugin"><a href="#ApkMultiChannelPlugin" class="headerlink" title="ApkMultiChannelPlugin"></a><a href="https://github.com/nukc/ApkMultiChannelPlugin" target="_blank" rel="noopener">ApkMultiChannelPlugin</a></h1><p>这是一个为了方便 Android 多渠道打包的 Android Studio / IDEA 插件</p>
+<p><strong>使用方式:</strong></p>
+<ol>
+<li><p>选择 apk</p>
+<p>选择一个 apk 然后右键，点击 Build MultiChannel<br><a href="https://raw.githubusercontent.com/nukc/ApkMultiChannelPlugin/master/art/choose-apk.png" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/nukc/ApkMultiChannelPlugin/master/art/choose-apk.png" alt="img"></a></p>
+</li>
+<li><p>配置</p>
+<p>配置签名信息，打包方式和渠道等<br><a href="https://raw.githubusercontent.com/nukc/ApkMultiChannelPlugin/master/art/setting.png" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/nukc/ApkMultiChannelPlugin/master/art/setting.png" alt="img"></a></p>
+<p>配置说明：</p>
+<p>Key Store Path: 签名文件的路径</p>
+<p>Key Store Password: 签名文件的密码</p>
+<p>Key Alias: 密钥别名</p>
+<p>Key Password: 密钥密码</p>
+<p>Zipalign Path: zipalign 文件的路径（用于优化 apk；zipalign 可以确保所有未压缩的数据均是以相对于文件开始部分的特定字节对齐开始，这样可减少应用消耗的 RAM 量。）</p>
+<p>Signer Version: 选择签名版本：apksigner 和 jarsigner</p>
+<p>Build Type: 打包方式</p>
+<p>Channels: 渠道列表，每行一个，最前面可加 &gt; 或不加（保存信息的时候，程序会自行加上）</p>
+</li>
+<li><p>开始打包</p>
+<p>配置完成之后按 OK 就会开始进行渠道打包，文件会输出在选中的apk的当前目录下的 channels 目录中<br><a href="https://raw.githubusercontent.com/nukc/ApkMultiChannelPlugin/master/art/output.png" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/nukc/ApkMultiChannelPlugin/master/art/output.png" alt="img"></a></p>
+</li>
+</ol>
+<h1 id="CodeMaker"><a href="#CodeMaker" class="headerlink" title="CodeMaker"></a><a href="https://github.com/x-hansong/CodeMaker" target="_blank" rel="noopener">CodeMaker</a></h1><p>一个 IDEA 的代码生成插件，通过 Velocity 支持自定义代码模板来生成代码。详细介绍 <a href="http://blog.xiaohansong.com/2017/02/03/codemaker/?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io" target="_blank" rel="noopener">IDEA 代码生成插件 CodeMaker</a></p>
+<p><a href="http://7xjtfr.com1.z0.glb.clouddn.com/codemaker.gif" target="_blank" rel="noopener"><img src="http://7xjtfr.com1.z0.glb.clouddn.com/codemaker.gif" alt="img"></a></p>
+<h1 id="adb-idea"><a href="#adb-idea" class="headerlink" title="adb-idea"></a><a href="https://github.com/pbreault/adb-idea" target="_blank" rel="noopener">adb-idea</a></h1><p>可以一键清理缓存并重启 APP</p>
+<p><a href="https://github.com/pbreault/adb-idea/raw/master/website/find_actions.png" target="_blank" rel="noopener"><img src="https://github.com/pbreault/adb-idea/raw/master/website/find_actions.png" alt="img"></a></p>
+<p>此插件来自zhoutianling@ltbl.cn 的分享，感谢 <a href="https://ydmmocoo.github.io/2016/06/28/Android-Studio%E6%8F%92%E4%BB%B6%E6%95%B4%E7%90%86/" target="_blank" rel="noopener">zhoutianling@ltbl.cn</a> 的分享</p>
+<h1 id="JVM-Debugger-Memory-View"><a href="#JVM-Debugger-Memory-View" class="headerlink" title="JVM Debugger Memory View"></a><a href="https://blog.jetbrains.com/idea/2016/08/jvm-debugger-memory-view-for-intellij-idea/" target="_blank" rel="noopener">JVM Debugger Memory View</a></h1><p>Android Studio 和 IDEA 中一个很有用的内存调试插件</p>
+<p>详细可参考<a href="https://zhuanlan.zhihu.com/p/25110433" target="_blank" rel="noopener">说一说 Android Studio 和 IDEA 中一个很有用的内存调试插件</a>一文。</p>
+<p><img src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2016/08/memory_analyzer_2.png" alt=""></p>
+<p><img src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2016/08/memory_analyzer_1.png" alt=""></p>
+<h1 id="TinyPic"><a href="#TinyPic" class="headerlink" title="TinyPic"></a><a href="https://github.com/shenjiajun53/TinyPic" target="_blank" rel="noopener">TinyPic</a></h1><p>功能：压缩图片资源，一次最多压缩 500 张 压缩的核心功能是 TinyPng 这个网站提供的</p>
+<p><a href="https://tinypng.com/" target="_blank" rel="noopener">https://tinypng.com/</a></p>
+<p>但是这个网站一次只能上传 20 张图片，所以你需要上传下载，上传下载重复工作。 好在这个网站提供了api 可以压缩图片。</p>
+<p>在开发者页面下申请 api key。对于一个 key，每月有 500 次的免费压缩额度，如果压缩超过了 500 张图片，就不能使用了。需要另外付费。但是申请这个 api 特别简单，填下邮箱，用户名就行，多申请 两个邮箱。1000 张图片也妥妥够了。 这里推荐 google 个十分钟邮箱，不需要注册，只能使用十分钟，用来收一下验证码很方便。</p>
+<p><strong>使用方式：</strong><br>1.在 File-&gt;Settings-&gt;Plugins 里下载插件 TinyPic</p>
+<p>2.安装完后重启，在 Tools 目录下找到 TinyPic</p>
+<p><a href="https://github.com/shenjiajun53/TinyPic/raw/master/screenshots/location.png" target="_blank" rel="noopener"><img src="https://github.com/shenjiajun53/TinyPic/raw/master/screenshots/location.png" alt="img"></a></p>
+<p>3.输入在 <a href="https://tinypng.com/developers" target="_blank" rel="noopener">https://tinypng.com/developers</a> 申请的 api key</p>
+<p><a href="https://github.com/shenjiajun53/TinyPic/raw/master/screenshots/input_key.png" target="_blank" rel="noopener"><img src="https://github.com/shenjiajun53/TinyPic/raw/master/screenshots/input_key.png" alt="img"></a></p>
+<p>4.选择图片，可以选择图片，或者选择文件夹或者同时选中，反正是遍历文件夹下的图片，筛选 jpg 和 png ，key 的剩余次数</p>
+<p><a href="https://github.com/shenjiajun53/TinyPic/raw/master/screenshots/select_images.png" target="_blank" rel="noopener"><img src="https://github.com/shenjiajun53/TinyPic/raw/master/screenshots/select_images.png" alt="img"></a></p>
+<p>5.压缩进度<br><a href="https://github.com/shenjiajun53/TinyPic/raw/master/screenshots/progress.png" target="_blank" rel="noopener"><img src="https://github.com/shenjiajun53/TinyPic/raw/master/screenshots/progress.png" alt="img"></a></p>
+<p>6.超过 500 次的提示（后续会考虑加入 生成压缩的信息的文件，因为大家都用 git，其实也不是很必要）</p>
+<p><a href="https://github.com/shenjiajun53/TinyPic/raw/master/screenshots/warning.png" target="_blank" rel="noopener"><img src="https://github.com/shenjiajun53/TinyPic/raw/master/screenshots/warning.png" alt="img"></a></p>
+<h1 id="ReciteWords"><a href="#ReciteWords" class="headerlink" title="ReciteWords"></a><a href="https://github.com/BolexLiu/ReciteWords" target="_blank" rel="noopener">ReciteWords</a></h1><p>这是一个 Android Studio 翻译与陌生单词记录插件</p>
+<p><a href="https://github.com/BolexLiu/ReciteWords/raw/master/img/1.png" target="_blank" rel="noopener"><img src="https://github.com/BolexLiu/ReciteWords/raw/master/img/1.png" alt="img"></a></p>
+<p>你所翻译的单词会被记录在你当前用户目录下的 ReciteWords.md 文件中（如:C:\Users\Bolex\ReciteWords.md）。可以通过 Markdown 编辑器打开它进行学习。效果如下:<br><a href="https://github.com/BolexLiu/ReciteWords/raw/master/img/2.png" target="_blank" rel="noopener"><img src="https://github.com/BolexLiu/ReciteWords/raw/master/img/2.png" alt="img"></a></p>
+<h1 id="TemplateBuilder"><a href="#TemplateBuilder" class="headerlink" title="TemplateBuilder"></a><a href="https://puke3615.github.io/2017/03/06/TemplateBuilder[Chinese]/" target="_blank" rel="noopener">TemplateBuilder</a></h1><p>TemplateBuilder 是一款能够帮助我们快速生成 Android Studio Template 的 AS 插件，将通过逐个文件去配置模板的方式改进为通过插件来实现，对于简单的模板制作，只需要一键即可生成。</p>
+<p><img src="https://puke3615.github.io/2017/03/06/TemplateBuilder[Chinese]/img2.gif" alt=""></p>
+<p>具体使用请参考<a href="https://puke3615.github.io/2017/03/06/TemplateBuilder[Chinese]/" target="_blank" rel="noopener">TemplateBuilder(中文版)(TemplateBuilder)</a></p>
+<h1 id="intellij-java2smali"><a href="#intellij-java2smali" class="headerlink" title="intellij-java2smali"></a><a href="https://github.com/ollide/intellij-java2smali" target="_blank" rel="noopener">intellij-java2smali</a></h1><p>将 Java &amp; Kotlin 编译成 smali</p>
+<p><a href="https://github.com/ollide/intellij-java2smali/raw/master/img/plugin_usage2.gif" target="_blank" rel="noopener"><img src="https://github.com/ollide/intellij-java2smali/raw/master/img/plugin_usage2.gif" alt="img"></a></p>
+<h1 id="innerbuilder"><a href="#innerbuilder" class="headerlink" title="innerbuilder"></a><a href="https://github.com/analytically/innerbuilder" target="_blank" rel="noopener">innerbuilder</a></h1><p>InnerBuilder 一款 Intellj IDEA 和 Android Studio 自动生成内部类 Builder 代码的插件。</p>
+<p><a href="https://github.com/analytically/innerbuilder/raw/master/screenshot.png" target="_blank" rel="noopener"><img src="https://github.com/analytically/innerbuilder/raw/master/screenshot.png" alt="img"></a></p>
+<h1 id="Statistic"><a href="#Statistic" class="headerlink" title="Statistic"></a><a href="https://plugins.jetbrains.com/plugin/4509-statistic" target="_blank" rel="noopener">Statistic</a></h1><p>统计代码行数</p>
+<p><a href="https://plugins.jetbrains.com/files/4509/screenshot_16675.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/4509/screenshot_16675.png" alt="img"></a></p>
+<p>使用可参考:<a href="http://blog.csdn.net/dreamlivemeng/article/details/67637789" target="_blank" rel="noopener">Android studio 插件 Statistic 的使用</a></p>
+<h1 id="create-intent-inspection"><a href="#create-intent-inspection" class="headerlink" title="create-intent-inspection"></a><a href="https://github.com/shiraji/create-intent-inspection" target="_blank" rel="noopener">create-intent-inspection</a></h1><p>创建 intent</p>
+<p><a href="https://github.com/shiraji/create-intent-inspection/raw/master/website/images/create_intent_inspection_screen_shot.gif" target="_blank" rel="noopener"><img src="https://github.com/shiraji/create-intent-inspection/raw/master/website/images/create_intent_inspection_screen_shot.gif" alt="img"></a></p>
+<h1 id="color-manager"><a href="#color-manager" class="headerlink" title="color-manager"></a><a href="https://github.com/shiraji/color-manager" target="_blank" rel="noopener">color-manager</a></h1><p>颜色管理</p>
+<p><a href="https://github.com/shiraji/color-manager/raw/master/website/images/normal.png" target="_blank" rel="noopener"><img src="https://github.com/shiraji/color-manager/raw/master/website/images/normal.png" alt="img"></a></p>
+<h1 id="new-instance-inspection"><a href="#new-instance-inspection" class="headerlink" title="new-instance-inspection"></a><a href="https://github.com/shiraji/new-instance-inspection" target="_blank" rel="noopener">new-instance-inspection</a></h1><p>创建 Fragment 实例</p>
+<p><a href="https://github.com/shiraji/new-instance-inspection/raw/master/website/images/new_instance_inspection_screenshot.gif" target="_blank" rel="noopener"><img src="https://github.com/shiraji/new-instance-inspection/raw/master/website/images/new_instance_inspection_screenshot.gif" alt="img"></a></p>
+<h1 id="Exynap-1"><a href="#Exynap-1" class="headerlink" title="Exynap"></a><a href="http://exynap.com/" target="_blank" rel="noopener">Exynap</a></h1><p>Exynap 是一个可以帮助你查找并实现您需要的代码的插件</p>
+<p><a href="http://upload-images.jianshu.io/upload_images/1621204-98d39b22737a8728.gif?imageMogr2/auto-orient/strip" target="_blank" rel="noopener"><img src="http://upload-images.jianshu.io/upload_images/1621204-98d39b22737a8728.gif?imageMogr2/auto-orient/strip" alt="img"></a></p>
+<h1 id="databinding-support"><a href="#databinding-support" class="headerlink" title="databinding-support"></a><a href="https://github.com/shiraji/databinding-support" target="_blank" rel="noopener">databinding-support</a></h1><p>一个可以快速实现 databinding 的插件</p>
+<p><a href="https://raw.githubusercontent.com/shiraji/databinding-support/master/websites/images/wrap.gif" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/shiraji/databinding-support/master/websites/images/wrap.gif" alt="img"></a></p>
+<h1 id="pomodoro-tm"><a href="#pomodoro-tm" class="headerlink" title="pomodoro-tm"></a><a href="https://github.com/dkandalov/pomodoro-tm" target="_blank" rel="noopener">pomodoro-tm</a></h1><p>番茄工作法的 Android Studio / IDEA 插件</p>
+<p><a href="https://raw.githubusercontent.com/dkandalov/pomodoro-tm/master/widget.png" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/dkandalov/pomodoro-tm/master/widget.png" alt="img"></a></p>
+<h1 id="freeline"><a href="#freeline" class="headerlink" title="freeline"></a><a href="https://github.com/alibaba/freeline" target="_blank" rel="noopener">freeline</a></h1><p>Freeline 是 Android 平台上的秒级编译方案，Instant Run 的替代品</p>
+<p><a href="https://camo.githubusercontent.com/8c2cd6b22e85207884dc843cb9a0b758e636953c/687474703a2f2f7777342e73696e61696d672e636e2f6c617267652f3635653466316536677731663832656b6e616575646a3230746b30316f6d78652e6a7067" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/8c2cd6b22e85207884dc843cb9a0b758e636953c/687474703a2f2f7777342e73696e61696d672e636e2f6c617267652f3635653466316536677731663832656b6e616575646a3230746b30316f6d78652e6a7067" alt="img"></a></p>
+<h1 id="svgtoandroid"><a href="#svgtoandroid" class="headerlink" title="svgtoandroid"></a><a href="https://github.com/misakuo/svgtoandroid" target="_blank" rel="noopener">svgtoandroid</a></h1><p>Intellij Platform 插件，通过其可以完成从 svg 文件到 Android VectorDrawable 的自动化转换</p>
+<p><a href="https://raw.githubusercontent.com/misakuo/svgtoandroid/master/imgs/1.png" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/misakuo/svgtoandroid/master/imgs/1.png" alt="img"></a></p>
+<h1 id="instapk-studio-plugin"><a href="#instapk-studio-plugin" class="headerlink" title="instapk-studio-plugin"></a><a href="https://github.com/PytenLabs/instapk-studio-plugin" target="_blank" rel="noopener">instapk-studio-plugin</a></h1><p>分享 apk 文件</p>
+<p><a href="https://github.com/PytenLabs/instapk-studio-plugin/raw/master/images/install.gif" target="_blank" rel="noopener"><img src="https://github.com/PytenLabs/instapk-studio-plugin/raw/master/images/install.gif" alt="img"></a></p>
+<h1 id="here-be-dragons"><a href="#here-be-dragons" class="headerlink" title="here-be-dragons"></a><a href="https://github.com/anupcowkur/here-be-dragons" target="_blank" rel="noopener">here-be-dragons</a></h1><p>加上@SideEffect 注解的方法,在调用的地方会出现一只鸟</p>
+<p><a href="https://github.com/anupcowkur/here-be-dragons/raw/master/here-be-dragons.gif" target="_blank" rel="noopener"><img src="https://github.com/anupcowkur/here-be-dragons/raw/master/here-be-dragons.gif" alt="img"></a></p>
+<h1 id="android-studio-proteus-plugin"><a href="#android-studio-proteus-plugin" class="headerlink" title="android-studio-proteus-plugin"></a><a href="https://github.com/flipkart-incubator/android-studio-proteus-plugin" target="_blank" rel="noopener">android-studio-proteus-plugin</a></h1><p>将 xml 转化为 json</p>
+<h1 id="最后：推荐梯子：-Github上的star数13000"><a href="#最后：推荐梯子：-Github上的star数13000" class="headerlink" title="*最后：推荐梯子：(Github上的star数13000+)"></a>*最后：推荐梯子：(Github上的star数13000+)</h1><p><a href="https://github.com/XX-net/XX-Net" target="_blank" rel="noopener">XX-Net</a><br>具体使用请参考里面文档已经写得很清楚了，按照文档一步步操作即可。关键是免费的！免费的！免费的！速度也快！</p>
+<p><strong><em>感谢此篇博客的作者，原创不易，请尊重他人的劳动成果。转载出处：<a href="https://ydmmocoo.github.io/2016/06/28/Android-Studio%E6%8F%92%E4%BB%B6%E6%95%B4%E7%90%86/" target="_blank" rel="noopener">Android Studio 插件整理</a></em></strong></p>
+<hr>
+<p>morninggeng</p>
+<p>05/08/2017</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 工具 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Android </tag>
+            
+            <tag> Android Studio </tag>
+            
+            <tag> 插件 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android 服务探索]]></title>
+      <url>/2018/03/20/Android-Service/</url>
+      <content type="html"><![CDATA[<p>服务简介</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Android </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Android </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[深入浅出 Android 广播机制]]></title>
+      <url>/2018/03/20/Android-BroadcastReceiver/</url>
+      <content type="html"><![CDATA[<h2 id="广播机制简介"><a href="#广播机制简介" class="headerlink" title="广播机制简介"></a>广播机制简介</h2><blockquote>
+<p>今天是一年一度的1024程序员节，好长时间没更博了，这里写一篇介绍 Android 广播机制。</p>
+<p>Android 提供了一套完整的 API，允许应用程序自由的发送和接收广播，发送广播的方法需要借助 Intent，接收广播则需要使用广播接收者(BroadcastReceiver)。</p>
+<p>Android 中的广播主要分为两种类型：标准广播和有序广播。</p>
+<ul>
+<li>标准广播：是一种完全异步执行的广播，广播发送之后，所有广播接收器几乎同时接收到这条广播，接收广播没有先后顺序。这种广播效率比较高，无法被截断。</li>
+<li>有序广播：是一种同步执行的广播，广播发送之后，只有一个广播接收器会接收到广播，当这个接收器的逻辑处理完毕之后，才会继续向下传播。广播接收器是有先后顺序的，优先级搞得接收器会先收到广播，前面的广播可以截断正在传递的广播。</li>
+</ul>
+<p>广播接收器可以自由的对自己感兴趣的广播进行注册，当有广播发出时，接收器就会收到该广播。</p>
+<p>广播接收器张不允许开启线程，对用于打开程序其他组件，或启动服务。</p>
+</blockquote>
+<h2 id="注册方法"><a href="#注册方法" class="headerlink" title="注册方法"></a>注册方法</h2><h3 id="动态注册"><a href="#动态注册" class="headerlink" title="动态注册"></a>动态注册</h3><blockquote>
+<p>动态注册：在代码中注册。</p>
+<p>优点：动态注册的广播接收器，可以自由的控制注册与注销。</p>
+<p>缺点：必须在程序执行之后才能接收到广播。</p>
+<p>动态注册的广播需要在合适的时机解注册。采用 unregistReceiver 方法。</p>
+</blockquote>
+<p>例：监听系统网络发生变化</p>
+<ul>
+<li>自定义广播接收器 MyBroadcastReceiver 继承 BroadcastReceiver，重写 onReceive ()方法。</li>
+<li>在 onReceive ()方法中添加网络变化监听代码。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 获取网络连接管理器</span><br><span class="line">ConnectivityManager connManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_CHANGE);</span><br><span class="line">// 获取网络状态信息</span><br><span class="line">NetWorkInfo netWorkInfo = connManager.getActiveNetworkInfo();</span><br><span class="line">// 判断网络连接状态，并给出相应提示</span><br><span class="line">if(netWorkInfo != null &amp;&amp; netWorkInfo.isAvailable())&#123;</span><br><span class="line">	Toast.makeText(context, &quot;当前网络已连接&quot;, Toast.LENGTH_SHORT).show();</span><br><span class="line">&#125;else &#123;</span><br><span class="line">	Toast.makeText(context, &quot;当前网络已断开&quot;, Toast.LENGTH_SHORT).show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 MianActivity 的 onCreate ()方法中动态注册广播。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 获取意图过滤器</span><br><span class="line">IntentFilter intentFilter = new IntentFilter();</span><br><span class="line">// 添加监听网络变化动作</span><br><span class="line">intentFilter.addAction(&quot;android.net.conn.CONCTIVITY_CHANGE&quot;);</span><br><span class="line">// 获取自定义广播接收器</span><br><span class="line">MyBroadcastReceiver myReceiver = new MyBroadcastReceiver();</span><br><span class="line">// 注册广播接收器</span><br><span class="line">registerReceiver(receiver, intentFilter);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 MianActivity 的 onDestory ()方法中取消注册。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 取消注册接收器</span><br><span class="line">unregisterReceiver(receiver);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 AndroidManifast 中声明自定义的广播接收器。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;receiver android:name=&quot;.MyBroadcastReceiver&quot;&gt;&lt;/receiver&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="静态注册"><a href="#静态注册" class="headerlink" title="静态注册"></a>静态注册</h3><blockquote>
+<p>静态注册：在 AndroidManifest (清单文件)中注册。</p>
+<p>静态注册的广播，在应用安装时由系统自动注册，具体是由 PMS(PackgeManagerService)来完成整个注册过程的。其它三大组件也都是在应用安装时由 PMS 解析注册的。</p>
+</blockquote>
+<p>例：开机自启动</p>
+<ul>
+<li>创建自定义广播 BootCompleteReceiver，在 onReceive() 方法中添加提示信息。</li>
+<li>在 AndroidManifest 清单文件中注册广播，并添加系统启动完成发出的广播。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;receiver android:name=&quot;.BootCompeleteReceiver&quot;</span><br><span class="line">		  android:enable=&quot;true&quot;</span><br><span class="line">		  android:expurte+&quot;true&quot;&gt;</span><br><span class="line">	&lt;intent-filter&gt; </span><br><span class="line">		&lt;action android:name=&quot;android.inent.action.BOOT_COMPLETED&quot;/&gt;</span><br><span class="line">	&lt;/intent-filter&gt;</span><br><span class="line">&lt;/receiver&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>添加相应权限信息。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=&quot;android.permission.RECEIVE_BOOT_COMPLETED&quot;/&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="发送自定义广播"><a href="#发送自定义广播" class="headerlink" title="发送自定义广播"></a>发送自定义广播</h2><blockquote>
+<p>发送全局广播存在安全隐患，发出去的广播可以被其他任何程序接收到，同样也能接受其他程序发送的广播。如果发送携带数据的广播，容易被其他程序所截获。</p>
+</blockquote>
+<h3 id="发送标准广播"><a href="#发送标准广播" class="headerlink" title="发送标准广播"></a>发送标准广播</h3><ul>
+<li>创建广播接收器，填写逻辑信息。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public void onReceive(Context context, Intent intent) &#123;</span><br><span class="line">		// TODO Auto-generated method stub</span><br><span class="line">		// onReceive 方法不能添加耗时操作，参考值：10s以内</span><br><span class="line">		Toast.makeText(context, &quot;接收到广播&quot;, Toast.LENGTH_SHORT).show();</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 AndroidManifest 文件中注册该广播接收器，并在intentfilter标签中添加自定义意图。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;receiver android:name=&quot;.MyBroadcastReceiver&quot;</span><br><span class="line">		  android:enable=&quot;true&quot;</span><br><span class="line">		  android:expurte+&quot;true&quot;&gt;</span><br><span class="line">	&lt;intent-filter&gt; </span><br><span class="line">		&lt;action android:name=&quot;com.mybroadcast.MY_RECEIVER&quot;/&gt;</span><br><span class="line">	&lt;/intent-filter&gt;</span><br><span class="line">&lt;/receiver&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 MainActivity 中发送广播。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent(&quot;com.mybroadcast.MY_RECEIVER&quot;);</span><br><span class="line">// 发送标准广播</span><br><span class="line">sendBroadcast(intent);</span><br></pre></td></tr></table></figure>
+<h3 id="发送有序广播"><a href="#发送有序广播" class="headerlink" title="发送有序广播"></a>发送有序广播</h3><ul>
+<li>创建广播接收器，填写逻辑信息。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public void onReceive(Context context, Intent intent) &#123;</span><br><span class="line">		// TODO Auto-generated method stub</span><br><span class="line">		// onReceive 方法不能添加耗时操作，参考值：10s以内 </span><br><span class="line">		Toast.makeText(context, &quot;接收到广播&quot;, Toast.LENGTH_SHORT).show();</span><br><span class="line">		// 拦截广播，不继续向下传播</span><br><span class="line">		abortBroadcast();</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 AndroidManifest 文件中注册该广播接收器，并在intentfilter标签中添加自定义意图。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;receiver android:name=&quot;.MyBroadcastReceiver&quot;</span><br><span class="line">		  android:enable=&quot;true&quot;</span><br><span class="line">		  android:expurte+&quot;true&quot;&gt;</span><br><span class="line">	&lt;intent-filter android:priority=&quot;100&quot;&gt; &lt;--给广播设定优先级--&gt;</span><br><span class="line">		&lt;action android:name=&quot;com.mybroadcast.MY_RECEIVER&quot;/&gt;</span><br><span class="line">	&lt;/intent-filter&gt;</span><br><span class="line">&lt;/receiver&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 MainActivity 中发送广播。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent(&quot;com.mybroadcast.MY_RECEIVER&quot;);</span><br><span class="line">// 发送有序广播</span><br><span class="line">sendOrderedBroadcast(intent,null);</span><br></pre></td></tr></table></figure>
+<h2 id="发送本地广播"><a href="#发送本地广播" class="headerlink" title="发送本地广播"></a>发送本地广播</h2><blockquote>
+<p>为了解决广播的安全性问题，Android 提供了一套本地广播机制。使用这套机制发送的广播，只能在应用内部传播，并且也只能接受应用内部发出的广播。</p>
+<p>本地广播无法采用静态方式注册，静态方式注册适用于程序不启动的情况下发送，而本地广播发送时程序已经启动，因此完全不需要使用静态注册功能。</p>
+</blockquote>
+<p>本地广播主要使用 LocalBroadcastManager 进行管理。具体使用步骤如下：</p>
+<ul>
+<li>创建本地广播管理器：LocalBroadcastManager localBroadcast = new LocalBroadcastManager();</li>
+<li>发送本地广播：localBroadcast .sendBroadcast(intent);</li>
+<li>注册本地广播监听器：localBroadcast .registerReceive(broadcastReceiver , intentFilter);</li>
+<li>取消注册本地广播监听器：localBroadcast .unregisterReceive(broadcastReceiver);</li>
+</ul>
+]]></content>
+      
+        <categories>
+            
+            <category> Android </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Android </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[［转］Android 全套动画使用技巧]]></title>
+      <url>/2018/03/20/Android-Animation/</url>
+      <content type="html"><![CDATA[<h1 id="Android-View-动画框架"><a href="#Android-View-动画框架" class="headerlink" title="Android View 动画框架"></a>Android View 动画框架</h1><blockquote>
+<p>Animation框架定义了透明度、旋转、缩放和位移几种常见的动画，控制的整个View，实现原理是每次绘制视图时View所在ViewGroup中的drawChild函数获取该View的Animation的Transformation值，然后调用canvas.concat(transformToApply.getMatrix())，通过矩阵运算完成动画帧。如果没有完成就继续调用invalidate()函数，启动下次绘制来驱动动画，从而完成整个动画的绘制。</p>
+<p>视图动画使用简单，效果丰富，它提供了AlphaAnimation、RotateAnimation、TranslateAnimation、ScaleAnimation四种动画方式，并提供动画集合AnimationSet，混合使用多种动画。在Android3.0之前，视图动画一家独大，但随着Android3.0之后属性动画框架的推出，它的风光就大不如从前。相比属性动画，视图动画的一个非常大的缺陷就是不具备交互性，当某个元素发生视图动画后，其响应事件的位置还依然在动画前的地方，所以视图动画只能做普通的动画效果，避免交互的发生。但是它的优点也非常明显，即效率比较高且使用方便。</p>
+<p>视图动画使用非常简单，不仅可以通过XML文件来描述一个动画过程，同样也可以使用代码来控制整个动画过程。</p>
+</blockquote>
+<h2 id="透明度动画"><a href="#透明度动画" class="headerlink" title="透明度动画"></a>透明度动画</h2><p>为视图增加透明度的变换动画。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AlphaAnimation aa = new AlphaAnimation(0, 1);</span><br><span class="line">aa.setDuration(1000);</span><br><span class="line">view.startAnimation(aa);</span><br></pre></td></tr></table></figure>
+<h2 id="旋转动画"><a href="#旋转动画" class="headerlink" title="旋转动画"></a>旋转动画</h2><p>为视图增加旋转的变换动画。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RotateAnimation ra = new RotateAnimation(0, 360, 100, 100);</span><br><span class="line">ra.setDuration(1000);</span><br><span class="line">view.startAnimation(ra);</span><br></pre></td></tr></table></figure>
+<p>其参数分别为旋转的起始角度和旋转中心点的坐标，当然，可以通过设置参数来控制旋转动画的参考系，这里设置旋转动画的参考系为中心。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RotateAnimation ra1 = new RotateAnimation(0, 360, RotateAnimation.RELATIVE_TO_SELF, 0.5F, RotateAnimation.RELATIVE_TO_SELF, 0.5F);</span><br></pre></td></tr></table></figure>
+<h2 id="位移动画"><a href="#位移动画" class="headerlink" title="位移动画"></a>位移动画</h2><p>为视图移动时增加位移动画。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TranslateAnimation ta = new TranslateAnimation(0, 200, 0, 300);</span><br><span class="line">ta.setDuration(1000);</span><br><span class="line">view.startAnimation(ta);</span><br></pre></td></tr></table></figure>
+<h2 id="缩放动画"><a href="#缩放动画" class="headerlink" title="缩放动画"></a>缩放动画</h2><p>为视图的缩放增加动画效果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ScaleAnimation sa = new ScaleAnimation(0, 2, 0, 2);</span><br><span class="line">sa.setDuration(1000);</span><br><span class="line">view.startAnimation(sa);</span><br></pre></td></tr></table></figure>
+<p>与旋转动画一样，缩放动画也可以设置罗芳的中心点，设置中心为自身中心效果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ScaleAnimation sa1 = new ScaleAnimation(0, 1, 0, 1, Animation.RELATIVE_TO_SELF, 0.5F, Animation.RELATIVE_TO_SELF, 0.5F);</span><br><span class="line">sa1.setDuration(1000);</span><br><span class="line">view.startAnimation(sa1);</span><br></pre></td></tr></table></figure>
+<h2 id="动画集合"><a href="#动画集合" class="headerlink" title="动画集合"></a>动画集合</h2><p>通过AnimationSet，可以将动画以组合的形式展现出来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">AnimationSet as = new AnimationSet(true);</span><br><span class="line">as.setDuration(1000);</span><br><span class="line"></span><br><span class="line">AlphaAnimation aa = new AlphaAnimation(0, 1);</span><br><span class="line">aa.setDuration(1000);</span><br><span class="line">as.addAnimation(aa);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">RotateAnimation ra = new RotateAnimation(0, 360, 100, 100);</span><br><span class="line">ra.setDuration(1000);</span><br><span class="line">as.addAnimation(ra);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">TranslateAnimation ta = new TranslateAnimation(0, 200, 0, 300);</span><br><span class="line">ta.setDuration(1000);</span><br><span class="line">as.addAnimation(ta);</span><br><span class="line"></span><br><span class="line">ScaleAnimation sa = new ScaleAnimation(0, 2, 0, 2);</span><br><span class="line">sa.setDuration(1000);</span><br><span class="line">as.addAnimation(sa);</span><br><span class="line"></span><br><span class="line">view.startAnimation(as);</span><br></pre></td></tr></table></figure>
+<p>可以直接拷贝运行代码看效果！</p>
+<p>对于动画事件，Android也提供了对应的监听回调，代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">as.setAnimationListener(new Animation.AnimationListener() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationStart(Animation animation) &#123;</span><br><span class="line">        //动画开始</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationEnd(Animation animation) &#123;</span><br><span class="line">        //动画结束</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationRepeat(Animation animation) &#123;</span><br><span class="line">        //动画重复</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h1 id="属性动画"><a href="#属性动画" class="headerlink" title="属性动画"></a>属性动画</h1><blockquote>
+<p>由于Android3.0之前已有的动画框架Animation存在一些局限性——动画改变的只是显示，并不能响应事件。因此在Android3.0之后，Google就提出了属性动画这样一个新的动画框架，实现更丰富的效果。</p>
+<p>而在Animator框架中使用最多的就是AnimatorSet和ObjectAnimator配合，使用ObjectAnimator进行更精细化控制，只控制一个对象的一个属性值，而使用多个ObjectAnimator组合到AnimatorSet形成一个动画。而且ObjectAnimator能够自动驱动，可以调用setFrameDelay(long frameDelay)设置动画帧之间的间隙时间。最重要的是，属性动画通过调用属性的get、set方法来真实地控制了一个View的属性值，因此强大的属性动画框架，基本可以实现所有的动画效果。</p>
+</blockquote>
+<h2 id="ObjectAnimator"><a href="#ObjectAnimator" class="headerlink" title="ObjectAnimator"></a>ObjectAnimator</h2><p>ObjectAnimator是属性动画框架中最重要的实行类，创建一个ObjectAnimator只需要通过他的静态工厂类直接返回一个ObjectAnimator对象。参数包括一个对象和对象的属性名字，但这个属性也必须有get和set函数，内部会通过Java反射机制来调用set函数修改对象属性值。同样，你也可以调用setInterpolator设置相应的差值器。</p>
+<p>接下来试想一下对一个Button添加一个平移动画，使用以前的动画框架平移后将不能触发点击事件，点击的有效区域仍然是原来的地方，点击移动后的地方是不会有点击事件发生的。而属性动画则不同，它真实地改变了一个View的属性，所以事件响应的区域也同样发生了改变，这时候点击移动后的按钮，就会响应点击事件了。</p>
+<p>属性动画平移代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator animator = ObjectAnimator.ofFloat(</span><br><span class="line">        imageView,</span><br><span class="line">        &quot;translationX&quot;,</span><br><span class="line">        200F);</span><br><span class="line">animator.setDuration(300);</span><br><span class="line">animator.start();</span><br></pre></td></tr></table></figure>
+<p>在使用ObjectAnimator的时候，有一点非常重要，那就是要操纵的属性必须具有get、set方法，不然ObjectAnimator就无法生效。下面是常用的属性：</p>
+<ul>
+<li>translationX和translationY：这两个属性作为一种增量控制着View对象从它布局容器左上角坐标开始的位置。</li>
+<li>rotation、rotationX和rotationY：这个三个属性控制View对象围绕支点进行2D和3D旋转。</li>
+<li>scaleX和scaleY：这两个属性控制着View对象围绕他的支点进行2D缩放。</li>
+<li>pivotX和pivotY：这两个属性控制着View对象的支点位置，围绕这个支点进行旋转和缩放变换处理。默认情况下，该支点的位置就是View对象的中心点。</li>
+<li>x和y：这两个简单实用的属性，描述了View对象在它的容器中的最终位置，它是最初的左上角坐标和translationX、translationY值的累积和。</li>
+<li>alpha：表示View对象的alpha透明度。默认值是1（不透明），0代表完全透明（不可见）。</li>
+</ul>
+<p>根据以上得知视图动画所实现的动画效果，这里基本都已经包含了。</p>
+<p>那么如果一个属性没有get、set方法，属性动画是不是就束手无策了呢？答案是否定的，Google在应用层提供了两种方案来解决这个问题，一个是通过自定义一个属性类或者包装类，来间接地给这个属性增加get、set方法；或者通过ValueAnimator来实现，ValueAnimator在后面的内容中讲到，这个先看看使用包装类的方法给一个属性增加get、set方法，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">private static class WrapperView &#123;</span><br><span class="line">    private View mTarget;</span><br><span class="line"></span><br><span class="line">    public WrapperView(View mTarget) &#123;</span><br><span class="line">        this.mTarget = mTarget;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int getWidth() &#123;</span><br><span class="line">        return mTarget.getLayoutParams().width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setWidth(int width) &#123;</span><br><span class="line">        mTarget.getLayoutParams().width = width;</span><br><span class="line">        mTarget.requestLayout();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过以上代码，就跟一个属性包装了一层，并给它提供了get、set方法。使用时只需要操纵包装类就可以间接调用到get、set方法了，代码如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WrapperView wrapperView = new WrapperView(view);</span><br><span class="line">ObjectAnimator.ofInt(wrapperView, &quot;width&quot;, 500).setDuration(5000).start();</span><br></pre></td></tr></table></figure>
+<h2 id="PropertyValuesHolder"><a href="#PropertyValuesHolder" class="headerlink" title="PropertyValuesHolder"></a>PropertyValuesHolder</h2><p>类似视图动画中的AnimationSet，在属性动画中，如果针对同一个对象的多个属性，要同时作用多种动画，可以使用PropertyValuesHolder来实现。比如平移动画，如果在平移的过程中同时改变X、Y轴的缩放，可以这样实现，代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PropertyValuesHolder pvh1 = PropertyValuesHolder.ofFloat(&quot;translationX&quot;, 300);</span><br><span class="line">PropertyValuesHolder pvh2 = PropertyValuesHolder.ofFloat(&quot;scaleX&quot;, 1f, 0, 1f);</span><br><span class="line">PropertyValuesHolder pvh3 = PropertyValuesHolder.ofFloat(&quot;scaleY&quot;, 1f, 0, 1f);</span><br><span class="line">ObjectAnimator.ofPropertyValuesHolder(pvh1, pvh2, pvh3).setDuration(1000).start();</span><br></pre></td></tr></table></figure>
+<p>在代码中，分别使用PropertyValuesHolder 对象控制translationX、scaleX、scaleY这三个属性，最屌调用ObjectAnimator.ofPropertyValuesHolder方法实现多属性动画的共同作用，整个实现方法非常类似AnimatorSet使用。</p>
+<h2 id="ValueAnimator"><a href="#ValueAnimator" class="headerlink" title="ValueAnimator"></a>ValueAnimator</h2><p>ValueAnimator在属性动画中占用非常重要的地位，虽然不ObjectAnimator那样耀眼，但它却是属性动画的核心所在，ObjectAnimator也是继承自ValueAnimator。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public final class ObjectAnimator extends ValueAnimator</span><br></pre></td></tr></table></figure>
+<p>ValueAnimator本身不提供任何动画效果，它更像一个数值发生器，用来产生具有一定规律的数字，从而让调用者来控制动画的实现过程，ValueAnimator的一般使用方法：通常在ValueAnimator的AnimatorUpdateListener中监听数值的变换，完成动画的变换。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 100);</span><br><span class="line">valueAnimator.setTarget(imageView);</span><br><span class="line">valueAnimator.setDuration(1000).start();</span><br><span class="line">valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">        Float value = (Float) animation.getAnimatedValue();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="动画事件的监听"><a href="#动画事件的监听" class="headerlink" title="动画事件的监听"></a>动画事件的监听</h2><p>一个完整的动画具有Start、Repeat、End、Cancel四个过程，通过Android提供了接口，很方便地监听到这四个事件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator anim = ObjectAnimator.ofFloat(imageView, &quot;alpha&quot;, 0.5F);</span><br><span class="line">anim.addListener(new Animator.AnimatorListener() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationStart(Animator animation) &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationEnd(Animator animation) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationCancel(Animator animation) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationRepeat(Animator animation) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">anim.start();</span><br></pre></td></tr></table></figure>
+<p>大部分的时候只关心onAnimationEnd事件，所以Android也提供了一个AnimatorListenerAdapter来让我们选择必要的事件进行监听：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">anim.addListener(new AnimatorListenerAdapter() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationEnd(Animator animation) &#123;</span><br><span class="line">        super.onAnimationEnd(animation);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="AnimatorSet"><a href="#AnimatorSet" class="headerlink" title="AnimatorSet"></a>AnimatorSet</h2><p>对于一个属性同时作用多个属性动画效果，前面已经使用PropertyValuesHolder实现了这样的效果。而AnimatorSet不仅能实现这样的效果，同时也能实现更为精确的顺序控制。同样是实现上面使用PropertyValuesHolder演示的那个动画效果，如果使用AnimatorSet来实现，那么代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(imageView, &quot;translationX&quot;, 300f);</span><br><span class="line">ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(imageView, &quot;scaleX&quot;, 1f, 0f, 1f);</span><br><span class="line">ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(imageView, &quot;scaleY&quot;, 1f, 0f, 1f);</span><br><span class="line">AnimatorSet animatorSet = new AnimatorSet();</span><br><span class="line">animatorSet.setDuration(1000);</span><br><span class="line">animatorSet.playTogether(objectAnimator, objectAnimator1, objectAnimator2);</span><br><span class="line">animatorSet.start();</span><br></pre></td></tr></table></figure>
+<p>在属性动画中，AnimatorSet正是通过playTogether()、playSquentially()、animSet.play().width()、defore()、after()这些方法来控制多个动画的协同工作方式，从而做到对动画播放顺序的精确控制。</p>
+<h2 id="在-XML-中使用属性动画"><a href="#在-XML-中使用属性动画" class="headerlink" title="在 XML 中使用属性动画"></a>在 XML 中使用属性动画</h2><p>属性动画同视图动画一样，也可以直接写在XML文件中，代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;objectAnimator xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:duration=&quot;1000&quot;</span><br><span class="line">    android:propertyName=&quot;scaleX&quot;</span><br><span class="line">    android:valueFrom=&quot;1.0&quot;</span><br><span class="line">    android:valueTo=&quot;2.0&quot;</span><br><span class="line">    android:valueType=&quot;floatType&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;/objectAnimator&gt;</span><br></pre></td></tr></table></figure>
+<p>前提使用XML定义属性动画XML文件一定要放在res/animator/filename.xml文件夹下面才能识别，否则不能识别。发现属性动画与视图动画在XML文件中的写法很相似。在程序中使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Animator anim = AnimatorInflater.loadAnimator(this,R.animator.filename);</span><br><span class="line">anim.setTarget(view);</span><br><span class="line">anim.start();</span><br></pre></td></tr></table></figure>
+<h2 id="View的animate方法"><a href="#View的animate方法" class="headerlink" title="View的animate方法"></a>View的animate方法</h2><p>在Android3.0之后，Google给View增加了animate方法来直接驱动属性动画，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">imageView.animate()</span><br><span class="line">        .alpha(0)</span><br><span class="line">        .y(300)</span><br><span class="line">        .setDuration(300)</span><br><span class="line">        .withStartAction(new Runnable() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        .withEndAction(new Runnable() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                runOnUiThread(new Runnable() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void run() &#123;</span><br><span class="line">                        </span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br></pre></td></tr></table></figure>
+<h1 id="Android布局动画"><a href="#Android布局动画" class="headerlink" title="Android布局动画"></a>Android布局动画</h1><p>布局动画是指作用在ViewGroup上，给ViewGroup增加View时添加一个动画过渡效果。最简单的布局动画是在ViewGroup的XML中，使用如下代码打开布局动画：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:animateLayoutChanges=&quot;true&quot;</span><br></pre></td></tr></table></figure>
+<p>通过以上设置，当ViewGroup添加到View时，子View会呈现逐渐显示的过渡效果，不过这个效果是Android默认的显示的过渡效果，无法使用自定义动画来替换这个效果。</p>
+<p>还可以通过使用LayoutAnimatorController类自定义一个子View的过渡效果，添加一个视图动画，使得子View出现的时候有一个缩放的动画效果，代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">LinearLayout ll = (LinearLayout) findViewById(R.id.ll);</span><br><span class="line">ScaleAnimation sa = new ScaleAnimation(0, 1, 0, 1);</span><br><span class="line">sa.setDuration(2000);</span><br><span class="line">//设置布局动画的显示</span><br><span class="line">LayoutAnimationController lac = new LayoutAnimationController(sa, 0.5f);</span><br><span class="line">//设置布局动画</span><br><span class="line">ll.setLayoutAnimation(lac);</span><br></pre></td></tr></table></figure>
+<p>LayoutAnimationController 的第一个参数，是需要作用的动画，而第二个参数，则是每个子View显示的delay时间。当delay时间不为0时，可以设置子View显示的顺序。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//顺序</span><br><span class="line">public static final int ORDER_NORMAL  = 0;</span><br><span class="line"></span><br><span class="line">//随机</span><br><span class="line">public static final int ORDER_REVERSE = 1;</span><br><span class="line"></span><br><span class="line">//反序</span><br><span class="line">public static final int ORDER_RANDOM  = 2;</span><br></pre></td></tr></table></figure>
+<h1 id="Interpolators——插值器"><a href="#Interpolators——插值器" class="headerlink" title="Interpolators——插值器"></a>Interpolators——插值器</h1><p>插值器是动画一个非常重要的概念，通过插值器Interpolators，可以定义动画变换速率，这一点非常类似物理中的加速度，起作用主要是控制目标变量的变化值进行对应的变化。</p>
+<ul>
+<li>AccelerateDecelerateInterpolator 在动画开始与介绍的地方速率改变比较慢，在中间的时候加速</li>
+<li>AccelerateInterpolator 在动画开始的地方速率改变比较慢，然后开始加速</li>
+<li>AnticipateInterpolator 开始的时候向后然后向前甩</li>
+<li>AnticipateOvershootInterpolator 开始的时候向后然后向前甩一定值后返回最后的值</li>
+<li>BounceInterpolator 动画结束的时候弹起</li>
+<li>CycleInterpolator 动画循环播放特定的次数，速率改变沿着正弦曲线</li>
+<li>DecelerateInterpolator 在动画开始的地方快然后慢</li>
+<li>LinearInterpolator 以常量速率改变</li>
+<li>OvershootInterpolator 向前甩一定值后再回到原来位置</li>
+<li>PathInterpolator 路径插值器</li>
+</ul>
+<p>未完，待续。。。</p>
+<h1 id="开源代码库"><a href="#开源代码库" class="headerlink" title="开源代码库"></a>开源代码库</h1><p>最后再分享一个自己积攒很久的代码库，只有你想不到，没有用不到的，欢迎star</p>
+<p><a href="https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2Fxijiufu" target="_blank" rel="noopener">https://github.com/xijiufu</a></p>
+<p>由于github服务器在美国，有时访问很慢，还提供了开源中国地址库，2个仓库代码均同步更新：</p>
+<p><a href="https://link.juejin.im/?target=http%3A%2F%2Fgit.oschina.net%2Fxijiufu" target="_blank" rel="noopener">http://git.oschina.net/xijiufu</a></p>
+<p><strong><em>感谢此篇博客的作者，原创不易，请尊重他人的劳动成果。转载出处：<a href="https://my.oschina.net/u/2011321/blog/885293" target="_blank" rel="noopener">https://my.oschina.net/u/2011321/blog/885293</a></em></strong></p>
+<hr>
+<p>morninggeng</p>
+<p>04/29/2017</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Android </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Android </tag>
+            
+            <tag> 动画 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+  
+  
+</search>

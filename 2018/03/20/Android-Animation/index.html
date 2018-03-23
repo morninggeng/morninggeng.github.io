@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.3.3 -->
+
+    <!-- Title -->
+    
+    <title>
+        
+            ［转］Android 全套动画使用技巧 | 
+        
+        morninggeng
+    </title>
+
+    <!-- Meta & Info -->
+    <meta charset="utf-8">
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    
+    
+    
+        <link rel="dns-prefetch" href="https://changyan.sohu.com"/>
+    
+    
+    
+    
+
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="morninggeng">
+    <meta name="description" content="你和你羡慕的人之间也许只差了一个「坚持」">
+    <meta name="keywords" content="null,Android,动画">
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/androidmorninggeng.png">
+    <link rel="icon" sizes="192x192" href="/img/androidmorninggeng.png">
+    <link rel="apple-touch-icon" href="/img/androidmorninggeng.png">
+
+    <!--iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="morninggeng">
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://morninggeng.cn">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="［转］Android 全套动画使用技巧 | morninggeng">
+    <meta property="og:description" content="你和你羡慕的人之间也许只差了一个「坚持」">
+    <meta property="og:article:tag" content="Android"> <meta property="og:article:tag" content="动画"> 
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import CSS & jQuery -->
+    
+        <link rel="stylesheet" href="/css/material.min.css">
+        <link rel="stylesheet" href="/css/style.min.css">
+        <!-- Config CSS -->
+
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
+
+  a {
+    color: #29d;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #29d;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body {
+        <!--background-color: #F5F5F5;-->
+		background-image: url(https://api.i-meto.com/bing?color=white);
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text {
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/queue.js"></script>
+    
+
+    <!-- UC Browser Compatible -->
+    <script>
+        var agent = navigator.userAgent.toLowerCase();
+        if(agent.indexOf('ucbrowser')>0) {
+            document.write("<link rel=\"stylesheet\" href=\"/css/uc.css\">");
+            alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+        }
+    </script>
+
+    
+
+    
+
+
+    <!-- Bing Background -->
+    
+        <script type="text/javascript">
+            queue.offer(function(){
+                $('body').attr('data-original', 'https://api.i-meto.com/bing?color=white');
+            });
+        </script>
+    
+
+    <!-- Custom Head -->
+    
+</head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Android-View-动画框架"><span class="post-toc-number">1.</span> <span class="post-toc-text">Android View 动画框架</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#透明度动画"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">透明度动画</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#旋转动画"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">旋转动画</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#位移动画"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">位移动画</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#缩放动画"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">缩放动画</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#动画集合"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">动画集合</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#属性动画"><span class="post-toc-number">2.</span> <span class="post-toc-text">属性动画</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ObjectAnimator"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">ObjectAnimator</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#PropertyValuesHolder"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">PropertyValuesHolder</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ValueAnimator"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">ValueAnimator</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#动画事件的监听"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">动画事件的监听</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#AnimatorSet"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">AnimatorSet</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#在-XML-中使用属性动画"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">在 XML 中使用属性动画</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#View的animate方法"><span class="post-toc-number">2.7.</span> <span class="post-toc-text">View的animate方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Android布局动画"><span class="post-toc-number">3.</span> <span class="post-toc-text">Android布局动画</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Interpolators——插值器"><span class="post-toc-number">4.</span> <span class="post-toc-text">Interpolators——插值器</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#开源代码库"><span class="post-toc-number">5.</span> <span class="post-toc-text">开源代码库</span></a></li></ol>
+
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        <!-- Custom Thumbnail -->
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://ww3.sinaimg.cn/large/b1601727gw1ev82v3zlcug20mm05yb2b.gif)">
+    
+            <p class="article-headline-p">
+                ［转］Android 全套动画使用技巧
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/androidmorninggeng.png" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>morninggeng</strong>
+        <span>3月 20, 2018</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/Android/">Android</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/动画/">动画</a>
+    </ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=［转］Android 全套动画使用技巧&url=http://morninggeng.cn//2018/03/20/Android-Animation/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=［转］Android 全套动画使用技巧&url=http://morninggeng.cn//2018/03/20/Android-Animation/index.html&via=morninggeng" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://morninggeng.cn//2018/03/20/Android-Animation/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://morninggeng.cn//2018/03/20/Android-Animation/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <h1 id="Android-View-动画框架"><a href="#Android-View-动画框架" class="headerlink" title="Android View 动画框架"></a>Android View 动画框架</h1><blockquote>
+<p>Animation框架定义了透明度、旋转、缩放和位移几种常见的动画，控制的整个View，实现原理是每次绘制视图时View所在ViewGroup中的drawChild函数获取该View的Animation的Transformation值，然后调用canvas.concat(transformToApply.getMatrix())，通过矩阵运算完成动画帧。如果没有完成就继续调用invalidate()函数，启动下次绘制来驱动动画，从而完成整个动画的绘制。</p>
+<p>视图动画使用简单，效果丰富，它提供了AlphaAnimation、RotateAnimation、TranslateAnimation、ScaleAnimation四种动画方式，并提供动画集合AnimationSet，混合使用多种动画。在Android3.0之前，视图动画一家独大，但随着Android3.0之后属性动画框架的推出，它的风光就大不如从前。相比属性动画，视图动画的一个非常大的缺陷就是不具备交互性，当某个元素发生视图动画后，其响应事件的位置还依然在动画前的地方，所以视图动画只能做普通的动画效果，避免交互的发生。但是它的优点也非常明显，即效率比较高且使用方便。</p>
+<p>视图动画使用非常简单，不仅可以通过XML文件来描述一个动画过程，同样也可以使用代码来控制整个动画过程。</p>
+</blockquote>
+<h2 id="透明度动画"><a href="#透明度动画" class="headerlink" title="透明度动画"></a>透明度动画</h2><p>为视图增加透明度的变换动画。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AlphaAnimation aa = new AlphaAnimation(0, 1);</span><br><span class="line">aa.setDuration(1000);</span><br><span class="line">view.startAnimation(aa);</span><br></pre></td></tr></table></figure>
+<h2 id="旋转动画"><a href="#旋转动画" class="headerlink" title="旋转动画"></a>旋转动画</h2><p>为视图增加旋转的变换动画。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RotateAnimation ra = new RotateAnimation(0, 360, 100, 100);</span><br><span class="line">ra.setDuration(1000);</span><br><span class="line">view.startAnimation(ra);</span><br></pre></td></tr></table></figure>
+<p>其参数分别为旋转的起始角度和旋转中心点的坐标，当然，可以通过设置参数来控制旋转动画的参考系，这里设置旋转动画的参考系为中心。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RotateAnimation ra1 = new RotateAnimation(0, 360, RotateAnimation.RELATIVE_TO_SELF, 0.5F, RotateAnimation.RELATIVE_TO_SELF, 0.5F);</span><br></pre></td></tr></table></figure>
+<h2 id="位移动画"><a href="#位移动画" class="headerlink" title="位移动画"></a>位移动画</h2><p>为视图移动时增加位移动画。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TranslateAnimation ta = new TranslateAnimation(0, 200, 0, 300);</span><br><span class="line">ta.setDuration(1000);</span><br><span class="line">view.startAnimation(ta);</span><br></pre></td></tr></table></figure>
+<h2 id="缩放动画"><a href="#缩放动画" class="headerlink" title="缩放动画"></a>缩放动画</h2><p>为视图的缩放增加动画效果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ScaleAnimation sa = new ScaleAnimation(0, 2, 0, 2);</span><br><span class="line">sa.setDuration(1000);</span><br><span class="line">view.startAnimation(sa);</span><br></pre></td></tr></table></figure>
+<p>与旋转动画一样，缩放动画也可以设置罗芳的中心点，设置中心为自身中心效果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ScaleAnimation sa1 = new ScaleAnimation(0, 1, 0, 1, Animation.RELATIVE_TO_SELF, 0.5F, Animation.RELATIVE_TO_SELF, 0.5F);</span><br><span class="line">sa1.setDuration(1000);</span><br><span class="line">view.startAnimation(sa1);</span><br></pre></td></tr></table></figure>
+<h2 id="动画集合"><a href="#动画集合" class="headerlink" title="动画集合"></a>动画集合</h2><p>通过AnimationSet，可以将动画以组合的形式展现出来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">AnimationSet as = new AnimationSet(true);</span><br><span class="line">as.setDuration(1000);</span><br><span class="line"></span><br><span class="line">AlphaAnimation aa = new AlphaAnimation(0, 1);</span><br><span class="line">aa.setDuration(1000);</span><br><span class="line">as.addAnimation(aa);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">RotateAnimation ra = new RotateAnimation(0, 360, 100, 100);</span><br><span class="line">ra.setDuration(1000);</span><br><span class="line">as.addAnimation(ra);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">TranslateAnimation ta = new TranslateAnimation(0, 200, 0, 300);</span><br><span class="line">ta.setDuration(1000);</span><br><span class="line">as.addAnimation(ta);</span><br><span class="line"></span><br><span class="line">ScaleAnimation sa = new ScaleAnimation(0, 2, 0, 2);</span><br><span class="line">sa.setDuration(1000);</span><br><span class="line">as.addAnimation(sa);</span><br><span class="line"></span><br><span class="line">view.startAnimation(as);</span><br></pre></td></tr></table></figure>
+<p>可以直接拷贝运行代码看效果！</p>
+<p>对于动画事件，Android也提供了对应的监听回调，代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">as.setAnimationListener(new Animation.AnimationListener() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationStart(Animation animation) &#123;</span><br><span class="line">        //动画开始</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationEnd(Animation animation) &#123;</span><br><span class="line">        //动画结束</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationRepeat(Animation animation) &#123;</span><br><span class="line">        //动画重复</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h1 id="属性动画"><a href="#属性动画" class="headerlink" title="属性动画"></a>属性动画</h1><blockquote>
+<p>由于Android3.0之前已有的动画框架Animation存在一些局限性——动画改变的只是显示，并不能响应事件。因此在Android3.0之后，Google就提出了属性动画这样一个新的动画框架，实现更丰富的效果。</p>
+<p>而在Animator框架中使用最多的就是AnimatorSet和ObjectAnimator配合，使用ObjectAnimator进行更精细化控制，只控制一个对象的一个属性值，而使用多个ObjectAnimator组合到AnimatorSet形成一个动画。而且ObjectAnimator能够自动驱动，可以调用setFrameDelay(long frameDelay)设置动画帧之间的间隙时间。最重要的是，属性动画通过调用属性的get、set方法来真实地控制了一个View的属性值，因此强大的属性动画框架，基本可以实现所有的动画效果。</p>
+</blockquote>
+<h2 id="ObjectAnimator"><a href="#ObjectAnimator" class="headerlink" title="ObjectAnimator"></a>ObjectAnimator</h2><p>ObjectAnimator是属性动画框架中最重要的实行类，创建一个ObjectAnimator只需要通过他的静态工厂类直接返回一个ObjectAnimator对象。参数包括一个对象和对象的属性名字，但这个属性也必须有get和set函数，内部会通过Java反射机制来调用set函数修改对象属性值。同样，你也可以调用setInterpolator设置相应的差值器。</p>
+<p>接下来试想一下对一个Button添加一个平移动画，使用以前的动画框架平移后将不能触发点击事件，点击的有效区域仍然是原来的地方，点击移动后的地方是不会有点击事件发生的。而属性动画则不同，它真实地改变了一个View的属性，所以事件响应的区域也同样发生了改变，这时候点击移动后的按钮，就会响应点击事件了。</p>
+<p>属性动画平移代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator animator = ObjectAnimator.ofFloat(</span><br><span class="line">        imageView,</span><br><span class="line">        &quot;translationX&quot;,</span><br><span class="line">        200F);</span><br><span class="line">animator.setDuration(300);</span><br><span class="line">animator.start();</span><br></pre></td></tr></table></figure>
+<p>在使用ObjectAnimator的时候，有一点非常重要，那就是要操纵的属性必须具有get、set方法，不然ObjectAnimator就无法生效。下面是常用的属性：</p>
+<ul>
+<li>translationX和translationY：这两个属性作为一种增量控制着View对象从它布局容器左上角坐标开始的位置。</li>
+<li>rotation、rotationX和rotationY：这个三个属性控制View对象围绕支点进行2D和3D旋转。</li>
+<li>scaleX和scaleY：这两个属性控制着View对象围绕他的支点进行2D缩放。</li>
+<li>pivotX和pivotY：这两个属性控制着View对象的支点位置，围绕这个支点进行旋转和缩放变换处理。默认情况下，该支点的位置就是View对象的中心点。</li>
+<li>x和y：这两个简单实用的属性，描述了View对象在它的容器中的最终位置，它是最初的左上角坐标和translationX、translationY值的累积和。</li>
+<li>alpha：表示View对象的alpha透明度。默认值是1（不透明），0代表完全透明（不可见）。</li>
+</ul>
+<p>根据以上得知视图动画所实现的动画效果，这里基本都已经包含了。</p>
+<p>那么如果一个属性没有get、set方法，属性动画是不是就束手无策了呢？答案是否定的，Google在应用层提供了两种方案来解决这个问题，一个是通过自定义一个属性类或者包装类，来间接地给这个属性增加get、set方法；或者通过ValueAnimator来实现，ValueAnimator在后面的内容中讲到，这个先看看使用包装类的方法给一个属性增加get、set方法，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">private static class WrapperView &#123;</span><br><span class="line">    private View mTarget;</span><br><span class="line"></span><br><span class="line">    public WrapperView(View mTarget) &#123;</span><br><span class="line">        this.mTarget = mTarget;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int getWidth() &#123;</span><br><span class="line">        return mTarget.getLayoutParams().width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setWidth(int width) &#123;</span><br><span class="line">        mTarget.getLayoutParams().width = width;</span><br><span class="line">        mTarget.requestLayout();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过以上代码，就跟一个属性包装了一层，并给它提供了get、set方法。使用时只需要操纵包装类就可以间接调用到get、set方法了，代码如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WrapperView wrapperView = new WrapperView(view);</span><br><span class="line">ObjectAnimator.ofInt(wrapperView, &quot;width&quot;, 500).setDuration(5000).start();</span><br></pre></td></tr></table></figure>
+<h2 id="PropertyValuesHolder"><a href="#PropertyValuesHolder" class="headerlink" title="PropertyValuesHolder"></a>PropertyValuesHolder</h2><p>类似视图动画中的AnimationSet，在属性动画中，如果针对同一个对象的多个属性，要同时作用多种动画，可以使用PropertyValuesHolder来实现。比如平移动画，如果在平移的过程中同时改变X、Y轴的缩放，可以这样实现，代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PropertyValuesHolder pvh1 = PropertyValuesHolder.ofFloat(&quot;translationX&quot;, 300);</span><br><span class="line">PropertyValuesHolder pvh2 = PropertyValuesHolder.ofFloat(&quot;scaleX&quot;, 1f, 0, 1f);</span><br><span class="line">PropertyValuesHolder pvh3 = PropertyValuesHolder.ofFloat(&quot;scaleY&quot;, 1f, 0, 1f);</span><br><span class="line">ObjectAnimator.ofPropertyValuesHolder(pvh1, pvh2, pvh3).setDuration(1000).start();</span><br></pre></td></tr></table></figure>
+<p>在代码中，分别使用PropertyValuesHolder 对象控制translationX、scaleX、scaleY这三个属性，最屌调用ObjectAnimator.ofPropertyValuesHolder方法实现多属性动画的共同作用，整个实现方法非常类似AnimatorSet使用。</p>
+<h2 id="ValueAnimator"><a href="#ValueAnimator" class="headerlink" title="ValueAnimator"></a>ValueAnimator</h2><p>ValueAnimator在属性动画中占用非常重要的地位，虽然不ObjectAnimator那样耀眼，但它却是属性动画的核心所在，ObjectAnimator也是继承自ValueAnimator。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public final class ObjectAnimator extends ValueAnimator</span><br></pre></td></tr></table></figure>
+<p>ValueAnimator本身不提供任何动画效果，它更像一个数值发生器，用来产生具有一定规律的数字，从而让调用者来控制动画的实现过程，ValueAnimator的一般使用方法：通常在ValueAnimator的AnimatorUpdateListener中监听数值的变换，完成动画的变换。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 100);</span><br><span class="line">valueAnimator.setTarget(imageView);</span><br><span class="line">valueAnimator.setDuration(1000).start();</span><br><span class="line">valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">        Float value = (Float) animation.getAnimatedValue();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="动画事件的监听"><a href="#动画事件的监听" class="headerlink" title="动画事件的监听"></a>动画事件的监听</h2><p>一个完整的动画具有Start、Repeat、End、Cancel四个过程，通过Android提供了接口，很方便地监听到这四个事件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator anim = ObjectAnimator.ofFloat(imageView, &quot;alpha&quot;, 0.5F);</span><br><span class="line">anim.addListener(new Animator.AnimatorListener() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationStart(Animator animation) &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationEnd(Animator animation) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationCancel(Animator animation) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationRepeat(Animator animation) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">anim.start();</span><br></pre></td></tr></table></figure>
+<p>大部分的时候只关心onAnimationEnd事件，所以Android也提供了一个AnimatorListenerAdapter来让我们选择必要的事件进行监听：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">anim.addListener(new AnimatorListenerAdapter() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onAnimationEnd(Animator animation) &#123;</span><br><span class="line">        super.onAnimationEnd(animation);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="AnimatorSet"><a href="#AnimatorSet" class="headerlink" title="AnimatorSet"></a>AnimatorSet</h2><p>对于一个属性同时作用多个属性动画效果，前面已经使用PropertyValuesHolder实现了这样的效果。而AnimatorSet不仅能实现这样的效果，同时也能实现更为精确的顺序控制。同样是实现上面使用PropertyValuesHolder演示的那个动画效果，如果使用AnimatorSet来实现，那么代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(imageView, &quot;translationX&quot;, 300f);</span><br><span class="line">ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(imageView, &quot;scaleX&quot;, 1f, 0f, 1f);</span><br><span class="line">ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(imageView, &quot;scaleY&quot;, 1f, 0f, 1f);</span><br><span class="line">AnimatorSet animatorSet = new AnimatorSet();</span><br><span class="line">animatorSet.setDuration(1000);</span><br><span class="line">animatorSet.playTogether(objectAnimator, objectAnimator1, objectAnimator2);</span><br><span class="line">animatorSet.start();</span><br></pre></td></tr></table></figure>
+<p>在属性动画中，AnimatorSet正是通过playTogether()、playSquentially()、animSet.play().width()、defore()、after()这些方法来控制多个动画的协同工作方式，从而做到对动画播放顺序的精确控制。</p>
+<h2 id="在-XML-中使用属性动画"><a href="#在-XML-中使用属性动画" class="headerlink" title="在 XML 中使用属性动画"></a>在 XML 中使用属性动画</h2><p>属性动画同视图动画一样，也可以直接写在XML文件中，代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;objectAnimator xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:duration=&quot;1000&quot;</span><br><span class="line">    android:propertyName=&quot;scaleX&quot;</span><br><span class="line">    android:valueFrom=&quot;1.0&quot;</span><br><span class="line">    android:valueTo=&quot;2.0&quot;</span><br><span class="line">    android:valueType=&quot;floatType&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;/objectAnimator&gt;</span><br></pre></td></tr></table></figure>
+<p>前提使用XML定义属性动画XML文件一定要放在res/animator/filename.xml文件夹下面才能识别，否则不能识别。发现属性动画与视图动画在XML文件中的写法很相似。在程序中使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Animator anim = AnimatorInflater.loadAnimator(this,R.animator.filename);</span><br><span class="line">anim.setTarget(view);</span><br><span class="line">anim.start();</span><br></pre></td></tr></table></figure>
+<h2 id="View的animate方法"><a href="#View的animate方法" class="headerlink" title="View的animate方法"></a>View的animate方法</h2><p>在Android3.0之后，Google给View增加了animate方法来直接驱动属性动画，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">imageView.animate()</span><br><span class="line">        .alpha(0)</span><br><span class="line">        .y(300)</span><br><span class="line">        .setDuration(300)</span><br><span class="line">        .withStartAction(new Runnable() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        .withEndAction(new Runnable() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                runOnUiThread(new Runnable() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void run() &#123;</span><br><span class="line">                        </span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br></pre></td></tr></table></figure>
+<h1 id="Android布局动画"><a href="#Android布局动画" class="headerlink" title="Android布局动画"></a>Android布局动画</h1><p>布局动画是指作用在ViewGroup上，给ViewGroup增加View时添加一个动画过渡效果。最简单的布局动画是在ViewGroup的XML中，使用如下代码打开布局动画：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:animateLayoutChanges=&quot;true&quot;</span><br></pre></td></tr></table></figure>
+<p>通过以上设置，当ViewGroup添加到View时，子View会呈现逐渐显示的过渡效果，不过这个效果是Android默认的显示的过渡效果，无法使用自定义动画来替换这个效果。</p>
+<p>还可以通过使用LayoutAnimatorController类自定义一个子View的过渡效果，添加一个视图动画，使得子View出现的时候有一个缩放的动画效果，代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">LinearLayout ll = (LinearLayout) findViewById(R.id.ll);</span><br><span class="line">ScaleAnimation sa = new ScaleAnimation(0, 1, 0, 1);</span><br><span class="line">sa.setDuration(2000);</span><br><span class="line">//设置布局动画的显示</span><br><span class="line">LayoutAnimationController lac = new LayoutAnimationController(sa, 0.5f);</span><br><span class="line">//设置布局动画</span><br><span class="line">ll.setLayoutAnimation(lac);</span><br></pre></td></tr></table></figure>
+<p>LayoutAnimationController 的第一个参数，是需要作用的动画，而第二个参数，则是每个子View显示的delay时间。当delay时间不为0时，可以设置子View显示的顺序。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//顺序</span><br><span class="line">public static final int ORDER_NORMAL  = 0;</span><br><span class="line"></span><br><span class="line">//随机</span><br><span class="line">public static final int ORDER_REVERSE = 1;</span><br><span class="line"></span><br><span class="line">//反序</span><br><span class="line">public static final int ORDER_RANDOM  = 2;</span><br></pre></td></tr></table></figure>
+<h1 id="Interpolators——插值器"><a href="#Interpolators——插值器" class="headerlink" title="Interpolators——插值器"></a>Interpolators——插值器</h1><p>插值器是动画一个非常重要的概念，通过插值器Interpolators，可以定义动画变换速率，这一点非常类似物理中的加速度，起作用主要是控制目标变量的变化值进行对应的变化。</p>
+<ul>
+<li>AccelerateDecelerateInterpolator 在动画开始与介绍的地方速率改变比较慢，在中间的时候加速</li>
+<li>AccelerateInterpolator 在动画开始的地方速率改变比较慢，然后开始加速</li>
+<li>AnticipateInterpolator 开始的时候向后然后向前甩</li>
+<li>AnticipateOvershootInterpolator 开始的时候向后然后向前甩一定值后返回最后的值</li>
+<li>BounceInterpolator 动画结束的时候弹起</li>
+<li>CycleInterpolator 动画循环播放特定的次数，速率改变沿着正弦曲线</li>
+<li>DecelerateInterpolator 在动画开始的地方快然后慢</li>
+<li>LinearInterpolator 以常量速率改变</li>
+<li>OvershootInterpolator 向前甩一定值后再回到原来位置</li>
+<li>PathInterpolator 路径插值器</li>
+</ul>
+<p>未完，待续。。。</p>
+<h1 id="开源代码库"><a href="#开源代码库" class="headerlink" title="开源代码库"></a>开源代码库</h1><p>最后再分享一个自己积攒很久的代码库，只有你想不到，没有用不到的，欢迎star</p>
+<p><a href="https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2Fxijiufu" target="_blank" rel="noopener">https://github.com/xijiufu</a></p>
+<p>由于github服务器在美国，有时访问很慢，还提供了开源中国地址库，2个仓库代码均同步更新：</p>
+<p><a href="https://link.juejin.im/?target=http%3A%2F%2Fgit.oschina.net%2Fxijiufu" target="_blank" rel="noopener">http://git.oschina.net/xijiufu</a></p>
+<p><strong><em>感谢此篇博客的作者，原创不易，请尊重他人的劳动成果。转载出处：<a href="https://my.oschina.net/u/2011321/blog/885293" target="_blank" rel="noopener">https://my.oschina.net/u/2011321/blog/885293</a></em></strong></p>
+<hr>
+<p>morninggeng</p>
+<p>04/29/2017</p>
+
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+
+
+    <!-- 使用 changyan -->
+    <div id="changyan-comment">
+        <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid="2018/03/20/Android-Animation/"  ></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cyt3rd4GP';
+var conf = '19d9568ec935e313a737aa1c3f7e35dd';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+
+    </div>
+    <style>
+        #changyan-comment{
+            background-color: #eee;
+            padding: 2pc;
+        }
+    </style>
+
+
+
+
+
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2018/03/20/Android-BroadcastReceiver/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            旧篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/img/daily_pic.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/androidmorninggeng.png" alt="morninggeng's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        morninggeng@gmail.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="mailto: morninggeng@gmail.com" target="_blank" title="Email Me">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/" target="_self">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+    
+
+    <!-- Archives  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">inbox</i>
+                
+                    归档
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+            <li>
+                <a class="sidebar_archives-link" href="/archives/2018/03/">三月 2018<span class="sidebar_archives-count">12</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Categories  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/Android/">Android<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/categories/Python/">Python<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/工具/">工具<span class="sidebar_archives-count">5</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Pages  -->
+    
+        <li>
+            <a href="/about" title="关于">
+                
+                    <i class="material-icons sidebar-material-icons">person pin</i>
+                
+                关于
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/links" title="链接">
+                
+                    <i class="material-icons sidebar-material-icons">link</i>
+                
+                链接
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/tags" title="标签">
+                
+                    <i class="material-icons sidebar-material-icons">loyalty</i>
+                
+                标签
+            </a>
+        </li>
+        
+    
+
+    <!-- Article Number  -->
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+
+<!-- Theme Material -->
+
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+        <a href="https://twitter.com/morninggeng" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-twitter.svg);">
+                <span class="visuallyhidden">Twitter</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Facebook -->
+    
+        <a href="https://www.facebook.com/weiming.geng" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-facebook.svg);">
+                <span class="visuallyhidden">Facebook</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Google + -->
+    
+        <a href="https://www.google.com/" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-gplus.svg);">
+                <span class="visuallyhidden">Google Plus</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="http://github.com/morninggeng" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-github.svg);">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Zhihu -->
+    
+
+    <!-- Bilibili -->
+    
+
+    <!-- Telegram -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©&nbsp;
+            <script type="text/javascript">
+                var fd = new Date();
+                document.write(fd.getFullYear());
+            </script>
+            &nbsp;morninggeng
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import File -->
+
+    <script src="/js/lazyload.min.js"></script>
+    <script src="/js/js.min.js"></script>
+
+
+
+    <script src="/js/nprogress.js"></script>
+
+
+<script type="text/javascript">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+    
+        <script src="/js/smoothscroll.js"></script>
+    
+
+
+
+
+
+
+
+
+    <!-- 畅言公共 js 代码 start -->
+		<script id="cy_cmt_num" src="https://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cyt3rd4GP">
+</script>
+    <!-- 畅言公共 js 代码 end -->
+
+
+
+
+
+
+
+<!-- Window Load-->
+<script>
+    $(window).load(function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+</script>
+
+<!-- MathJax Load-->
+
+<script>
+    <!-- Offer LazyLoad -->
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    <!-- Start Queue -->
+    $(document).ready(function(){
+        setTimeout(function(){
+            setInterval(function(){
+                queue.execNext();
+            },200);
+        },3000);
+    });
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+</html>

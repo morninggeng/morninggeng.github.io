@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.3.3 -->
+
+    <!-- Title -->
+    
+    <title>
+        
+            ［转］Android Studio 插件整理 | 
+        
+        morninggeng
+    </title>
+
+    <!-- Meta & Info -->
+    <meta charset="utf-8">
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    
+    
+    
+        <link rel="dns-prefetch" href="https://changyan.sohu.com"/>
+    
+    
+    
+    
+
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="morninggeng">
+    <meta name="description" content="你和你羡慕的人之间也许只差了一个「坚持」">
+    <meta name="keywords" content="null,Android,Android Studio,插件">
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/androidmorninggeng.png">
+    <link rel="icon" sizes="192x192" href="/img/androidmorninggeng.png">
+    <link rel="apple-touch-icon" href="/img/androidmorninggeng.png">
+
+    <!--iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="morninggeng">
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://morninggeng.cn">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="［转］Android Studio 插件整理 | morninggeng">
+    <meta property="og:description" content="你和你羡慕的人之间也许只差了一个「坚持」">
+    <meta property="og:article:tag" content="Android"> <meta property="og:article:tag" content="Android Studio"> <meta property="og:article:tag" content="插件"> 
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import CSS & jQuery -->
+    
+        <link rel="stylesheet" href="/css/material.min.css">
+        <link rel="stylesheet" href="/css/style.min.css">
+        <!-- Config CSS -->
+
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
+
+  a {
+    color: #29d;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #29d;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body {
+        <!--background-color: #F5F5F5;-->
+		background-image: url(https://api.i-meto.com/bing?color=white);
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text {
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/queue.js"></script>
+    
+
+    <!-- UC Browser Compatible -->
+    <script>
+        var agent = navigator.userAgent.toLowerCase();
+        if(agent.indexOf('ucbrowser')>0) {
+            document.write("<link rel=\"stylesheet\" href=\"/css/uc.css\">");
+            alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+        }
+    </script>
+
+    
+
+    
+
+
+    <!-- Bing Background -->
+    
+        <script type="text/javascript">
+            queue.offer(function(){
+                $('body').attr('data-original', 'https://api.i-meto.com/bing?color=white');
+            });
+        </script>
+    
+
+    <!-- Custom Head -->
+    
+</head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#GsonFormat"><span class="post-toc-number">1.</span> <span class="post-toc-text">GsonFormat</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Android-ButterKnife-Zelezny"><span class="post-toc-number">2.</span> <span class="post-toc-text">Android ButterKnife Zelezny</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Android-Code-Generator"><span class="post-toc-number">3.</span> <span class="post-toc-text">Android Code Generator</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Android-Parcelable-code-generator"><span class="post-toc-number">4.</span> <span class="post-toc-text">Android Parcelable code generator</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Android-Methods-Count"><span class="post-toc-number">5.</span> <span class="post-toc-text">Android Methods Count</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Lifecycle-Sorter"><span class="post-toc-number">6.</span> <span class="post-toc-text">Lifecycle Sorter</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#CodeGlance"><span class="post-toc-number">7.</span> <span class="post-toc-text">CodeGlance</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#findBugs-IDEA"><span class="post-toc-number">8.</span> <span class="post-toc-text">findBugs-IDEA</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ADB-WIFI"><span class="post-toc-number">9.</span> <span class="post-toc-text">ADB WIFI</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#AndroidPixelDimenGenerator"><span class="post-toc-number">10.</span> <span class="post-toc-text">AndroidPixelDimenGenerator</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#JsonOnlineViewer"><span class="post-toc-number">11.</span> <span class="post-toc-text">JsonOnlineViewer</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Android-Styler"><span class="post-toc-number">12.</span> <span class="post-toc-text">Android Styler</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Android-Drawable-Importer"><span class="post-toc-number">13.</span> <span class="post-toc-text">Android Drawable Importer</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#SelectorChapek-for-Android"><span class="post-toc-number">14.</span> <span class="post-toc-text">SelectorChapek for Android</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#GenerateSerialVersionUID"><span class="post-toc-number">15.</span> <span class="post-toc-text">GenerateSerialVersionUID</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#genymotion"><span class="post-toc-number">16.</span> <span class="post-toc-text">genymotion</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#SQLScout"><span class="post-toc-number">17.</span> <span class="post-toc-text">SQLScout</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Android-Postfix-Completion"><span class="post-toc-number">18.</span> <span class="post-toc-text">Android Postfix Completion</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Android-Holo-Colors-Generator"><span class="post-toc-number">19.</span> <span class="post-toc-text">Android Holo Colors Generator</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#dagger-intellij-plugin"><span class="post-toc-number">20.</span> <span class="post-toc-text">dagger-intellij-plugin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#GradleDependenciesHelperPlugin"><span class="post-toc-number">21.</span> <span class="post-toc-text">GradleDependenciesHelperPlugin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#RemoveButterKnife"><span class="post-toc-number">22.</span> <span class="post-toc-text">RemoveButterKnife</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#AndroidProguardPlugin"><span class="post-toc-number">23.</span> <span class="post-toc-text">AndroidProguardPlugin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#otto-intellij-plugin"><span class="post-toc-number">24.</span> <span class="post-toc-text">otto-intellij-plugin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#eventbus-intellij-plugin"><span class="post-toc-number">25.</span> <span class="post-toc-text">eventbus-intellij-plugin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#idea-markdown"><span class="post-toc-number">26.</span> <span class="post-toc-text">idea-markdown</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Sexy-Editor"><span class="post-toc-number">27.</span> <span class="post-toc-text">Sexy Editor</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#folding-plugin"><span class="post-toc-number">28.</span> <span class="post-toc-text">folding-plugin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Android-DPI-Calculator"><span class="post-toc-number">29.</span> <span class="post-toc-text">Android-DPI-Calculator</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#gradle-retrolambda"><span class="post-toc-number">30.</span> <span class="post-toc-text">gradle-retrolambda</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Android-Studio-Prettify"><span class="post-toc-number">31.</span> <span class="post-toc-text">Android Studio Prettify</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Material-Theme-UI"><span class="post-toc-number">32.</span> <span class="post-toc-text">Material Theme UI</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ignore"><span class="post-toc-number">33.</span> <span class="post-toc-text">.ignore</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#CheckStyle-IDEA"><span class="post-toc-number">34.</span> <span class="post-toc-text">CheckStyle-IDEA</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Markdown-Navigator"><span class="post-toc-number">35.</span> <span class="post-toc-text">Markdown Navigator</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ECTranslation"><span class="post-toc-number">36.</span> <span class="post-toc-text">ECTranslation</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#PermissionsDispatcher-plugin"><span class="post-toc-number">37.</span> <span class="post-toc-text">PermissionsDispatcher plugin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#WakaTime"><span class="post-toc-number">38.</span> <span class="post-toc-text">WakaTime</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#AndroidWiFiADB"><span class="post-toc-number">39.</span> <span class="post-toc-text">AndroidWiFiADB</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#AndroidLocalizationer"><span class="post-toc-number">40.</span> <span class="post-toc-text">AndroidLocalizationer</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#TranslationPlugin"><span class="post-toc-number">41.</span> <span class="post-toc-text">TranslationPlugin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#SingletonTest"><span class="post-toc-number">42.</span> <span class="post-toc-text">SingletonTest</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#BorePlugin"><span class="post-toc-number">43.</span> <span class="post-toc-text">BorePlugin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#jimu-Mirror"><span class="post-toc-number">44.</span> <span class="post-toc-text">jimu Mirror</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#jRebel-For-Android"><span class="post-toc-number">45.</span> <span class="post-toc-text">jRebel For Android</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#sdk-manager-plugin"><span class="post-toc-number">46.</span> <span class="post-toc-text">sdk-manager-plugin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Codota"><span class="post-toc-number">47.</span> <span class="post-toc-text">Codota</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#LayoutFormatter"><span class="post-toc-number">48.</span> <span class="post-toc-text">LayoutFormatter</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#android-strings-search-plugin"><span class="post-toc-number">49.</span> <span class="post-toc-text">android-strings-search-plugin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ideaVim"><span class="post-toc-number">50.</span> <span class="post-toc-text">ideaVim</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#eventbus3-intellij-plugin"><span class="post-toc-number">51.</span> <span class="post-toc-text">eventbus3-intellij-plugin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Exynap"><span class="post-toc-number">52.</span> <span class="post-toc-text">Exynap</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#gradle-cleaner-intellij-plugin"><span class="post-toc-number">53.</span> <span class="post-toc-text">gradle-cleaner-intellij-plugin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#MVPHelper"><span class="post-toc-number">54.</span> <span class="post-toc-text">MVPHelper</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Matchmaker"><span class="post-toc-number">55.</span> <span class="post-toc-text">Matchmaker</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Emoji-Support-Plugin"><span class="post-toc-number">56.</span> <span class="post-toc-text">Emoji Support Plugin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Open-Uploader"><span class="post-toc-number">57.</span> <span class="post-toc-text">Open-Uploader</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#MultiTypeTemplates"><span class="post-toc-number">58.</span> <span class="post-toc-text">MultiTypeTemplates</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Android-ButterKnife-Plugin-Plus"><span class="post-toc-number">59.</span> <span class="post-toc-text">Android-ButterKnife-Plugin-Plus</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ApkMultiChannelPlugin"><span class="post-toc-number">60.</span> <span class="post-toc-text">ApkMultiChannelPlugin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#CodeMaker"><span class="post-toc-number">61.</span> <span class="post-toc-text">CodeMaker</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#adb-idea"><span class="post-toc-number">62.</span> <span class="post-toc-text">adb-idea</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#JVM-Debugger-Memory-View"><span class="post-toc-number">63.</span> <span class="post-toc-text">JVM Debugger Memory View</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#TinyPic"><span class="post-toc-number">64.</span> <span class="post-toc-text">TinyPic</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ReciteWords"><span class="post-toc-number">65.</span> <span class="post-toc-text">ReciteWords</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#TemplateBuilder"><span class="post-toc-number">66.</span> <span class="post-toc-text">TemplateBuilder</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#intellij-java2smali"><span class="post-toc-number">67.</span> <span class="post-toc-text">intellij-java2smali</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#innerbuilder"><span class="post-toc-number">68.</span> <span class="post-toc-text">innerbuilder</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Statistic"><span class="post-toc-number">69.</span> <span class="post-toc-text">Statistic</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#create-intent-inspection"><span class="post-toc-number">70.</span> <span class="post-toc-text">create-intent-inspection</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#color-manager"><span class="post-toc-number">71.</span> <span class="post-toc-text">color-manager</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#new-instance-inspection"><span class="post-toc-number">72.</span> <span class="post-toc-text">new-instance-inspection</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Exynap-1"><span class="post-toc-number">73.</span> <span class="post-toc-text">Exynap</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#databinding-support"><span class="post-toc-number">74.</span> <span class="post-toc-text">databinding-support</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#pomodoro-tm"><span class="post-toc-number">75.</span> <span class="post-toc-text">pomodoro-tm</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#freeline"><span class="post-toc-number">76.</span> <span class="post-toc-text">freeline</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#svgtoandroid"><span class="post-toc-number">77.</span> <span class="post-toc-text">svgtoandroid</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#instapk-studio-plugin"><span class="post-toc-number">78.</span> <span class="post-toc-text">instapk-studio-plugin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#here-be-dragons"><span class="post-toc-number">79.</span> <span class="post-toc-text">here-be-dragons</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#android-studio-proteus-plugin"><span class="post-toc-number">80.</span> <span class="post-toc-text">android-studio-proteus-plugin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#最后：推荐梯子：-Github上的star数13000"><span class="post-toc-number">81.</span> <span class="post-toc-text">*最后：推荐梯子：(Github上的star数13000+)</span></a></li></ol>
+
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        <!-- Custom Thumbnail -->
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://opmd2oxww.bkt.clouddn.com/17-5-8/60481730-file_1494222243147_10ff.jpg)">
+    
+            <p class="article-headline-p">
+                ［转］Android Studio 插件整理
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/androidmorninggeng.png" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>morninggeng</strong>
+        <span>3月 20, 2018</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/Android/">Android</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/Android-Studio/">Android Studio</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/插件/">插件</a>
+    </ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=［转］Android Studio 插件整理&url=http://morninggeng.cn//2018/03/20/Android-Studio-Plugin/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=［转］Android Studio 插件整理&url=http://morninggeng.cn//2018/03/20/Android-Studio-Plugin/index.html&via=morninggeng" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://morninggeng.cn//2018/03/20/Android-Studio-Plugin/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://morninggeng.cn//2018/03/20/Android-Studio-Plugin/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <blockquote>
+<p><a href="https://developer.android.com/studio/index.html?hl=zh-cn" target="_blank" rel="noopener">Android Studio</a> 提供用于为各类 Android 设备开发应用的最快速的工具。</p>
+<p>Android Studio 是一款专门为 Android 平台开发程序的集成开发环境，强大 Gradle 构建系统的和丰富的插件提高开发者的开发效率。</p>
+<p>利用世界一流的代码编辑、调试、性能工具、一套灵活的构建系统以及一套即时构建部署系统，您可以专注于构建独特的高品质应用。</p>
+<p>现在 Android 的开发者基本上都使用 Android Studio 进行开发(如果你还在使用 eclipse 那也行，毕竟你乐意怎么样都行)。使用好 Android Studio 插件能大量的减少我们的工作量。</p>
+</blockquote>
+<p>插件安装方法：</p>
+<p>方法一：</p>
+<p>1.Android studio File —&gt; Settings.. —&gt; Plugins —&gt; Browse repositores..搜索 GsonFormat<br>2.安装插件,重启 Android Studio</p>
+<p>方法二：</p>
+<p>1.下载 GsonFormat.jar ;<br>2.Android studio File —&gt; Settings.. —&gt; Plugins —&gt; install plugin from disk..导入下载 GsonFormat.jar<br>3.重启 Android Studio</p>
+<p>以上插件安装方法适用于大部分插件，个别插件安装方法请自行 google。</p>
+<p>言归正传，下面介绍几十款强大且实用的插件。摆好姿势了么，走你 ┏ (゜ω゜)=☞</p>
+<hr>
+<h1 id="GsonFormat"><a href="#GsonFormat" class="headerlink" title="GsonFormat"></a><a href="http://plugins.jetbrains.com/plugin/7654?pr=androidstudio" target="_blank" rel="noopener">GsonFormat</a></h1><p>快速将 json 字符串转换成一个 Java Bean，免去我们根据 json 字符串手写对应 Java Bean 的过程。</p>
+<p><a href="http://plugins.jetbrains.com/files/7654/screenshot_15729.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7654/screenshot_15729.png" alt="img"></a></p>
+<p>使用方法：快捷键 Alt+S 也可以使用 Alt+Insert 选择 GsonFormat</p>
+<h1 id="Android-ButterKnife-Zelezny"><a href="#Android-ButterKnife-Zelezny" class="headerlink" title="Android ButterKnife Zelezny"></a><a href="http://plugins.jetbrains.com/plugin/7369?pr=androidstudio" target="_blank" rel="noopener">Android ButterKnife Zelezny</a></h1><p>配合 ButterKnife 实现注解，从此不用写 findViewById，想着就爽啊。在 Activity，Fragment，Adapter 中选中布局 xml 的资源 id 自动生成 butterknife 注解。</p>
+<p><a href="http://plugins.jetbrains.com/files/7369/screenshot_14384.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7369/screenshot_14384.png" alt="img"></a></p>
+<p>使用方法：Ctrl+Shift+B 选择图上所示选项</p>
+<h1 id="Android-Code-Generator"><a href="#Android-Code-Generator" class="headerlink" title="Android Code Generator"></a><a href="http://plugins.jetbrains.com/plugin/7595?pr=androidstudio" target="_blank" rel="noopener">Android Code Generator</a></h1><p>根据布局文件快速生成对应的 Activity，Fragment，Adapter，Menu。</p>
+<p><a href="http://plugins.jetbrains.com/files/7595/screenshot_14834.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7595/screenshot_14834.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7595/screenshot_14833.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7595/screenshot_14833.png" alt="img"></a></p>
+<h1 id="Android-Parcelable-code-generator"><a href="#Android-Parcelable-code-generator" class="headerlink" title="Android Parcelable code generator"></a><a href="http://plugins.jetbrains.com/plugin/7332?pr=androidstudio" target="_blank" rel="noopener">Android Parcelable code generator</a></h1><p>JavaBean 序列化，快速实现 Parcelable 接口。</p>
+<p><a href="https://segmentfault.com/image?src=http://img.blog.csdn.net/20160416104459926&amp;objectId=1190000005092842&amp;token=ab29ed79d41be9e42b3a3d2ed1ec3bef" target="_blank" rel="noopener"><img src="https://segmentfault.com/image?src=http://img.blog.csdn.net/20160416104459926&amp;objectId=1190000005092842&amp;token=ab29ed79d41be9e42b3a3d2ed1ec3bef" alt="img"></a></p>
+<h1 id="Android-Methods-Count"><a href="#Android-Methods-Count" class="headerlink" title="Android Methods Count"></a><a href="http://plugins.jetbrains.com/plugin/8076?pr=androidstudio" target="_blank" rel="noopener">Android Methods Count</a></h1><p>显示依赖库中得方法数</p>
+<p><a href="http://plugins.jetbrains.com/files/8076/screenshot_15509.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/8076/screenshot_15509.png" alt="img"></a></p>
+<h1 id="Lifecycle-Sorter"><a href="#Lifecycle-Sorter" class="headerlink" title="Lifecycle Sorter"></a><a href="http://plugins.jetbrains.com/plugin/7742?pr=androidstudio" target="_blank" rel="noopener">Lifecycle Sorter</a></h1><p>可以根据 Activity 或者 Fragment 的生命周期对其生命周期方法位置进行先后排序，快捷键 Ctrl + alt + K</p>
+<p><a href="http://plugins.jetbrains.com/files/7742/screenshot_15071.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7742/screenshot_15071.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7742/screenshot_15070.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7742/screenshot_15070.png" alt="img"></a></p>
+<h1 id="CodeGlance"><a href="#CodeGlance" class="headerlink" title="CodeGlance"></a><a href="http://plugins.jetbrains.com/plugin/7275?pr=androidstudio" target="_blank" rel="noopener">CodeGlance</a></h1><p>在右边可以预览代码，实现快速定位</p>
+<p><img src="https://plugins.jetbrains.com/files/7275/screenshot_16821.png" alt=""></p>
+<h1 id="findBugs-IDEA"><a href="#findBugs-IDEA" class="headerlink" title="findBugs-IDEA"></a><a href="http://plugins.jetbrains.com/plugin/3847?pr=androidstudio" target="_blank" rel="noopener">findBugs-IDEA</a></h1><p>查找 bug 的插件，Android Studio 也提供了代码审查的功能（Analyze-Inspect Code…）</p>
+<p><img src="https://plugins.jetbrains.com/files/3847/screenshot_2538.png" alt=""></p>
+<p><img src="https://plugins.jetbrains.com/files/3847/screenshot_3017.png" alt=""></p>
+<p><img src="https://plugins.jetbrains.com/files/3847/screenshot_2542.png" alt=""></p>
+<h1 id="ADB-WIFI"><a href="#ADB-WIFI" class="headerlink" title="ADB WIFI"></a><a href="http://plugins.jetbrains.com/plugin/7856?pr=androidstudio" target="_blank" rel="noopener">ADB WIFI</a></h1><p>使用 wifi 无线调试你的 app，无需 root 权限<br>也可参考以下文章：<br><a href="http://www.jianshu.com/p/21d1b65d92a4" target="_blank" rel="noopener">Android wifi 无线调试 App 新玩法 ADB WIFI</a></p>
+<p><a href="http://plugins.jetbrains.com/files/7856/screenshot_15153.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7856/screenshot_15153.png" alt="img"></a></p>
+<h1 id="AndroidPixelDimenGenerator"><a href="#AndroidPixelDimenGenerator" class="headerlink" title="AndroidPixelDimenGenerator"></a><a href="https://github.com/succlz123/AndroidPixelDimenGenerator" target="_blank" rel="noopener">AndroidPixelDimenGenerator</a></h1><p>Android Studio 自动生成 dimen.xml 文件插件</p>
+<p><img src="https://github.com/succlz123/AndroidPixelDimenGenerator/raw/master/snapshot/1.webp" alt=""></p>
+<h1 id="JsonOnlineViewer"><a href="#JsonOnlineViewer" class="headerlink" title="JsonOnlineViewer"></a><a href="http://plugins.jetbrains.com/plugin/7838?pr=androidstudio" target="_blank" rel="noopener">JsonOnlineViewer</a></h1><p>在 Android Studio 中请求、调试接口</p>
+<p><a href="http://plugins.jetbrains.com/files/7838/screenshot_15113.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7838/screenshot_15113.png" alt="img"></a></p>
+<h1 id="Android-Styler"><a href="#Android-Styler" class="headerlink" title="Android Styler"></a><a href="http://plugins.jetbrains.com/plugin/7972?pr=androidstudio" target="_blank" rel="noopener">Android Styler</a></h1><p>根据 xml 自动生成 style 代码的插件</p>
+<p><a href="http://plugins.jetbrains.com/files/7972/screenshot_15340.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7972/screenshot_15340.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7972/screenshot_15339.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7972/screenshot_15339.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7972/screenshot_15338.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7972/screenshot_15338.png" alt="img"></a></p>
+<p>Usage:</p>
+<p>a. copy lines with future style from your layout.xml file<br>b. paste it to styles.xml file with Ctrl+Shift+D (or context menu)<br>c. enter name of new style in the modal window<br>d. your style is prepared!</p>
+<h1 id="Android-Drawable-Importer"><a href="#Android-Drawable-Importer" class="headerlink" title="Android Drawable Importer"></a><a href="http://plugins.jetbrains.com/plugin/7658?pr=androidstudio" target="_blank" rel="noopener">Android Drawable Importer</a></h1><p>这是一个非常强大的图片导入插件。它导入 Android 图标与 Material 图标的 Drawable ，批量导入 Drawable ，多源导入Drawable（即导入某张图片各种 dpi 对应的图片）</p>
+<p><a href="http://plugins.jetbrains.com/files/7658/screenshot_15535.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7658/screenshot_15535.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7658/screenshot_15691.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7658/screenshot_15691.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7658/screenshot_15533.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7658/screenshot_15533.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7658/screenshot_15537.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7658/screenshot_15537.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7658/screenshot_15536.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7658/screenshot_15536.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7658/screenshot_15534.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7658/screenshot_15534.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7658/screenshot_15532.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7658/screenshot_15532.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7658/screenshot_15351.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7658/screenshot_15351.png" alt="img"></a></p>
+<h1 id="SelectorChapek-for-Android"><a href="#SelectorChapek-for-Android" class="headerlink" title="SelectorChapek for Android"></a><a href="http://plugins.jetbrains.com/plugin/7298?pr=androidstudio" target="_blank" rel="noopener">SelectorChapek for Android</a></h1><p>通过资源文件命名自动生成 Selector 文件。</p>
+<p><a href="http://plugins.jetbrains.com/files/7298/screenshot_14292.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7298/screenshot_14292.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7298/screenshot_14291.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7298/screenshot_14291.png" alt="img"></a><br><a href="http://plugins.jetbrains.com/files/7298/screenshot_14290.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7298/screenshot_14290.png" alt="img"></a></p>
+<h1 id="GenerateSerialVersionUID"><a href="#GenerateSerialVersionUID" class="headerlink" title="GenerateSerialVersionUID"></a><a href="http://plugins.jetbrains.com/plugin/185?pr=androidstudio" target="_blank" rel="noopener">GenerateSerialVersionUID</a></h1><p>实现 Serializable 序列化 bean</p>
+<p>Adds a new action ‘SerialVersionUID’ in the generate menu (alt + ins). The action adds an serialVersionUID field in the current class or updates it if it already exists, and assigns it the same value the standard ‘serialver’ JDK tool would return. The action is only visible when IDEA is not rebuilding its indexes, the class is serializable and either no serialVersionUID field exists or its value is different from the one the ‘serialver’ tool would return.</p>
+<h1 id="genymotion"><a href="#genymotion" class="headerlink" title="genymotion"></a><a href="http://plugins.jetbrains.com/plugin/7269?pr=androidstudio" target="_blank" rel="noopener">genymotion</a></h1><p>速度较快的 Android 模拟器</p>
+<p><a href="http://plugins.jetbrains.com/files/7269/screenshot_14278.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7269/screenshot_14278.png" alt="img"></a></p>
+<h1 id="SQLScout"><a href="#SQLScout" class="headerlink" title="SQLScout"></a><a href="https://plugins.jetbrains.com/plugin/8322-sqlscout-sqlite-support-" target="_blank" rel="noopener">SQLScout</a></h1><p>在 Android Studio 上调试数据库 ( SQLite )</p>
+<p>详细使用参考：<a href="https://juejin.im/post/58e0d781a0bb9f0069ec08d3" target="_blank" rel="noopener">在 Android Studio 上调试数据库 ( SQLite )</a></p>
+<p><a href="https://plugins.jetbrains.com/files/8322/screenshot_15823.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/8322/screenshot_15823.png" alt="img"></a></p>
+<h1 id="Android-Postfix-Completion"><a href="#Android-Postfix-Completion" class="headerlink" title="Android Postfix Completion"></a><a href="http://plugins.jetbrains.com/plugin/7775?pr=androidstudio" target="_blank" rel="noopener">Android Postfix Completion</a></h1><p>可根据后缀快速完成代码，这个属于拓展吧，系统已经有这些功能，如 sout、notnull 等，这个插件在原有的基础上增添了一些新的功能，我更想做的是通过原作者的代码自己定制功能，那就更爽了</p>
+<p><a href="http://plugins.jetbrains.com/files/7775/screenshot_15042.png" target="_blank" rel="noopener"><img src="http://plugins.jetbrains.com/files/7775/screenshot_15042.png" alt="img"></a></p>
+<h1 id="Android-Holo-Colors-Generator"><a href="#Android-Holo-Colors-Generator" class="headerlink" title="Android Holo Colors Generator"></a><a href="https://plugins.jetbrains.com/plugin/7366?pr=" target="_blank" rel="noopener">Android Holo Colors Generator</a></h1><p>通过自定义 Holo 主题颜色生成对应的 Drawable 和布局文件</p>
+<p><a href="https://plugins.jetbrains.com/files/7366/screenshot_14379.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7366/screenshot_14379.png" alt="img"></a></p>
+<h1 id="dagger-intellij-plugin"><a href="#dagger-intellij-plugin" class="headerlink" title="dagger-intellij-plugin"></a><a href="https://github.com/square/dagger-intellij-plugin" target="_blank" rel="noopener">dagger-intellij-plugin</a></h1><p>dagger 可视化辅助工具</p>
+<p><a href="https://github.com/square/dagger-intellij-plugin/raw/master/images/inject-to-provide.gif" target="_blank" rel="noopener"><img src="https://github.com/square/dagger-intellij-plugin/raw/master/images/inject-to-provide.gif" alt="img"></a></p>
+<h1 id="GradleDependenciesHelperPlugin"><a href="#GradleDependenciesHelperPlugin" class="headerlink" title="GradleDependenciesHelperPlugin"></a><a href="https://github.com/ligi/GradleDependenciesHelperPlugin" target="_blank" rel="noopener">GradleDependenciesHelperPlugin</a></h1><p>maven gradle 依赖支持自动补全</p>
+<p><a href="https://camo.githubusercontent.com/d9b1b39eda21e0e33b656e2821f01897d915f7c5/68747470733a2f2f6c68332e676f6f676c6575736572636f6e74656e742e636f6d2f2d51364e7970315864594c772f556a73325a5175666634492f414141414141414144624d2f624d704c516742664d6b632f773538372d683330392d6e6f2f696465615f677261646c655f706c7567696e2e706e67" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/d9b1b39eda21e0e33b656e2821f01897d915f7c5/68747470733a2f2f6c68332e676f6f676c6575736572636f6e74656e742e636f6d2f2d51364e7970315864594c772f556a73325a5175666634492f414141414141414144624d2f624d704c516742664d6b632f773538372d683330392d6e6f2f696465615f677261646c655f706c7567696e2e706e67" alt="img"></a></p>
+<h1 id="RemoveButterKnife"><a href="#RemoveButterKnife" class="headerlink" title="RemoveButterKnife"></a><a href="https://github.com/u3shadow/RemoveButterKnife" target="_blank" rel="noopener">RemoveButterKnife</a></h1><p>ButterKnife 这个第三方库每次更新之后，绑定 view 的注解都会改变，从 bind 到inject 再到 bindview，搞得很多人都不敢升级，一旦升级，就会有巨量的代码需要手动修改，非常痛苦<br>当我们有一些非常棒的代码需要拿到其他项目使用，但是我们发现，那个项目对第三方库的使用是有限制的，我们不能使用Butterknife，这时候，我们又得从注解改回 FindViewById，针对上面的两种情况，如果 view 比较少还好说，如果有几十个view，那么我们一个个的手动删除注解，写 FindViewById语句，简直是一场噩梦（别问我为什么知道这是噩梦）<br>所以，这种有规律又重复简单的工作为什么不能用一个插件来实现呢？于是 RemoveButterKnife 的想法就出现了。</p>
+<p><a href="http://www.u3coding.com/2016/06/24/androidstudio-plugin-removebutterknife-di/" target="_blank" rel="noopener">具体介绍</a></p>
+<p><a href="https://camo.githubusercontent.com/0327cda5b531ab6f2b803abe295c42225668d28d/687474703a2f2f7777772e7533636f64696e672e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031362f30362f312e676966" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/0327cda5b531ab6f2b803abe295c42225668d28d/687474703a2f2f7777772e7533636f64696e672e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031362f30362f312e676966" alt="img"></a></p>
+<h1 id="AndroidProguardPlugin"><a href="#AndroidProguardPlugin" class="headerlink" title="AndroidProguardPlugin"></a><a href="https://github.com/zhonghanwen/AndroidProguardPlugin" target="_blank" rel="noopener">AndroidProguardPlugin</a></h1><p>一键生成项目混淆代码插件，值得你安装~(不过目前可能有些第三方项目的混淆还未添加完全)</p>
+<p><a href="http://7xrnko.com1.z0.glb.clouddn.com/androidproguard1.gif" target="_blank" rel="noopener"><img src="http://7xrnko.com1.z0.glb.clouddn.com/androidproguard1.gif" alt="img"></a></p>
+<h1 id="otto-intellij-plugin"><a href="#otto-intellij-plugin" class="headerlink" title="otto-intellij-plugin"></a><a href="https://github.com/square/otto-intellij-plugin" target="_blank" rel="noopener">otto-intellij-plugin</a></h1><p>otto 事件导航工具。</p>
+<p><a href="https://github.com/square/otto-intellij-plugin/raw/master/images/produce-to-subscribe.gif" target="_blank" rel="noopener"><img src="https://github.com/square/otto-intellij-plugin/raw/master/images/produce-to-subscribe.gif" alt="img"></a><br><a href="https://github.com/square/otto-intellij-plugin/raw/master/images/event-to-subscribe.gif" target="_blank" rel="noopener"><img src="https://github.com/square/otto-intellij-plugin/raw/master/images/event-to-subscribe.gif" alt="img"></a></p>
+<h1 id="eventbus-intellij-plugin"><a href="#eventbus-intellij-plugin" class="headerlink" title="eventbus-intellij-plugin"></a><a href="https://github.com/kgmyshin/eventbus-intellij-plugin" target="_blank" rel="noopener">eventbus-intellij-plugin</a></h1><p>eventbus 导航插件(对于最新版的 EventBus 3.0.0 好像无效,请替换为 eventbus3-intellij-plugin 此插件地址在本文第 51 个)</p>
+<p><a href="https://raw.githubusercontent.com/kgmyshin/eventbus-intellij-plugin/master/art/cap.gif" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/kgmyshin/eventbus-intellij-plugin/master/art/cap.gif" alt="img"></a></p>
+<h1 id="idea-markdown"><a href="#idea-markdown" class="headerlink" title="idea-markdown"></a><a href="https://github.com/nicoulaj/idea-markdown" target="_blank" rel="noopener">idea-markdown</a></h1><p>markdown 插件</p>
+<p><a href="https://github.com/nicoulaj/idea-markdown/raw/assets/screenshots/preview.png" target="_blank" rel="noopener"><img src="https://github.com/nicoulaj/idea-markdown/raw/assets/screenshots/preview.png" alt="img"></a></p>
+<h1 id="Sexy-Editor"><a href="#Sexy-Editor" class="headerlink" title="Sexy Editor"></a><a href="https://plugins.jetbrains.com/plugin/1833?pr=androidstudio" target="_blank" rel="noopener">Sexy Editor</a></h1><p>设置 AS 代码编辑区的背景图</p>
+<p>首先点击界面的设置按钮 进入设置界面，选中 Plugins，右边选择 Browser … ，输入Sexy … 下面自动弹出候选插件，右边点击 Install 安装<br><a href="http://d.hiphotos.baidu.com/zhidao/wh%3D600%2C800/sign=f57bdd37f0246b607b5bba72dbc83674/4b90f603738da9777260054fb651f8198618e303.jpg" target="_blank" rel="noopener"><img src="http://d.hiphotos.baidu.com/zhidao/wh%3D600%2C800/sign=f57bdd37f0246b607b5bba72dbc83674/4b90f603738da9777260054fb651f8198618e303.jpg" alt="img"></a><br>安装成功 后需要重启AS<br><a href="http://h.hiphotos.baidu.com/zhidao/wh%3D600%2C800/sign=77e4e517fdf2b211e47b8d48fab04900/1c950a7b02087bf46d0dd48df4d3572c10dfcff5.jpg" target="_blank" rel="noopener"><img src="http://h.hiphotos.baidu.com/zhidao/wh%3D600%2C800/sign=77e4e517fdf2b211e47b8d48fab04900/1c950a7b02087bf46d0dd48df4d3572c10dfcff5.jpg" alt="img"></a><br>重启完成之后 进入设置界面 选择 other Setting 下的 Sexy Editor ， 右侧 insert 一张或多张图片即可，上面的其他设置可以设置方位 间隔时间 透明度等等，设置完成后，要关闭打开的文件，重新打开项目文件即可在代码编辑区显示插入的图片，作为代码编辑区的背景图。<br><a href="http://h.hiphotos.baidu.com/zhidao/wh%3D600%2C800/sign=5cd9b28564d9f2d320442ce999dca62b/34fae6cd7b899e51289eb77044a7d933c8950d45.jpg" target="_blank" rel="noopener"><img src="http://h.hiphotos.baidu.com/zhidao/wh%3D600%2C800/sign=5cd9b28564d9f2d320442ce999dca62b/34fae6cd7b899e51289eb77044a7d933c8950d45.jpg" alt="img"></a></p>
+<h1 id="folding-plugin"><a href="#folding-plugin" class="headerlink" title="folding-plugin"></a><a href="https://github.com/dmytrodanylyk/folding-plugin" target="_blank" rel="noopener">folding-plugin</a></h1><p>布局文件分组的插件</p>
+<p><a href="https://github.com/dmytrodanylyk/folding-plugin/raw/master/screenshots/Preview.png" target="_blank" rel="noopener"><img src="https://github.com/dmytrodanylyk/folding-plugin/raw/master/screenshots/Preview.png" alt="img"></a></p>
+<h1 id="Android-DPI-Calculator"><a href="#Android-DPI-Calculator" class="headerlink" title="Android-DPI-Calculator"></a><a href="https://github.com/JerzyPuchalski/Android-DPI-Calculator" target="_blank" rel="noopener">Android-DPI-Calculator</a></h1><p>DPI 计算插件</p>
+<p><a href="https://camo.githubusercontent.com/ce3be2aaa3b1f70b90f5b825c529694509d70313/68747470733a2f2f7261772e6769746875622e636f6d2f4a65727a7950756368616c736b692f416e64726f69642d4450492d43616c63756c61746f722f6d61737465722f696d672f6469616c6f672e706e67" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/ce3be2aaa3b1f70b90f5b825c529694509d70313/68747470733a2f2f7261772e6769746875622e636f6d2f4a65727a7950756368616c736b692f416e64726f69642d4450492d43616c63756c61746f722f6d61737465722f696d672f6469616c6f672e706e67" alt="img"></a></p>
+<p>使用：<br><a href="https://camo.githubusercontent.com/598d3b5c9efc5f0b57b58c25a79a323d06307fad/68747470733a2f2f7261772e6769746875622e636f6d2f4a65727a7950756368616c736b692f416e64726f69642d4450492d43616c63756c61746f722f6d61737465722f696d672f616374696f6e2e706e67" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/598d3b5c9efc5f0b57b58c25a79a323d06307fad/68747470733a2f2f7261772e6769746875622e636f6d2f4a65727a7950756368616c736b692f416e64726f69642d4450492d43616c63756c61746f722f6d61737465722f696d672f616374696f6e2e706e67" alt="img"></a><br>或者<br><a href="https://camo.githubusercontent.com/7a8f977de7a1ba6cd23fb64cbd37566690c27cdc/68747470733a2f2f7261772e6769746875622e636f6d2f4a65727a7950756368616c736b692f416e64726f69642d4450492d43616c63756c61746f722f6d61737465722f696d672f6d656e752e706e67" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/7a8f977de7a1ba6cd23fb64cbd37566690c27cdc/68747470733a2f2f7261772e6769746875622e636f6d2f4a65727a7950756368616c736b692f416e64726f69642d4450492d43616c63756c61746f722f6d61737465722f696d672f6d656e752e706e67" alt="img"></a></p>
+<h1 id="gradle-retrolambda"><a href="#gradle-retrolambda" class="headerlink" title="gradle-retrolambda"></a><a href="https://github.com/evant/gradle-retrolambda" target="_blank" rel="noopener">gradle-retrolambda</a></h1><p>在 java 6 7中使用 lambda表达式插件</p>
+<p>修改编译的 jdk 为 java8:<br><a href="http://img.blog.csdn.net/20160311101644127" target="_blank" rel="noopener"><img src="http://img.blog.csdn.net/20160311101644127" alt="img"></a></p>
+<h1 id="Android-Studio-Prettify"><a href="#Android-Studio-Prettify" class="headerlink" title="Android Studio Prettify"></a><a href="https://plugins.jetbrains.com/plugin/7405" target="_blank" rel="noopener">Android Studio Prettify</a></h1><p>可以将代码中的字符串写在 string.xml 文件中</p>
+<p>选中字符串鼠标右键选择图中所示<br><a href="https://plugins.jetbrains.com/files/7405/screenshot_14417.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7405/screenshot_14417.png" alt="img"></a></p>
+<p>这个插件还可以自动书写 FindViewById<br><a href="https://plugins.jetbrains.com/files/7405/screenshot_14418.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7405/screenshot_14418.png" alt="img"></a></p>
+<p><a href="https://plugins.jetbrains.com/files/7405/screenshot_14416.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7405/screenshot_14416.png" alt="img"></a></p>
+<p><a href="https://plugins.jetbrains.com/files/7405/screenshot_14501.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7405/screenshot_14501.png" alt="img"></a></p>
+<p><a href="https://plugins.jetbrains.com/files/7405/screenshot_14419.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7405/screenshot_14419.png" alt="img"></a></p>
+<p><a href="https://plugins.jetbrains.com/files/7405/screenshot_14415.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7405/screenshot_14415.png" alt="img"></a></p>
+<h1 id="Material-Theme-UI"><a href="#Material-Theme-UI" class="headerlink" title="Material Theme UI"></a><a href="https://plugins.jetbrains.com/plugin/8006?pr=" target="_blank" rel="noopener">Material Theme UI</a></h1><p>添加 Material 主题到你的 AS</p>
+<p><a href="https://plugins.jetbrains.com/files/8006/screenshot_15722.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/8006/screenshot_15722.png" alt="img"></a></p>
+<p><a href="https://plugins.jetbrains.com/files/8006/screenshot_15723.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/8006/screenshot_15723.png" alt="img"></a></p>
+<p><a href="https://plugins.jetbrains.com/files/8006/screenshot_15721.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/8006/screenshot_15721.png" alt="img"></a></p>
+<h1 id="ignore"><a href="#ignore" class="headerlink" title=".ignore"></a><a href="https://plugins.jetbrains.com/plugin/7495?pr=" target="_blank" rel="noopener">.ignore</a></h1><p>我们都知道在 Git 中想要过滤掉一些不想提交的文件，可以把相应的文件添加到 .gitignore 中，而 .gitignore 这个Android Studio 插件根据不同的语言来选择模板，就不用自己在费事添加一些文件了，而且还有自动补全功能，过滤文件再也不要复制文件名了。我们做项目的时候，并不是所有文件都是要提交的，比如构建的 build 文件夹，本地配置文件，每个 Module 生成的iml 文件，但是我们每次 add，commit  都会不小心把它们添加上去，而 gitignore 就是解决这种痛点的，如果你不想提交的文件，就可以在创建项目的时候将这个文件中添加即可，将一些通用的东西屏蔽掉。</p>
+<p><a href="https://plugins.jetbrains.com/files/7495/screenshot_14960.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7495/screenshot_14960.png" alt="img"></a></p>
+<p><a href="https://plugins.jetbrains.com/files/7495/screenshot_14958.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7495/screenshot_14958.png" alt="img"></a></p>
+<p><a href="https://plugins.jetbrains.com/files/7495/screenshot_14959.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7495/screenshot_14959.png" alt="img"></a></p>
+<h1 id="CheckStyle-IDEA"><a href="#CheckStyle-IDEA" class="headerlink" title="CheckStyle-IDEA"></a><a href="https://plugins.jetbrains.com/plugin/1065?pr=" target="_blank" rel="noopener">CheckStyle-IDEA</a></h1><p>CheckStyle-IDEA 是一个检查代码风格的插件，比如像命名约定，Javadoc，类设计等方面进行代码规范和风格的检查，你们可以遵从像 Google Oracle 的 Java 代码指南 ，当然也可以按照自己的规则来设置配置文件，从而有效约束你自己更好地遵循代码编写规范。</p>
+<h1 id="Markdown-Navigator"><a href="#Markdown-Navigator" class="headerlink" title="Markdown Navigator"></a><a href="https://plugins.jetbrains.com/plugin/7896?pr=" target="_blank" rel="noopener">Markdown Navigator</a></h1><p>github:<a href="https://github.com/vsch/idea-multimarkdown/wiki" target="_blank" rel="noopener">Markdown Navigator</a><br>Markdown 插件</p>
+<p><a href="https://plugins.jetbrains.com/files/7896/screenshot_15818.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7896/screenshot_15818.png" alt="img"></a></p>
+<h1 id="ECTranslation"><a href="#ECTranslation" class="headerlink" title="ECTranslation"></a><a href="https://github.com/Skykai521/ECTranslation" target="_blank" rel="noopener">ECTranslation</a></h1><p>Android Studio Plugin,Translate English to Chinese. Android Studio 翻译插件,可以将英文翻译为中文。</p>
+<p><a href="https://github.com/Skykai521/ECTranslation/raw/master/img/translation_img.png" target="_blank" rel="noopener"><img src="https://github.com/Skykai521/ECTranslation/raw/master/img/translation_img.png" alt="img"></a></p>
+<h1 id="PermissionsDispatcher-plugin"><a href="#PermissionsDispatcher-plugin" class="headerlink" title="PermissionsDispatcher plugin"></a><a href="https://plugins.jetbrains.com/plugin/8349" target="_blank" rel="noopener">PermissionsDispatcher plugin</a></h1><p>github:<a href="https://github.com/shiraji/permissions-dispatcher-plugin" target="_blank" rel="noopener">PermissionsDispatcher plugin</a><br>自动生成 6.0 权限的代码</p>
+<p><a href="https://github.com/shiraji/permissions-dispatcher-plugin/raw/master/website/images/pd.gif" target="_blank" rel="noopener"><img src="https://github.com/shiraji/permissions-dispatcher-plugin/raw/master/website/images/pd.gif" alt="img"></a></p>
+<h1 id="WakaTime"><a href="#WakaTime" class="headerlink" title="WakaTime"></a><a href="https://plugins.jetbrains.com/plugin/7425?pr=" target="_blank" rel="noopener">WakaTime</a></h1><p>github:<a href="https://github.com/wakatime/jetbrains-wakatime" target="_blank" rel="noopener">WakaTime</a><br>记录你在 IDE 上的工作时间</p>
+<p><a href="https://plugins.jetbrains.com/files/7425/screenshot_14794.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/7425/screenshot_14794.png" alt="img"></a></p>
+<h1 id="AndroidWiFiADB"><a href="#AndroidWiFiADB" class="headerlink" title="AndroidWiFiADB"></a><a href="https://github.com/pedrovgs/AndroidWiFiADB" target="_blank" rel="noopener">AndroidWiFiADB</a></h1><p>无线调试应用</p>
+<p><a href="https://github.com/pedrovgs/AndroidWiFiADB/raw/master/art/screenshot1.gif" target="_blank" rel="noopener"><img src="https://github.com/pedrovgs/AndroidWiFiADB/raw/master/art/screenshot1.gif" alt="img"></a></p>
+<p><a href="https://github.com/pedrovgs/AndroidWiFiADB/raw/master/art/android_devices_window.png" target="_blank" rel="noopener"><img src="https://github.com/pedrovgs/AndroidWiFiADB/raw/master/art/android_devices_window.png" alt="img"></a></p>
+<h1 id="AndroidLocalizationer"><a href="#AndroidLocalizationer" class="headerlink" title="AndroidLocalizationer"></a><a href="https://github.com/westlinkin/AndroidLocalizationer" target="_blank" rel="noopener">AndroidLocalizationer</a></h1><p>可用于将项目中的 string 资源自动翻译为其他语言的 Android Studio/IntelliJ IDEA 插件</p>
+<p><a href="https://raw.githubusercontent.com/westlinkin/AndroidLocalizationer/master/screen_shot_3.png" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/westlinkin/AndroidLocalizationer/master/screen_shot_3.png" alt="img"></a></p>
+<p><a href="https://raw.githubusercontent.com/westlinkin/AndroidLocalizationer/master/screen_shot_2.png" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/westlinkin/AndroidLocalizationer/master/screen_shot_2.png" alt="img"></a></p>
+<h1 id="TranslationPlugin"><a href="#TranslationPlugin" class="headerlink" title="TranslationPlugin"></a><a href="https://github.com/YiiGuxing/TranslationPlugin" target="_blank" rel="noopener">TranslationPlugin</a></h1><p>又一翻译插件,可中英互译。</p>
+<ul>
+<li><p><strong>Show Translation Dialog…:</strong> 打开翻译对话框。默认显示在工具栏上，默认快捷键为Alt + 0</p>
+<p><a href="https://github.com/YiiGuxing/TranslationPlugin/blob/master/images/action0.gif" target="_blank" rel="noopener"><img src="https://github.com/YiiGuxing/TranslationPlugin/raw/master/images/action0.gif" alt="Translate"></a></p>
+</li>
+<li><p><strong>Translate:</strong> 取词并翻译。如果有已选择的文本，优先从选择的文本内取词，否则默认以最大范围自动取词（该取词模式可在Settings中配置）。默认显示在编辑器右键菜单上，默认快捷键为Alt + 1</p>
+<p><a href="https://github.com/YiiGuxing/TranslationPlugin/blob/master/images/action1.gif" target="_blank" rel="noopener"><img src="https://github.com/YiiGuxing/TranslationPlugin/raw/master/images/action1.gif" alt="Translate"></a></p>
+</li>
+<li><p><strong>Translate(Inclusive):</strong> 取词并翻译。自动以最大范围取最近的所有词，忽略手动选择的文本。默认快捷键为Alt + 2</p>
+<p><a href="https://github.com/YiiGuxing/TranslationPlugin/blob/master/images/action2.gif" target="_blank" rel="noopener"><img src="https://github.com/YiiGuxing/TranslationPlugin/raw/master/images/action2.gif" alt="Translate(Inclusive)"></a></p>
+</li>
+<li><p><strong>Translate(Exclusive):</strong> 取词并翻译。自动取最近的单个词，忽略手动选择的文本。默认快捷键为Alt + 3</p>
+<p><a href="https://github.com/YiiGuxing/TranslationPlugin/blob/master/images/action3.gif" target="_blank" rel="noopener"><img src="https://github.com/YiiGuxing/TranslationPlugin/raw/master/images/action3.gif" alt="Translate(Exclusive)"></a></p>
+</li>
+<li><p><strong>Translate And Replace…:</strong> 翻译并替换。取词方式同<code>Translate</code>操作。默认显示在编辑器右键菜单上，默认快捷键为Alt + R</p>
+<p><a href="https://github.com/YiiGuxing/TranslationPlugin/blob/master/images/replace.gif" target="_blank" rel="noopener"><img src="https://github.com/YiiGuxing/TranslationPlugin/raw/master/images/replace.gif" alt="Translate(Exclusive)"></a></p>
+</li>
+<li><p><strong>Translate Text Component:</strong> 翻译一些文本组件（如快速文档、提示气泡、输入框……）中选中的文本。默认快捷键为Alt + T</p>
+<p><a href="https://github.com/YiiGuxing/TranslationPlugin/blob/master/images/text_component.gif" target="_blank" rel="noopener"><img src="https://github.com/YiiGuxing/TranslationPlugin/raw/master/images/text_component.gif" alt="Translate(Exclusive)"></a></p>
+</li>
+</ul>
+<p>使用</p>
+<ol>
+<li><p><strong>打开翻译对话框:</strong></p>
+<p>点击工具栏上的 <a href="https://github.com/YiiGuxing/TranslationPlugin/blob/master/images/icon.png" target="_blank" rel="noopener"><img src="https://github.com/YiiGuxing/TranslationPlugin/raw/master/images/icon.png" alt="图标"></a> 图标即可打开翻译对话框。</p>
+</li>
+<li><p><strong>翻译编辑器中的文本:</strong></p>
+<p>在编辑器中 选择文本或者鼠标指向文本 &gt; 单击鼠标右键 &gt; Translate</p>
+<p><a href="https://github.com/YiiGuxing/TranslationPlugin/blob/master/images/editor_popup_menu.png" target="_blank" rel="noopener"><img src="https://github.com/YiiGuxing/TranslationPlugin/raw/master/images/editor_popup_menu.png" alt="翻译"></a></p>
+<p>或者使用快捷键Alt + 1/2/3/T/R进行翻译（Mac下默认快捷键可能无效，需要自定义快捷键），详见 <strong>Actions</strong></p>
+</li>
+<li><p><strong>自定义快捷键（Mac下默认快捷键可能无效）:</strong></p>
+<p>Preferences(Settings) &gt; Keymap &gt; 搜索Translation。在需要添加快捷键Action上 右键 &gt; add Keyboard Shortcut… 设置快捷键（按ESC键可关闭气泡和翻译对话框）。</p>
+<p><a href="https://github.com/YiiGuxing/TranslationPlugin/blob/master/images/keymap.png" target="_blank" rel="noopener"><img src="https://github.com/YiiGuxing/TranslationPlugin/raw/master/images/keymap.png" alt="keymap"></a></p>
+</li>
+<li><p><strong>设置有道API KEY:</strong></p>
+<p>Preferences(Settings) &gt; Other Settings &gt; Translation。 由于有道的API在查询请求数量上存在限制，如果在1小时内查询请求次数达到一定数量后将会暂时禁止查询一段时间（大概1小时）。如果很多人同时使用同一个KEY，可能会很容易就达到了限制条件，这就可以通过使用自己的KEY来避免（一人一个KEY基本足够用了）。</p>
+</li>
+<li><p><strong>如何获取有道API KEY？</strong></p>
+<p>Preferences(Settings) &gt; Other Settings &gt; Translation &gt; 获取有道API KEY</p>
+<p>或者 <a href="http://fanyi.youdao.com/openapi?path=data-mode" target="_blank" rel="noopener"><strong>点击这里</strong></a> 也可申请有道API KEY。</p>
+</li>
+<li><p><strong>网络代理</strong></p>
+<p>支持HTTP代理，可到这里设置HTTP代理： Preferences(Settings) &gt; Appearance &amp; Behavior &gt; System Settings &gt; HTTP Proxy</p>
+</li>
+<li><p><strong>Settings(Preferences)</strong></p>
+<p><a href="https://github.com/YiiGuxing/TranslationPlugin/blob/master/images/settings.png" target="_blank" rel="noopener"><img src="https://github.com/YiiGuxing/TranslationPlugin/raw/master/images/settings.png" alt="Settings"></a></p>
+</li>
+</ol>
+<h1 id="SingletonTest"><a href="#SingletonTest" class="headerlink" title="SingletonTest"></a><a href="https://github.com/luhaoaimama1/SingletonTest" target="_blank" rel="noopener">SingletonTest</a></h1><p>快速生成单例模式的预设</p>
+<p><a href="https://github.com/luhaoaimama1/SingletonTest/raw/master/demo/tip1.png" target="_blank" rel="noopener"><img src="https://github.com/luhaoaimama1/SingletonTest/raw/master/demo/tip1.png" alt="img"></a></p>
+<p><a href="https://github.com/luhaoaimama1/SingletonTest/raw/master/demo/tip2.png" target="_blank" rel="noopener"><img src="https://github.com/luhaoaimama1/SingletonTest/raw/master/demo/tip2.png" alt="img"></a></p>
+<p><a href="https://github.com/luhaoaimama1/SingletonTest/raw/master/demo/tip3.png" target="_blank" rel="noopener"><img src="https://github.com/luhaoaimama1/SingletonTest/raw/master/demo/tip3.png" alt="img"></a></p>
+<h1 id="BorePlugin"><a href="#BorePlugin" class="headerlink" title="BorePlugin"></a><a href="https://github.com/boredream/BorePlugin" target="_blank" rel="noopener">BorePlugin</a></h1><p>Android Studio 自动生成布局代码插件</p>
+<p><a href="https://github.com/boredream/BorePlugin/raw/master/screenshot/LayoutCreator.gif" target="_blank" rel="noopener"><img src="https://github.com/boredream/BorePlugin/raw/master/screenshot/LayoutCreator.gif" alt="img"></a></p>
+<p>代码生成规则</p>
+<p>a.自动遍历目标布局中所有带 id 的文件, 无 id 的不会识别处理<br>b.控件生成的变量名默认为 id 名称, 可以在弹出确认框右侧的名称输入栏中自行修改<br>c.所有的 Button 或者带 clickable=true 的控件, 都会自动在代码中生成 setOnClickListener 相关代码<br>d.所有 EditText 控件, 都会在代码中生成非空判断代码, 如果为空会提示 EditText 的 hint 内容, 如果 hint 为空则提示 xxx 字符串不能为空字样, 最后会把所有输入框的验证合并到一个 submit 方法中<br>e.会自动识别布局中的 include 标签, 并读取对应布局中的控件</p>
+<h1 id="jimu-Mirror"><a href="#jimu-Mirror" class="headerlink" title="jimu Mirror"></a><a href="http://www.jimumirror.com/mirror-downloads/" target="_blank" rel="noopener">jimu Mirror</a></h1><p>能够实时预览 Android 布局，它会监听布局文件的改动，如果有代码变化，就会立即刷新UI。</p>
+<h1 id="jRebel-For-Android"><a href="#jRebel-For-Android" class="headerlink" title="jRebel For Android"></a><a href="http://zeroturnaround.com/software/jrebel-for-android/" target="_blank" rel="noopener">jRebel For Android</a></h1><p>不仅能够做到 UI 布局的实时预览，它甚至做到了让你更改 java 代码后就能实时替换 apk 中的类文件，达到应用实时刷新，官网的介绍是：Skip build, install and run，因此它可以节约我们很多很多的时间，它的效果也十分不错。</p>
+<p><a href="http://zeroturnaround.com/wp-content/uploads/2015/04/Android_Card1_2x.png" target="_blank" rel="noopener"><img src="http://zeroturnaround.com/wp-content/uploads/2015/04/Android_Card1_2x.png" alt="img"></a></p>
+<p><a href="http://zeroturnaround.com/wp-content/uploads/2015/04/Android_Card2_2x.png" target="_blank" rel="noopener"><img src="http://zeroturnaround.com/wp-content/uploads/2015/04/Android_Card2_2x.png" alt="img"></a></p>
+<p><a href="http://zeroturnaround.com/wp-content/uploads/2015/04/Android_Card3_2x.png" target="_blank" rel="noopener"><img src="http://zeroturnaround.com/wp-content/uploads/2015/04/Android_Card3_2x.png" alt="img"></a></p>
+<h1 id="sdk-manager-plugin"><a href="#sdk-manager-plugin" class="headerlink" title="sdk-manager-plugin"></a><a href="https://github.com/JakeWharton/sdk-manager-plugin" target="_blank" rel="noopener">sdk-manager-plugin</a></h1><p>SDK 管理插件，自动检测更新并下载。(图片与插件无关哈)</p>
+<p><a href="https://camo.githubusercontent.com/95469d65798f62a50a9fcabe21e2cc303a1b859c/687474703a2f2f692e696d6775722e636f6d2f384a734a587a6e2e6a7067" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/95469d65798f62a50a9fcabe21e2cc303a1b859c/687474703a2f2f692e696d6775722e636f6d2f384a734a587a6e2e6a7067" alt="img"></a></p>
+<h1 id="Codota"><a href="#Codota" class="headerlink" title="Codota"></a><a href="http://www.codota.com/" target="_blank" rel="noopener">Codota</a></h1><p>搜索最好的 Android 代码。(Studio 里面直接可以搜到此插件)</p>
+<h1 id="LayoutFormatter"><a href="#LayoutFormatter" class="headerlink" title="LayoutFormatter"></a><a href="https://github.com/drakeet/LayoutFormatter" target="_blank" rel="noopener">LayoutFormatter</a></h1><p>drakeet 开发一个一键格式化你的 XML 文件的 Android Studio 插件，至于为什么不用 Android Studio 自带的格式化功能而用这个插件，可以看下作者的一篇 Blog -&gt; <a href="https://drakeet.me/layoutformatter" target="_blank" rel="noopener">当我们谈 XML 布局文件代码的优雅性</a></p>
+<p><a href="http://ww1.sinaimg.cn/large/86e2ff85gw1f383wa95tej21ge0m5ai0.jpg" target="_blank" rel="noopener"><img src="http://ww1.sinaimg.cn/large/86e2ff85gw1f383wa95tej21ge0m5ai0.jpg" alt="img"></a></p>
+<h1 id="android-strings-search-plugin"><a href="#android-strings-search-plugin" class="headerlink" title="android-strings-search-plugin"></a><a href="https://github.com/konifar/android-strings-search-plugin" target="_blank" rel="noopener">android-strings-search-plugin</a></h1><p>一个可以通过输入文字找到 strings.xml 资源的插件</p>
+<p><a href="https://github.com/konifar/android-strings-search-plugin/raw/master/art/demo.gif" target="_blank" rel="noopener"><img src="https://github.com/konifar/android-strings-search-plugin/raw/master/art/demo.gif" alt="img"></a></p>
+<h1 id="ideaVim"><a href="#ideaVim" class="headerlink" title="ideaVim"></a><a href="http://plugins.jetbrains.com/plugin/164?pr=androidstudio" target="_blank" rel="noopener">ideaVim</a></h1><p>vim 本身就是一款很优秀的文本编辑器，而 Android Studio 更是一款编写 APP 应用的神器。如果两个款优秀的软件结合在一起感觉会怎样呢？<br>详细请看文章:<a href="http://www.jianshu.com/p/43862126b88f" target="_blank" rel="noopener">Android Studio ＋Vim</a></p>
+<p><a href="http://upload-images.jianshu.io/upload_images/1825722-8b55d9654777599e.gif?imageMogr2/auto-orient/strip" target="_blank" rel="noopener"><img src="http://upload-images.jianshu.io/upload_images/1825722-8b55d9654777599e.gif?imageMogr2/auto-orient/strip" alt="img"></a></p>
+<h1 id="eventbus3-intellij-plugin"><a href="#eventbus3-intellij-plugin" class="headerlink" title="eventbus3-intellij-plugin"></a><a href="https://github.com/likfe/eventbus3-intellij-plugin/blob/master/README-zh.md" target="_blank" rel="noopener">eventbus3-intellij-plugin</a></h1><p>引导 EventBus 的 post 和 event (对于最新版的 EventBus 3.0.0 有效)<br>主要 Bug 修复工作：<br>修改包名和方法名以适应 EventBus 3.X<br>替换一个在新版的 intellij plugin SDK 已经不存在的类<br>增加若干 try-catch ，防止插件崩溃</p>
+<p><a href="https://raw.githubusercontent.com/likfe/eventbus3-intellij-plugin/master/art/cap.gif" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/likfe/eventbus3-intellij-plugin/master/art/cap.gif" alt="img"></a></p>
+<h1 id="Exynap"><a href="#Exynap" class="headerlink" title="Exynap"></a><a href="http://exynap.com/" target="_blank" rel="noopener">Exynap</a></h1><p>Exynap 一个帮助开发者自动生成样板代码的 AndroidStudio 插件</p>
+<p><a href="http://exynap.com/images/anim01.gif" target="_blank" rel="noopener"><img src="http://exynap.com/images/anim01.gif" alt="img"></a></p>
+<h1 id="gradle-cleaner-intellij-plugin"><a href="#gradle-cleaner-intellij-plugin" class="headerlink" title="gradle-cleaner-intellij-plugin"></a><a href="https://github.com/Softwee/gradle-cleaner-intellij-plugin" target="_blank" rel="noopener">gradle-cleaner-intellij-plugin</a></h1><p>Force clear delaying &amp; no longer needed Gradle tasks.</p>
+<p><a href="https://camo.githubusercontent.com/cb48bca7f8bd0b513f350f7320c74054d1b9fbce/687474703a2f2f6936352e74696e797069632e636f6d2f726a687863382e706e67" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/cb48bca7f8bd0b513f350f7320c74054d1b9fbce/687474703a2f2f6936352e74696e797069632e636f6d2f726a687863382e706e67" alt="img"></a></p>
+<h1 id="MVPHelper"><a href="#MVPHelper" class="headerlink" title="MVPHelper"></a><a href="http://androidwing.net/index.php/27" target="_blank" rel="noopener">MVPHelper</a></h1><p>一款 Intellj IDEA 和 Android Studio 的插件，可以为 MVP 生成接口以及实现类，解放双手。<br>具体请查 <a href="http://androidwing.net/index.php/27" target="_blank" rel="noopener">Android Studio 插件之 MVPHelper，一键生成 MVP 代码</a>一文</p>
+<p><a href="https://github.com/githubwing/MVPHelper/raw/master/img/mvp_presenter.gif" target="_blank" rel="noopener"><img src="https://github.com/githubwing/MVPHelper/raw/master/img/mvp_presenter.gif" alt="img"></a></p>
+<h1 id="Matchmaker"><a href="#Matchmaker" class="headerlink" title="Matchmaker"></a><a href="https://github.com/lypeer/Matchmaker" target="_blank" rel="noopener">Matchmaker</a></h1><p>这是一款专为微信小程序开发的插件，目前可在 IntelliJ IDEA 中使用。它可以帮你完成重复机械无趣麻烦的绑定方法的过程，自动的将需要新建的方法注入到 js 文件中去。</p>
+<p><a href="https://raw.githubusercontent.com/lypeer/Matchmaker/master/gif/plugin.gif" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/lypeer/Matchmaker/master/gif/plugin.gif" alt="img"></a></p>
+<h1 id="Emoji-Support-Plugin"><a href="#Emoji-Support-Plugin" class="headerlink" title="Emoji Support Plugin"></a><a href="https://plugins.jetbrains.com/plugin/9174" target="_blank" rel="noopener">Emoji Support Plugin</a></h1><p>让 Intellij 支持 Emoji 输入提醒</p>
+<p><a href="https://github.com/shiraji/emoji/raw/master/website/images/commit.gif" target="_blank" rel="noopener"><img src="https://github.com/shiraji/emoji/raw/master/website/images/commit.gif" alt="img"></a></p>
+<h1 id="Open-Uploader"><a href="#Open-Uploader" class="headerlink" title="Open-Uploader"></a><a href="https://github.com/fingerart/Open-Uploader" target="_blank" rel="noopener">Open-Uploader</a></h1><p>上传 apk 文件到指定的地址，提供自定义参数</p>
+<p><img src="https://camo.githubusercontent.com/aa9d4468da25629928fc71256834a81fdaf2bebc/687474703a2f2f66696e6765726172742e71696e6975646e2e636f6d2f323031362d31302d31322d6f70656e5f75706c6f616465725f707265766965772e676966" alt=""></p>
+<h1 id="MultiTypeTemplates"><a href="#MultiTypeTemplates" class="headerlink" title="MultiTypeTemplates"></a><a href="https://github.com/drakeet/MultiTypeTemplates" target="_blank" rel="noopener">MultiTypeTemplates</a></h1><p>生成 MultiType 和 itemviewprovider (关于 MultiType 请查看<a href="http://gank.io/post/5823bcf6421aa90e799ec2ad" target="_blank" rel="noopener">Android 复杂的列表视图新写法 MultiType</a>)</p>
+<p><a href="https://camo.githubusercontent.com/d43ec0344dcce348e663ba57303fa6a26e4d1bf2/687474703a2f2f7777342e73696e61696d672e636e2f6c617267652f3836653266663835677731663933356c306b77696c6a32316b77307433616b6d2e6a7067" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/d43ec0344dcce348e663ba57303fa6a26e4d1bf2/687474703a2f2f7777342e73696e61696d672e636e2f6c617267652f3836653266663835677731663933356c306b77696c6a32316b77307433616b6d2e6a7067" alt="img"></a></p>
+<p><a href="https://camo.githubusercontent.com/1eb2599f0689134d0bfc728b0ae38a4ead4010d3/687474703a2f2f7777342e73696e61696d672e636e2f6c617267652f38366532666638356777316638796a3073656a64366a323133343062656e31732e6a7067" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/1eb2599f0689134d0bfc728b0ae38a4ead4010d3/687474703a2f2f7777342e73696e61696d672e636e2f6c617267652f38366532666638356777316638796a3073656a64366a323133343062656e31732e6a7067" alt="img"></a></p>
+<h1 id="Android-ButterKnife-Plugin-Plus"><a href="#Android-ButterKnife-Plugin-Plus" class="headerlink" title="Android-ButterKnife-Plugin-Plus"></a><a href="https://github.com/OriginalLove/Android-ButterKnife-Plugin-Plus" target="_blank" rel="noopener">Android-ButterKnife-Plugin-Plus</a></h1><p>Android Studio 的插件，方便快速实现 ButterKnife 注解框架，包含了android-butterknife-zelezny 1.6版本的所有功能，并在此基础上新增如下功能：</p>
+<p>1.可以自由选择是否在当前类中对 ButterKnife 进行初始化，避免了原版本只要使用插件初始化控件会自动在 onCreate 中进行 ButterKnife.bind(this) 的尴尬。</p>
+<p><a href="https://github.com/OriginalLove/Android-ButterKnife-Plugin-Plus/raw/master/img/1.png" target="_blank" rel="noopener"><img src="https://github.com/OriginalLove/Android-ButterKnife-Plugin-Plus/raw/master/img/1.png" alt="img"></a></p>
+<p>这样就可以在基类中进行 ButterKnife 的初始化，不必要每个类中都要初始化，对开发框架的搭建更加方便。</p>
+<p>2.在 Android Studio 的设置界面，对在当前类中是否强制初始化提供了默认值设置，这样就可以让插件使用更符合自己的操作习惯。</p>
+<p><a href="https://github.com/OriginalLove/Android-ButterKnife-Plugin-Plus/raw/master/img/2.png" target="_blank" rel="noopener"><img src="https://github.com/OriginalLove/Android-ButterKnife-Plugin-Plus/raw/master/img/2.png" alt="img"></a></p>
+<h1 id="ApkMultiChannelPlugin"><a href="#ApkMultiChannelPlugin" class="headerlink" title="ApkMultiChannelPlugin"></a><a href="https://github.com/nukc/ApkMultiChannelPlugin" target="_blank" rel="noopener">ApkMultiChannelPlugin</a></h1><p>这是一个为了方便 Android 多渠道打包的 Android Studio / IDEA 插件</p>
+<p><strong>使用方式:</strong></p>
+<ol>
+<li><p>选择 apk</p>
+<p>选择一个 apk 然后右键，点击 Build MultiChannel<br><a href="https://raw.githubusercontent.com/nukc/ApkMultiChannelPlugin/master/art/choose-apk.png" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/nukc/ApkMultiChannelPlugin/master/art/choose-apk.png" alt="img"></a></p>
+</li>
+<li><p>配置</p>
+<p>配置签名信息，打包方式和渠道等<br><a href="https://raw.githubusercontent.com/nukc/ApkMultiChannelPlugin/master/art/setting.png" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/nukc/ApkMultiChannelPlugin/master/art/setting.png" alt="img"></a></p>
+<p>配置说明：</p>
+<p>Key Store Path: 签名文件的路径</p>
+<p>Key Store Password: 签名文件的密码</p>
+<p>Key Alias: 密钥别名</p>
+<p>Key Password: 密钥密码</p>
+<p>Zipalign Path: zipalign 文件的路径（用于优化 apk；zipalign 可以确保所有未压缩的数据均是以相对于文件开始部分的特定字节对齐开始，这样可减少应用消耗的 RAM 量。）</p>
+<p>Signer Version: 选择签名版本：apksigner 和 jarsigner</p>
+<p>Build Type: 打包方式</p>
+<p>Channels: 渠道列表，每行一个，最前面可加 &gt; 或不加（保存信息的时候，程序会自行加上）</p>
+</li>
+<li><p>开始打包</p>
+<p>配置完成之后按 OK 就会开始进行渠道打包，文件会输出在选中的apk的当前目录下的 channels 目录中<br><a href="https://raw.githubusercontent.com/nukc/ApkMultiChannelPlugin/master/art/output.png" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/nukc/ApkMultiChannelPlugin/master/art/output.png" alt="img"></a></p>
+</li>
+</ol>
+<h1 id="CodeMaker"><a href="#CodeMaker" class="headerlink" title="CodeMaker"></a><a href="https://github.com/x-hansong/CodeMaker" target="_blank" rel="noopener">CodeMaker</a></h1><p>一个 IDEA 的代码生成插件，通过 Velocity 支持自定义代码模板来生成代码。详细介绍 <a href="http://blog.xiaohansong.com/2017/02/03/codemaker/?hmsr=toutiao.io&amp;utm_medium=toutiao.io&amp;utm_source=toutiao.io" target="_blank" rel="noopener">IDEA 代码生成插件 CodeMaker</a></p>
+<p><a href="http://7xjtfr.com1.z0.glb.clouddn.com/codemaker.gif" target="_blank" rel="noopener"><img src="http://7xjtfr.com1.z0.glb.clouddn.com/codemaker.gif" alt="img"></a></p>
+<h1 id="adb-idea"><a href="#adb-idea" class="headerlink" title="adb-idea"></a><a href="https://github.com/pbreault/adb-idea" target="_blank" rel="noopener">adb-idea</a></h1><p>可以一键清理缓存并重启 APP</p>
+<p><a href="https://github.com/pbreault/adb-idea/raw/master/website/find_actions.png" target="_blank" rel="noopener"><img src="https://github.com/pbreault/adb-idea/raw/master/website/find_actions.png" alt="img"></a></p>
+<p>此插件来自zhoutianling@ltbl.cn 的分享，感谢 <a href="https://ydmmocoo.github.io/2016/06/28/Android-Studio%E6%8F%92%E4%BB%B6%E6%95%B4%E7%90%86/" target="_blank" rel="noopener">zhoutianling@ltbl.cn</a> 的分享</p>
+<h1 id="JVM-Debugger-Memory-View"><a href="#JVM-Debugger-Memory-View" class="headerlink" title="JVM Debugger Memory View"></a><a href="https://blog.jetbrains.com/idea/2016/08/jvm-debugger-memory-view-for-intellij-idea/" target="_blank" rel="noopener">JVM Debugger Memory View</a></h1><p>Android Studio 和 IDEA 中一个很有用的内存调试插件</p>
+<p>详细可参考<a href="https://zhuanlan.zhihu.com/p/25110433" target="_blank" rel="noopener">说一说 Android Studio 和 IDEA 中一个很有用的内存调试插件</a>一文。</p>
+<p><img src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2016/08/memory_analyzer_2.png" alt=""></p>
+<p><img src="https://d3nmt5vlzunoa1.cloudfront.net/idea/files/2016/08/memory_analyzer_1.png" alt=""></p>
+<h1 id="TinyPic"><a href="#TinyPic" class="headerlink" title="TinyPic"></a><a href="https://github.com/shenjiajun53/TinyPic" target="_blank" rel="noopener">TinyPic</a></h1><p>功能：压缩图片资源，一次最多压缩 500 张 压缩的核心功能是 TinyPng 这个网站提供的</p>
+<p><a href="https://tinypng.com/" target="_blank" rel="noopener">https://tinypng.com/</a></p>
+<p>但是这个网站一次只能上传 20 张图片，所以你需要上传下载，上传下载重复工作。 好在这个网站提供了api 可以压缩图片。</p>
+<p>在开发者页面下申请 api key。对于一个 key，每月有 500 次的免费压缩额度，如果压缩超过了 500 张图片，就不能使用了。需要另外付费。但是申请这个 api 特别简单，填下邮箱，用户名就行，多申请 两个邮箱。1000 张图片也妥妥够了。 这里推荐 google 个十分钟邮箱，不需要注册，只能使用十分钟，用来收一下验证码很方便。</p>
+<p><strong>使用方式：</strong><br>1.在 File-&gt;Settings-&gt;Plugins 里下载插件 TinyPic</p>
+<p>2.安装完后重启，在 Tools 目录下找到 TinyPic</p>
+<p><a href="https://github.com/shenjiajun53/TinyPic/raw/master/screenshots/location.png" target="_blank" rel="noopener"><img src="https://github.com/shenjiajun53/TinyPic/raw/master/screenshots/location.png" alt="img"></a></p>
+<p>3.输入在 <a href="https://tinypng.com/developers" target="_blank" rel="noopener">https://tinypng.com/developers</a> 申请的 api key</p>
+<p><a href="https://github.com/shenjiajun53/TinyPic/raw/master/screenshots/input_key.png" target="_blank" rel="noopener"><img src="https://github.com/shenjiajun53/TinyPic/raw/master/screenshots/input_key.png" alt="img"></a></p>
+<p>4.选择图片，可以选择图片，或者选择文件夹或者同时选中，反正是遍历文件夹下的图片，筛选 jpg 和 png ，key 的剩余次数</p>
+<p><a href="https://github.com/shenjiajun53/TinyPic/raw/master/screenshots/select_images.png" target="_blank" rel="noopener"><img src="https://github.com/shenjiajun53/TinyPic/raw/master/screenshots/select_images.png" alt="img"></a></p>
+<p>5.压缩进度<br><a href="https://github.com/shenjiajun53/TinyPic/raw/master/screenshots/progress.png" target="_blank" rel="noopener"><img src="https://github.com/shenjiajun53/TinyPic/raw/master/screenshots/progress.png" alt="img"></a></p>
+<p>6.超过 500 次的提示（后续会考虑加入 生成压缩的信息的文件，因为大家都用 git，其实也不是很必要）</p>
+<p><a href="https://github.com/shenjiajun53/TinyPic/raw/master/screenshots/warning.png" target="_blank" rel="noopener"><img src="https://github.com/shenjiajun53/TinyPic/raw/master/screenshots/warning.png" alt="img"></a></p>
+<h1 id="ReciteWords"><a href="#ReciteWords" class="headerlink" title="ReciteWords"></a><a href="https://github.com/BolexLiu/ReciteWords" target="_blank" rel="noopener">ReciteWords</a></h1><p>这是一个 Android Studio 翻译与陌生单词记录插件</p>
+<p><a href="https://github.com/BolexLiu/ReciteWords/raw/master/img/1.png" target="_blank" rel="noopener"><img src="https://github.com/BolexLiu/ReciteWords/raw/master/img/1.png" alt="img"></a></p>
+<p>你所翻译的单词会被记录在你当前用户目录下的 ReciteWords.md 文件中（如:C:\Users\Bolex\ReciteWords.md）。可以通过 Markdown 编辑器打开它进行学习。效果如下:<br><a href="https://github.com/BolexLiu/ReciteWords/raw/master/img/2.png" target="_blank" rel="noopener"><img src="https://github.com/BolexLiu/ReciteWords/raw/master/img/2.png" alt="img"></a></p>
+<h1 id="TemplateBuilder"><a href="#TemplateBuilder" class="headerlink" title="TemplateBuilder"></a><a href="https://puke3615.github.io/2017/03/06/TemplateBuilder[Chinese]/" target="_blank" rel="noopener">TemplateBuilder</a></h1><p>TemplateBuilder 是一款能够帮助我们快速生成 Android Studio Template 的 AS 插件，将通过逐个文件去配置模板的方式改进为通过插件来实现，对于简单的模板制作，只需要一键即可生成。</p>
+<p><img src="https://puke3615.github.io/2017/03/06/TemplateBuilder[Chinese]/img2.gif" alt=""></p>
+<p>具体使用请参考<a href="https://puke3615.github.io/2017/03/06/TemplateBuilder[Chinese]/" target="_blank" rel="noopener">TemplateBuilder(中文版)(TemplateBuilder)</a></p>
+<h1 id="intellij-java2smali"><a href="#intellij-java2smali" class="headerlink" title="intellij-java2smali"></a><a href="https://github.com/ollide/intellij-java2smali" target="_blank" rel="noopener">intellij-java2smali</a></h1><p>将 Java &amp; Kotlin 编译成 smali</p>
+<p><a href="https://github.com/ollide/intellij-java2smali/raw/master/img/plugin_usage2.gif" target="_blank" rel="noopener"><img src="https://github.com/ollide/intellij-java2smali/raw/master/img/plugin_usage2.gif" alt="img"></a></p>
+<h1 id="innerbuilder"><a href="#innerbuilder" class="headerlink" title="innerbuilder"></a><a href="https://github.com/analytically/innerbuilder" target="_blank" rel="noopener">innerbuilder</a></h1><p>InnerBuilder 一款 Intellj IDEA 和 Android Studio 自动生成内部类 Builder 代码的插件。</p>
+<p><a href="https://github.com/analytically/innerbuilder/raw/master/screenshot.png" target="_blank" rel="noopener"><img src="https://github.com/analytically/innerbuilder/raw/master/screenshot.png" alt="img"></a></p>
+<h1 id="Statistic"><a href="#Statistic" class="headerlink" title="Statistic"></a><a href="https://plugins.jetbrains.com/plugin/4509-statistic" target="_blank" rel="noopener">Statistic</a></h1><p>统计代码行数</p>
+<p><a href="https://plugins.jetbrains.com/files/4509/screenshot_16675.png" target="_blank" rel="noopener"><img src="https://plugins.jetbrains.com/files/4509/screenshot_16675.png" alt="img"></a></p>
+<p>使用可参考:<a href="http://blog.csdn.net/dreamlivemeng/article/details/67637789" target="_blank" rel="noopener">Android studio 插件 Statistic 的使用</a></p>
+<h1 id="create-intent-inspection"><a href="#create-intent-inspection" class="headerlink" title="create-intent-inspection"></a><a href="https://github.com/shiraji/create-intent-inspection" target="_blank" rel="noopener">create-intent-inspection</a></h1><p>创建 intent</p>
+<p><a href="https://github.com/shiraji/create-intent-inspection/raw/master/website/images/create_intent_inspection_screen_shot.gif" target="_blank" rel="noopener"><img src="https://github.com/shiraji/create-intent-inspection/raw/master/website/images/create_intent_inspection_screen_shot.gif" alt="img"></a></p>
+<h1 id="color-manager"><a href="#color-manager" class="headerlink" title="color-manager"></a><a href="https://github.com/shiraji/color-manager" target="_blank" rel="noopener">color-manager</a></h1><p>颜色管理</p>
+<p><a href="https://github.com/shiraji/color-manager/raw/master/website/images/normal.png" target="_blank" rel="noopener"><img src="https://github.com/shiraji/color-manager/raw/master/website/images/normal.png" alt="img"></a></p>
+<h1 id="new-instance-inspection"><a href="#new-instance-inspection" class="headerlink" title="new-instance-inspection"></a><a href="https://github.com/shiraji/new-instance-inspection" target="_blank" rel="noopener">new-instance-inspection</a></h1><p>创建 Fragment 实例</p>
+<p><a href="https://github.com/shiraji/new-instance-inspection/raw/master/website/images/new_instance_inspection_screenshot.gif" target="_blank" rel="noopener"><img src="https://github.com/shiraji/new-instance-inspection/raw/master/website/images/new_instance_inspection_screenshot.gif" alt="img"></a></p>
+<h1 id="Exynap-1"><a href="#Exynap-1" class="headerlink" title="Exynap"></a><a href="http://exynap.com/" target="_blank" rel="noopener">Exynap</a></h1><p>Exynap 是一个可以帮助你查找并实现您需要的代码的插件</p>
+<p><a href="http://upload-images.jianshu.io/upload_images/1621204-98d39b22737a8728.gif?imageMogr2/auto-orient/strip" target="_blank" rel="noopener"><img src="http://upload-images.jianshu.io/upload_images/1621204-98d39b22737a8728.gif?imageMogr2/auto-orient/strip" alt="img"></a></p>
+<h1 id="databinding-support"><a href="#databinding-support" class="headerlink" title="databinding-support"></a><a href="https://github.com/shiraji/databinding-support" target="_blank" rel="noopener">databinding-support</a></h1><p>一个可以快速实现 databinding 的插件</p>
+<p><a href="https://raw.githubusercontent.com/shiraji/databinding-support/master/websites/images/wrap.gif" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/shiraji/databinding-support/master/websites/images/wrap.gif" alt="img"></a></p>
+<h1 id="pomodoro-tm"><a href="#pomodoro-tm" class="headerlink" title="pomodoro-tm"></a><a href="https://github.com/dkandalov/pomodoro-tm" target="_blank" rel="noopener">pomodoro-tm</a></h1><p>番茄工作法的 Android Studio / IDEA 插件</p>
+<p><a href="https://raw.githubusercontent.com/dkandalov/pomodoro-tm/master/widget.png" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/dkandalov/pomodoro-tm/master/widget.png" alt="img"></a></p>
+<h1 id="freeline"><a href="#freeline" class="headerlink" title="freeline"></a><a href="https://github.com/alibaba/freeline" target="_blank" rel="noopener">freeline</a></h1><p>Freeline 是 Android 平台上的秒级编译方案，Instant Run 的替代品</p>
+<p><a href="https://camo.githubusercontent.com/8c2cd6b22e85207884dc843cb9a0b758e636953c/687474703a2f2f7777342e73696e61696d672e636e2f6c617267652f3635653466316536677731663832656b6e616575646a3230746b30316f6d78652e6a7067" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/8c2cd6b22e85207884dc843cb9a0b758e636953c/687474703a2f2f7777342e73696e61696d672e636e2f6c617267652f3635653466316536677731663832656b6e616575646a3230746b30316f6d78652e6a7067" alt="img"></a></p>
+<h1 id="svgtoandroid"><a href="#svgtoandroid" class="headerlink" title="svgtoandroid"></a><a href="https://github.com/misakuo/svgtoandroid" target="_blank" rel="noopener">svgtoandroid</a></h1><p>Intellij Platform 插件，通过其可以完成从 svg 文件到 Android VectorDrawable 的自动化转换</p>
+<p><a href="https://raw.githubusercontent.com/misakuo/svgtoandroid/master/imgs/1.png" target="_blank" rel="noopener"><img src="https://raw.githubusercontent.com/misakuo/svgtoandroid/master/imgs/1.png" alt="img"></a></p>
+<h1 id="instapk-studio-plugin"><a href="#instapk-studio-plugin" class="headerlink" title="instapk-studio-plugin"></a><a href="https://github.com/PytenLabs/instapk-studio-plugin" target="_blank" rel="noopener">instapk-studio-plugin</a></h1><p>分享 apk 文件</p>
+<p><a href="https://github.com/PytenLabs/instapk-studio-plugin/raw/master/images/install.gif" target="_blank" rel="noopener"><img src="https://github.com/PytenLabs/instapk-studio-plugin/raw/master/images/install.gif" alt="img"></a></p>
+<h1 id="here-be-dragons"><a href="#here-be-dragons" class="headerlink" title="here-be-dragons"></a><a href="https://github.com/anupcowkur/here-be-dragons" target="_blank" rel="noopener">here-be-dragons</a></h1><p>加上@SideEffect 注解的方法,在调用的地方会出现一只鸟</p>
+<p><a href="https://github.com/anupcowkur/here-be-dragons/raw/master/here-be-dragons.gif" target="_blank" rel="noopener"><img src="https://github.com/anupcowkur/here-be-dragons/raw/master/here-be-dragons.gif" alt="img"></a></p>
+<h1 id="android-studio-proteus-plugin"><a href="#android-studio-proteus-plugin" class="headerlink" title="android-studio-proteus-plugin"></a><a href="https://github.com/flipkart-incubator/android-studio-proteus-plugin" target="_blank" rel="noopener">android-studio-proteus-plugin</a></h1><p>将 xml 转化为 json</p>
+<h1 id="最后：推荐梯子：-Github上的star数13000"><a href="#最后：推荐梯子：-Github上的star数13000" class="headerlink" title="*最后：推荐梯子：(Github上的star数13000+)"></a>*最后：推荐梯子：(Github上的star数13000+)</h1><p><a href="https://github.com/XX-net/XX-Net" target="_blank" rel="noopener">XX-Net</a><br>具体使用请参考里面文档已经写得很清楚了，按照文档一步步操作即可。关键是免费的！免费的！免费的！速度也快！</p>
+<p><strong><em>感谢此篇博客的作者，原创不易，请尊重他人的劳动成果。转载出处：<a href="https://ydmmocoo.github.io/2016/06/28/Android-Studio%E6%8F%92%E4%BB%B6%E6%95%B4%E7%90%86/" target="_blank" rel="noopener">Android Studio 插件整理</a></em></strong></p>
+<hr>
+<p>morninggeng</p>
+<p>05/08/2017</p>
+
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+
+
+    <!-- 使用 changyan -->
+    <div id="changyan-comment">
+        <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid="2018/03/20/Android-Studio-Plugin/"  ></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cyt3rd4GP';
+var conf = '19d9568ec935e313a737aa1c3f7e35dd';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+
+    </div>
+    <style>
+        #changyan-comment{
+            background-color: #eee;
+            padding: 2pc;
+        }
+    </style>
+
+
+
+
+
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2018/03/20/Android-View/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            旧篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2018/03/20/Android-Service/" id="post_nav-older" class="next-content">
+            新篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/img/daily_pic.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/androidmorninggeng.png" alt="morninggeng's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        morninggeng@gmail.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="mailto: morninggeng@gmail.com" target="_blank" title="Email Me">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/" target="_self">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+    
+
+    <!-- Archives  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">inbox</i>
+                
+                    归档
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+            <li>
+                <a class="sidebar_archives-link" href="/archives/2018/03/">三月 2018<span class="sidebar_archives-count">12</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Categories  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/Android/">Android<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/categories/Python/">Python<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/工具/">工具<span class="sidebar_archives-count">5</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Pages  -->
+    
+        <li>
+            <a href="/about" title="关于">
+                
+                    <i class="material-icons sidebar-material-icons">person pin</i>
+                
+                关于
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/links" title="链接">
+                
+                    <i class="material-icons sidebar-material-icons">link</i>
+                
+                链接
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/tags" title="标签">
+                
+                    <i class="material-icons sidebar-material-icons">loyalty</i>
+                
+                标签
+            </a>
+        </li>
+        
+    
+
+    <!-- Article Number  -->
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+
+<!-- Theme Material -->
+
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+        <a href="https://twitter.com/morninggeng" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-twitter.svg);">
+                <span class="visuallyhidden">Twitter</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Facebook -->
+    
+        <a href="https://www.facebook.com/weiming.geng" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-facebook.svg);">
+                <span class="visuallyhidden">Facebook</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Google + -->
+    
+        <a href="https://www.google.com/" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-gplus.svg);">
+                <span class="visuallyhidden">Google Plus</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="http://github.com/morninggeng" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-github.svg);">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Zhihu -->
+    
+
+    <!-- Bilibili -->
+    
+
+    <!-- Telegram -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©&nbsp;
+            <script type="text/javascript">
+                var fd = new Date();
+                document.write(fd.getFullYear());
+            </script>
+            &nbsp;morninggeng
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import File -->
+
+    <script src="/js/lazyload.min.js"></script>
+    <script src="/js/js.min.js"></script>
+
+
+
+    <script src="/js/nprogress.js"></script>
+
+
+<script type="text/javascript">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+    
+        <script src="/js/smoothscroll.js"></script>
+    
+
+
+
+
+
+
+
+
+    <!-- 畅言公共 js 代码 start -->
+		<script id="cy_cmt_num" src="https://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cyt3rd4GP">
+</script>
+    <!-- 畅言公共 js 代码 end -->
+
+
+
+
+
+
+
+<!-- Window Load-->
+<script>
+    $(window).load(function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+</script>
+
+<!-- MathJax Load-->
+
+<script>
+    <!-- Offer LazyLoad -->
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    <!-- Start Queue -->
+    $(document).ready(function(){
+        setTimeout(function(){
+            setInterval(function(){
+                queue.execNext();
+            },200);
+        },3000);
+    });
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+</html>
