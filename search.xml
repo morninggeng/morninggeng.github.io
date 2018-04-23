@@ -5,7 +5,9 @@
     <entry>
       <title><![CDATA[Selenium Python]]></title>
       <url>/2018/04/20/Python-SeleniumPython/</url>
-      <content type="html"><![CDATA[<p>Selenium 是一个用于 Web 应用程序测试的工具。Selenium 测试直接运行在浏览器中，就像真正的用户在操作一样。</p>
+      <content type="html"><![CDATA[<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=25657167&auto=1&height=66"></iframe>
+
+<p>Selenium 是一个用于 Web 应用程序测试的工具。Selenium 测试直接运行在浏览器中，就像真正的用户在操作一样。</p>
 <p>Selenium 支持多语言，Java、Python、C、C#；支持多平台，Windows、Mac、Linux；支持多浏览器，FireFox、Chrome、IE、Open…</p>
 <p>Selenium 在应用中充当一个翻译官的角色，在编写程序时，通过调用 Selenium 提供的 API 来控制浏览器，执行一系列的自动化操作，通过一张图来理解下。</p>
 <p><img src="http://opmd2oxww.bkt.clouddn.com/18-4-20/2131090.jpg" alt=""></p>
@@ -645,9 +647,9 @@
         
         <tags>
             
-            <tag> 插件 </tag>
-            
             <tag> Chrome </tag>
+            
+            <tag> 插件 </tag>
             
         </tags>
         
@@ -994,9 +996,9 @@
             
             <tag> Android </tag>
             
-            <tag> Android Studio </tag>
-            
             <tag> 插件 </tag>
+            
+            <tag> Android Studio </tag>
             
         </tags>
         
