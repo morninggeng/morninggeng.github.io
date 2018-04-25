@@ -147,8 +147,14 @@
 <!-- Theme Background Related-->
 
     <style>
-      body{
-        background-image: url(/img/dark.gif);
+      body {
+        <!--background-color: #F5F5F5;-->
+		background-image: url(https://api.i-meto.com/bing?color=white);
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text {
+        background-color: #fff;
       }
     </style>
 
@@ -194,11 +200,16 @@
 
     <!-- Bing Background -->
     
+        <script type="text/javascript">
+            queue.offer(function(){
+                $('body').attr('data-original', 'https://api.i-meto.com/bing?color=white');
+            });
+        </script>
+    
 
     <!-- Custom Head -->
     
-<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
 
 
     
@@ -390,8 +401,10 @@
 <p>话不多说，上车吧。</p>
 </blockquote>
 <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>利用 pip 安装即可。<code>pip install lxml</code></p>
-<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from lxml import etree</span><br><span class="line">infos = etree.HTML(源码) #将源码转化为能被 Xpath 匹配的格式</span><br><span class="line">infos.xpath(Xpath表达式) #返回为一个列表</span><br></pre></td></tr></table></figure>
-<h4 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h4><ol>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><pre><code>from lxml import etree
+infos = etree.HTML(源码) #将源码转化为能被 Xpath 匹配的格式
+infos.xpath(Xpath表达式) #返回为一个列表
+</code></pre><h4 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h4><ol>
 <li>// 双斜杠 定位根节点，会对全文进行扫描，在文档中选取所有符合条件的内容，以列表的形式返回。</li>
 <li>/ 单斜杠寻找当前标签路径的下一层路径标签或者对当前路标签内容进行操作。</li>
 <li>/text() 获取当前路径下的文本内容。</li>
@@ -405,25 +418,100 @@
 <h5 id="生成动态爬取链接"><a href="#生成动态爬取链接" class="headerlink" title="生成动态爬取链接"></a>生成动态爬取链接</h5><p>首先我们通过豆瓣读书访问链接 <code>https://book.douban.com/top250?start=0</code>进入网页，网页每页展示 25 条书籍信息，可以看到下面有页码分 10 页展示。</p>
 <p><img src="http://opmd2oxww.bkt.clouddn.com/18-3-22/62879434.jpg" alt=""></p>
 <p>当我们点击第二页时，链接变为<code>https://book.douban.com/top250?start=25</code>，点击第三页、第四页，发现只有<code>start=</code>后面的数字在发生改变，由此我们可以通过动态更改 start 后面的数字来分页爬取页面信息。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for i in range(10):</span><br><span class="line">	url = &apos;https://book.douban.com/top250?start=&#123;&#125;&apos;.format(i * 25)</span><br></pre></td></tr></table></figure>
-<h5 id="获取书名"><a href="#获取书名" class="headerlink" title="获取书名"></a>获取书名</h5><p>在书籍名称右键点击“检查”（或者按 F12），会自动显示并定位到对应的源代码。然后在源码右键选择 Copy –&gt;Copy Xpath。</p>
+<pre><code>for i in range(10):
+    url = &#39;https://book.douban.com/top250?start={}&#39;.format(i * 25)
+</code></pre><h5 id="获取书名"><a href="#获取书名" class="headerlink" title="获取书名"></a>获取书名</h5><p>在书籍名称右键点击“检查”（或者按 F12），会自动显示并定位到对应的源代码。然后在源码右键选择 Copy –&gt;Copy Xpath。</p>
 <p><img src="http://opmd2oxww.bkt.clouddn.com/18-3-22/47394007.jpg" alt=""></p>
 <p>这里我们获取书籍名称的 Xpath：<code>//*[@id=&quot;content&quot;]/div/div[1]/div/table[1]/tbody/tr/td[2]/div[1]/a</code></p>
 <p>由于我们要获取书籍名称，需要在 Xpath 后面追加<code>/text()</code>，然后编写代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># coding=utf-8</span><br><span class="line">from lxml import etree</span><br><span class="line">import requests</span><br><span class="line"></span><br><span class="line">url = &apos;https://book.douban.com/top250?start=0&apos;</span><br><span class="line"></span><br><span class="line">html = requests.get(url).text</span><br><span class="line">selector = etree.HTML(html)</span><br><span class="line">infos = selector.xpath(&apos;//*[@id=&quot;content&quot;]/div/div[1]/div/table[1]/tbody/tr/td[2]/div[1]/a&apos;)</span><br><span class="line">print(infos)</span><br></pre></td></tr></table></figure>
-<p>纳尼！运行后得到的<code>infos</code>居然是空的。这是由于浏览器在渲染页面时有时会增加多余的<code>tbody</code>标签，这里我们可以拿浏览器显示的代码结构和页面源码做下对比就明白了。</p>
+<pre><code># coding=utf-8
+from lxml import etree
+import requests
+
+url = &#39;https://book.douban.com/top250?start=0&#39;
+
+html = requests.get(url).text
+selector = etree.HTML(html)
+infos = selector.xpath(&#39;//*[@id=&quot;content&quot;]/div/div[1]/div/table[1]/tbody/tr/td[2]/div[1]/a&#39;)
+print(infos)
+</code></pre><p>纳尼！运行后得到的<code>infos</code>居然是空的。这是由于浏览器在渲染页面时有时会增加多余的<code>tbody</code>标签，这里我们可以拿浏览器显示的代码结构和页面源码做下对比就明白了。</p>
 <p><img src="http://opmd2oxww.bkt.clouddn.com/18-3-22/24862334.jpg" alt=""></p>
 <p>左边为浏览器显示代码，右边为页面源代码，可以看到源代码中并没有<code>tbody</code>这个字段，所以我们在爬取时手动删除即可。</p>
 <p>删除后重新运行得到一串数字：<code>[&lt;Element a at 0x1dc911d6e88&gt;]</code>，由于我们要获取书籍名称，所以要在 Xpath 表达式后追加<code>/text()</code>，然后再运行，得到<code>[&#39;\n                追风筝的人\n\n                \n              &#39;]</code>，由于<code>xpath()</code>方法返回一个列表，可以添加<code>[0]</code>，拿取第一条数据，得到两边带有空格的书籍名称，然后利用<code>string.strip()</code>方法去掉空格，最终得到我们想要的书名。</p>
 <h5 id="获取图片链接"><a href="#获取图片链接" class="headerlink" title="获取图片链接"></a>获取图片链接</h5><p>还是右键查看，只不过这次是在图片上进行的 Copy Xpath。<code>//*[@id=&quot;content&quot;]/div/div[1]/div/table[1]/tbody/tr/td[1]/a/img</code>，同样我们要把其中的<code>tbody</code>字段去掉，由于是获取图片的链接，需要在 Xpath 后追加<code>/@src</code>，然后运行代码。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># coding=utf-8</span><br><span class="line">from lxml import etree</span><br><span class="line">import requests</span><br><span class="line"></span><br><span class="line">url = &apos;https://book.douban.com/top250?start=0&apos;</span><br><span class="line"></span><br><span class="line">html = requests.get(url).text</span><br><span class="line">selector = etree.HTML(html)</span><br><span class="line">book_names = selector.xpath(&apos;//*[@id=&quot;content&quot;]/div/div[1]/div/table[1]/tr/td[2]/div[1]/a/text()&apos;)</span><br><span class="line">image_links = selector.xpath(&apos;//*[@id=&quot;content&quot;]/div/div[1]/div/table[1]/tr/td[1]/a/img/@src&apos;)</span><br><span class="line">print(book_names[0].strip(), image_links[0].strip())</span><br></pre></td></tr></table></figure>
-<p>得到：<code>追风筝的人 https://img3.doubanio.com/mpic/s1727290.jpg</code></p>
+<pre><code># coding=utf-8
+from lxml import etree
+import requests
+
+url = &#39;https://book.douban.com/top250?start=0&#39;
+
+html = requests.get(url).text
+selector = etree.HTML(html)
+book_names = selector.xpath(&#39;//*[@id=&quot;content&quot;]/div/div[1]/div/table[1]/tr/td[2]/div[1]/a/text()&#39;)
+image_links = selector.xpath(&#39;//*[@id=&quot;content&quot;]/div/div[1]/div/table[1]/tr/td[1]/a/img/@src&#39;)
+print(book_names[0].strip(), image_links[0].strip())
+</code></pre><p>得到：<code>追风筝的人 https://img3.doubanio.com/mpic/s1727290.jpg</code></p>
 <p>然后以同样的套路获取豆瓣评分和评价人数和评语。这里要注意，有的书下面没有评语，所以在获取时要进行判断，以免程序报错影响爬取进度。这里一条简单的判断语句就可以搞定，<code>remark = remarks[0].strip() if len(remarks) != 0 else &#39;空&#39;</code>，是不是真正体会到 python 的强大和简洁。</p>
 <h5 id="获取书籍信息"><a href="#获取书籍信息" class="headerlink" title="获取书籍信息"></a>获取书籍信息</h5><p>拿第一本书的书籍信息为例，Xpath：<code>//*[@id=&quot;content&quot;]/div/div[1]/div/table[1]/tbody/tr/td[2]/p[1]</code>，去掉<code>tbody</code>字段，追加<code>/text()</code>字段，最后得到：<code>[美] 卡勒德·胡赛尼 / 李继宏 / 上海人民出版社 / 2006-5 / 29.00元</code>，这里由于书籍信息连在一起我们利用<code>string.split(&#39;/&#39;)</code>方法分别截取原作者、译者、出版社、出版日期和定价。由于有的书籍没有译者这项，所以在获取时处理方式和上面处理评语一样，一条简单的判断语句就搞定。</p>
-<h5 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"># coding=utf-8</span><br><span class="line">from lxml import etree</span><br><span class="line">import requests</span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    &apos;User-Agent&apos;: &apos;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 &apos;</span><br><span class="line">                  &apos;Safari/537.36&apos;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def getURL():</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    获取网页 url 地址</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    for i in range(10):</span><br><span class="line">        url = &apos;https://book.douban.com/top250?start=&#123;&#125;&apos;.format(i * 25)</span><br><span class="line">        crawlPage(url)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def crawlPage(url):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    网页信息爬取</span><br><span class="line">    :param url: 网页链接</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    html = requests.get(url, headers=headers).text</span><br><span class="line">    selector = etree.HTML(html)</span><br><span class="line">    infos = selector.xpath(&apos;//*[@id=&quot;content&quot;]/div/div[1]/div/table/tr&apos;)</span><br><span class="line">    for info in infos:</span><br><span class="line">        book_name = info.xpath(&apos;./td[2]/div[1]/a/text()&apos;)[0].strip()  # 书名</span><br><span class="line">        img_link = info.xpath(&apos;./td[1]/a/img/@src&apos;)[0].strip()  # 图片链接</span><br><span class="line">        book_infos = info.xpath(&apos;./td[2]/p[1]/text()&apos;)[0]  # 书籍信息集合</span><br><span class="line">        author = book_infos.split(&apos;/&apos;)[0].strip()  # 作者</span><br><span class="line">        translate = book_infos.split(&apos;/&apos;)[1]</span><br><span class="line">        translate.strip() if len(translate) != 0 else &apos;&apos;</span><br><span class="line">        price = book_infos.split(&apos;/&apos;)[-1].strip()  # 价格</span><br><span class="line">        date = book_infos.split(&apos;/&apos;)[-2].strip()  # 出版时间</span><br><span class="line">        publisher = book_infos.split(&apos;/&apos;)[-3].strip()  # 出版社</span><br><span class="line">        remarks = info.xpath(&apos;./td[2]/p[2]/span/text()&apos;)  # 评语</span><br><span class="line">        remark = remarks[0].strip() if len(remarks) != 0 else &apos;&apos;</span><br><span class="line">        score = info.xpath(&apos;./td[2]/div[2]/span[2]/text()&apos;)[0].strip()  # 评分</span><br><span class="line">        appraise = info.xpath(&apos;./td[2]/div[2]/span[3]/text()&apos;)[0]  # 评价人数</span><br><span class="line">        print(img_link, book_name, author, translate, price, date, publisher, remark, score,</span><br><span class="line">              ((appraise.replace(&apos;(&apos;, &apos;&apos;)).replace(&apos;)&apos;, &apos;&apos;)).strip())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if &apos;__main__&apos;:</span><br><span class="line">    getURL()</span><br></pre></td></tr></table></figure>
-<p>代码经过优化就是上面那个样子，当然还可以深度优化下，这个任务就交给你了。</p>
-<h5 id="爬取部分数据展示"><a href="#爬取部分数据展示" class="headerlink" title="爬取部分数据展示"></a>爬取部分数据展示</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">https://img3.doubanio.com/mpic/s1727290.jpg 追风筝的人 [美] 卡勒德·胡赛尼  李继宏  29.00元 2006-5 上海人民出版社 为你，千千万万遍 8.9 307895人评价</span><br><span class="line">https://img1.doubanio.com/mpic/s1237549.jpg 小王子 [法] 圣埃克苏佩里  马振聘  22.00元 2003-8 人民文学出版社 献给长成了大人的孩子们 9.0 238582人评价</span><br><span class="line">https://img3.doubanio.com/mpic/s1070222.jpg 围城 钱锺书  人民文学出版社  19.00 1991-2 人民文学出版社 对于“人艰不拆”四个字最彻底的违抗 8.9 197116人评价</span><br><span class="line">https://img3.doubanio.com/mpic/s27264181.jpg 解忧杂货店 [日] 东野圭吾  李盈春  39.50元 2014-5 南海出版公司 一碗精心熬制的东野牌鸡汤，拒绝很难 8.6 274201人评价</span><br><span class="line">https://img3.doubanio.com/mpic/s23836852.jpg 活着 余华  南海出版公司  12.00元 1998-5 南海出版公司 活着本身就是人生最大的意义 9.1 143310人评价</span><br><span class="line">https://img3.doubanio.com/mpic/s4610502.jpg 白夜行 [日] 东野圭吾  刘姿君  29.80元 2008-9 南海出版公司 暗夜独行的残破灵魂，爱与恶本就难分难舍 9.1 207752人评价</span><br><span class="line">https://img3.doubanio.com/mpic/s1228930.jpg 挪威的森林 [日] 村上春树  林少华  18.80元 2001-2 上海译文出版社 村上之发轫，多少人的青春启蒙 8.0 193001人评价</span><br><span class="line">https://img3.doubanio.com/mpic/s3254244.jpg 嫌疑人X的献身 [日] 东野圭吾  刘子倩  28.00 2008-9 南海出版公司 数学好是一种极致的浪漫 8.9 160193人评价</span><br><span class="line">https://img1.doubanio.com/mpic/s2768378.jpg 三体 刘慈欣  重庆出版社  23.00 2008-1 重庆出版社 你我不过都是虫子 8.8 163172人评价</span><br><span class="line">https://img1.doubanio.com/mpic/s1091698.jpg 不能承受的生命之轻 [捷克] 米兰·昆德拉  许钧  23.00元 2003-7 上海译文出版社 朝向媚俗的一次伟大的进军 8.5 139076人评价</span><br><span class="line">https://img1.doubanio.com/mpic/s1070959.jpg 红楼梦 [清] 曹雪芹 著  人民文学出版社  59.70元 1996-12 人民文学出版社 谁解其中味？ 9.6 128740人评价</span><br></pre></td></tr></table></figure>
-<p><strong>原创不易，请尊重他人的劳动成果，欢迎转载，但请注明出处。</strong></p>
+<h5 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h5><pre><code># coding=utf-8
+from lxml import etree
+import requests
+
+headers = {
+    &#39;User-Agent&#39;: &#39;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 &#39;
+                  &#39;Safari/537.36&#39;}
+
+
+def getURL():
+    &quot;&quot;&quot;
+    获取网页 url 地址
+    &quot;&quot;&quot;
+    for i in range(10):
+        url = &#39;https://book.douban.com/top250?start={}&#39;.format(i * 25)
+        crawlPage(url)
+
+
+def crawlPage(url):
+    &quot;&quot;&quot;
+    网页信息爬取
+    :param url: 网页链接
+    &quot;&quot;&quot;
+    html = requests.get(url, headers=headers).text
+    selector = etree.HTML(html)
+    infos = selector.xpath(&#39;//*[@id=&quot;content&quot;]/div/div[1]/div/table/tr&#39;)
+    for info in infos:
+        book_name = info.xpath(&#39;./td[2]/div[1]/a/text()&#39;)[0].strip()  # 书名
+        img_link = info.xpath(&#39;./td[1]/a/img/@src&#39;)[0].strip()  # 图片链接
+        book_infos = info.xpath(&#39;./td[2]/p[1]/text()&#39;)[0]  # 书籍信息集合
+        author = book_infos.split(&#39;/&#39;)[0].strip()  # 作者
+        translate = book_infos.split(&#39;/&#39;)[1]
+        translate.strip() if len(translate) != 0 else &#39;&#39;
+        price = book_infos.split(&#39;/&#39;)[-1].strip()  # 价格
+        date = book_infos.split(&#39;/&#39;)[-2].strip()  # 出版时间
+        publisher = book_infos.split(&#39;/&#39;)[-3].strip()  # 出版社
+        remarks = info.xpath(&#39;./td[2]/p[2]/span/text()&#39;)  # 评语
+        remark = remarks[0].strip() if len(remarks) != 0 else &#39;&#39;
+        score = info.xpath(&#39;./td[2]/div[2]/span[2]/text()&#39;)[0].strip()  # 评分
+        appraise = info.xpath(&#39;./td[2]/div[2]/span[3]/text()&#39;)[0]  # 评价人数
+        print(img_link, book_name, author, translate, price, date, publisher, remark, score,
+              ((appraise.replace(&#39;(&#39;, &#39;&#39;)).replace(&#39;)&#39;, &#39;&#39;)).strip())
+
+
+if &#39;__main__&#39;:
+    getURL()
+</code></pre><p>代码经过优化就是上面那个样子，当然还可以深度优化下，这个任务就交给你了。</p>
+<h5 id="爬取部分数据展示"><a href="#爬取部分数据展示" class="headerlink" title="爬取部分数据展示"></a>爬取部分数据展示</h5><pre><code>https://img3.doubanio.com/mpic/s1727290.jpg 追风筝的人 [美] 卡勒德·胡赛尼  李继宏  29.00元 2006-5 上海人民出版社 为你，千千万万遍 8.9 307895人评价
+https://img1.doubanio.com/mpic/s1237549.jpg 小王子 [法] 圣埃克苏佩里  马振聘  22.00元 2003-8 人民文学出版社 献给长成了大人的孩子们 9.0 238582人评价
+https://img3.doubanio.com/mpic/s1070222.jpg 围城 钱锺书  人民文学出版社  19.00 1991-2 人民文学出版社 对于“人艰不拆”四个字最彻底的违抗 8.9 197116人评价
+https://img3.doubanio.com/mpic/s27264181.jpg 解忧杂货店 [日] 东野圭吾  李盈春  39.50元 2014-5 南海出版公司 一碗精心熬制的东野牌鸡汤，拒绝很难 8.6 274201人评价
+https://img3.doubanio.com/mpic/s23836852.jpg 活着 余华  南海出版公司  12.00元 1998-5 南海出版公司 活着本身就是人生最大的意义 9.1 143310人评价
+https://img3.doubanio.com/mpic/s4610502.jpg 白夜行 [日] 东野圭吾  刘姿君  29.80元 2008-9 南海出版公司 暗夜独行的残破灵魂，爱与恶本就难分难舍 9.1 207752人评价
+https://img3.doubanio.com/mpic/s1228930.jpg 挪威的森林 [日] 村上春树  林少华  18.80元 2001-2 上海译文出版社 村上之发轫，多少人的青春启蒙 8.0 193001人评价
+https://img3.doubanio.com/mpic/s3254244.jpg 嫌疑人X的献身 [日] 东野圭吾  刘子倩  28.00 2008-9 南海出版公司 数学好是一种极致的浪漫 8.9 160193人评价
+https://img1.doubanio.com/mpic/s2768378.jpg 三体 刘慈欣  重庆出版社  23.00 2008-1 重庆出版社 你我不过都是虫子 8.8 163172人评价
+https://img1.doubanio.com/mpic/s1091698.jpg 不能承受的生命之轻 [捷克] 米兰·昆德拉  许钧  23.00元 2003-7 上海译文出版社 朝向媚俗的一次伟大的进军 8.5 139076人评价
+https://img1.doubanio.com/mpic/s1070959.jpg 红楼梦 [清] 曹雪芹 著  人民文学出版社  59.70元 1996-12 人民文学出版社 谁解其中味？ 9.6 128740人评价
+</code></pre><p><strong>原创不易，请尊重他人的劳动成果，欢迎转载，但请注明出处。</strong></p>
 <hr>
 <p>morninggeng</p>
 <p>03/23/2018</p>
@@ -433,7 +521,7 @@
     
 	
 	
-  <div class="article-statement">
+  <!-- <div class="article-statement">
     <hr>  
     <strong>本文标题: </strong><a href="/2018/03/23/Python-lxmlCrawlDouBanBook/">lxml（Xpath） 爬取豆瓣读书 Top 250</a><br>
     <strong>原始链接: </strong><a href="/2018/03/23/Python-lxmlCrawlDouBanBook/" title="lxml（Xpath） 爬取豆瓣读书 Top 250">http://morninggeng.cn/2018/03/23/Python-lxmlCrawlDouBanBook/</a><br>
@@ -442,7 +530,7 @@
     <strong>最后更新: </strong>2018年03月23日-12:05<br>
     
     <strong>版权声明: </strong>本站文章均采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0协议</a>进行许可。转载请注明出处！<br>
-  </div>
+  </div>-->
 
 </div>
 
@@ -523,7 +611,7 @@ window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="tex
 <aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
     <div id="sidebar-main">
         <!-- Sidebar Header -->
-        <div class="sidebar-header header-cover" style="background-image: url(/img/daily_pic.png);">
+        <div class="sidebar-header header-cover" style="background-image: url(/img/manong.gif);">
     <!-- Top bar -->
     <div class="top-bar"></div>
 
@@ -556,7 +644,7 @@ window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="tex
         <ul id="settings-dropdown" class="dropdown-menu">
             
                 <li>
-                    <a href="mailto: morninggeng@gmail.com" target="_blank" title="Email Me">
+                    <a href="https://www.morninggeng@gmail.com" target="_blank" title="Email Me">
                         
                             <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
                         
@@ -760,6 +848,12 @@ It will not impact the appearance and can give developers a lot of support :)
 
     <!-- Zhihu -->
     
+        <a href="https://www.zhihu.com/" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-zhihu.svg);">
+                <span class="visuallyhidden">Zhihu</span>
+            </button><!--
+     --></a>
+    
 
     <!-- Bilibili -->
     
@@ -885,5 +979,8 @@ It will not impact the appearance and can give developers a lot of support :)
                 </main>
             </div>
         </body>
+		
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
     
 </html>

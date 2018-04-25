@@ -147,8 +147,14 @@
 <!-- Theme Background Related-->
 
     <style>
-      body{
-        background-image: url(/img/dark.gif);
+      body {
+        <!--background-color: #F5F5F5;-->
+		background-image: url(https://api.i-meto.com/bing?color=white);
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text {
+        background-color: #fff;
       }
     </style>
 
@@ -194,11 +200,16 @@
 
     <!-- Bing Background -->
     
+        <script type="text/javascript">
+            queue.offer(function(){
+                $('body').attr('data-original', 'https://api.i-meto.com/bing?color=white');
+            });
+        </script>
+    
 
     <!-- Custom Head -->
     
-<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
 
 
     
@@ -392,15 +403,235 @@
 <p><img src="http://opmd2oxww.bkt.clouddn.com/18-4-19/84228452.jpg" alt=""></p>
 <h4 id="框架搭建"><a href="#框架搭建" class="headerlink" title="框架搭建"></a>框架搭建</h4><p>接下来按照上面流程图，进行程序代码编写。</p>
 <h5 id="创建程序主入口"><a href="#创建程序主入口" class="headerlink" title="创建程序主入口"></a>创建程序主入口</h5><p>引导用户输入选择爬取方式，并人性化的给出相关提示。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">from Crawler_Xpath import Crawler_Xpath</span><br><span class="line">from Crawler_bs4 import Crawler_bs4</span><br><span class="line">from Crawler_re import Crawler_re</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def select_spider():</span><br><span class="line">    print(&apos;抓取不得姐网页信息操作说明：&apos;)</span><br><span class="line">    print(&apos;1.采用 Xpath 爬取&apos;)</span><br><span class="line">    print(&apos;2.采用 bs4 爬取&apos;)</span><br><span class="line">    print(&apos;3.采用正则表达式爬取&apos;)</span><br><span class="line">    try:</span><br><span class="line">        num = int(input(&apos;请选择一种爬取方式:&apos;))</span><br><span class="line">        if num == 1:</span><br><span class="line">            print(&apos;采用 Xpath 爬取&apos;)</span><br><span class="line">            result = Crawler_Xpath()</span><br><span class="line">            result.crawler_data()</span><br><span class="line">        elif num == 2:</span><br><span class="line">            print(&apos;采用 bs4 爬取&apos;)</span><br><span class="line">            result = Crawler_bs4()</span><br><span class="line">            result.crawler_data()</span><br><span class="line">        elif num == 3:</span><br><span class="line">            print(&apos;采用正则表达式爬取&apos;)</span><br><span class="line">            result = Crawler_re()</span><br><span class="line">            result.crawler_data()</span><br><span class="line">    except Exception as e:</span><br><span class="line">        print(&apos;输入错误：&apos;, e)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    select_spider()</span><br></pre></td></tr></table></figure>
-<h5 id="创建爬虫基类"><a href="#创建爬虫基类" class="headerlink" title="创建爬虫基类"></a>创建爬虫基类</h5><p>让每种方式都继承这个类，在该类中定义好信息保存的字段，并做好基本网络请求和图片下载工作，然后定义抽象方法，将具体的爬取工作让子类去实现。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">from ExcelUtil import ExcelUtil</span><br><span class="line">import requests</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Crawler(object):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.title = [&apos;昵称&apos;, &apos;发布时间&apos;, &apos;发布内容&apos;, &apos;图片链接&apos;]</span><br><span class="line">        self.sheet_name = &apos;不得姐信息一览表&apos;</span><br><span class="line">        excel_info = ExcelUtil.create_excel(self.title, self.sheet_name)</span><br><span class="line">        self.book = excel_info[0]</span><br><span class="line">        self.sheet = excel_info[1]</span><br><span class="line">        self.count = 0</span><br><span class="line">        self.data = []</span><br><span class="line"></span><br><span class="line">    def crawler_data(self):</span><br><span class="line"></span><br><span class="line">        for page in range(1, 4):</span><br><span class="line">            print(&apos;开始抓取第%s页&apos; % page)</span><br><span class="line">            url = &apos;http://www.budejie.com/&#123;&#125;&apos;.format(page)</span><br><span class="line">            self.request_list(url)</span><br><span class="line">            time.sleep(1)</span><br><span class="line">        print(&apos;抓取完毕，快去看看吧&apos;)</span><br><span class="line"></span><br><span class="line">    def request_list(self, url):</span><br><span class="line">        headers = &#123;</span><br><span class="line">            &apos;User-Agent&apos;: &apos;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36&apos;&#125;</span><br><span class="line">        html = requests.get(url, headers=headers)</span><br><span class="line">        if html.status_code == 200:</span><br><span class="line">            self.paser_list(html.text)</span><br><span class="line"></span><br><span class="line">    def paser_list(self, text):</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line">    def download_img(path, image_name, link):</span><br><span class="line">        data = requests.get(link, stream=True)</span><br><span class="line">        if data.status_code == 200:</span><br><span class="line">            if link.endswith(&apos;.gif&apos;):</span><br><span class="line">                with open(path + image_name + &apos;.gif&apos;, &apos;wb&apos;) as imageFile:</span><br><span class="line">                    for image in data:</span><br><span class="line">                        imageFile.write(image)</span><br><span class="line">            elif link.endswith(&apos;.jpg&apos;):</span><br><span class="line">                with open(path + image_name + &apos;.jpg&apos;, &apos;wb&apos;) as imageFile:</span><br><span class="line">                    for image in data:</span><br><span class="line">                        imageFile.write(image)</span><br></pre></td></tr></table></figure>
-<h5 id="创建-Excel-表操作类"><a href="#创建-Excel-表操作类" class="headerlink" title="创建 Excel 表操作类"></a>创建 Excel 表操作类</h5><p>执行对 Excel 表的创建和写入工作。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import xlwt</span><br><span class="line"></span><br><span class="line">class ExcelUtil(object):</span><br><span class="line"></span><br><span class="line">    def create_excel(title, sheet_name):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        创建 Excel 表</span><br><span class="line">        :param sheet_name: 表单名</span><br><span class="line">        :return: 实例</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        book = xlwt.Workbook()</span><br><span class="line">        sheet = book.add_sheet(sheet_name)</span><br><span class="line">        for i in range(len(title)):</span><br><span class="line">            sheet.write(0, i, title[i])</span><br><span class="line">        return book, sheet</span><br><span class="line"></span><br><span class="line">    def write_excel(book, sheet, count, data_info, excel_name):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        写入数据</span><br><span class="line">        :param sheet: 表单</span><br><span class="line">        :param count: 行</span><br><span class="line">        :param data_info: 数据</span><br><span class="line">        :param excel_name: 文件名</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        if len(data_info) != 0:</span><br><span class="line">            for num in range(len(data_info)):</span><br><span class="line">                sheet.write(count, num, data_info[num])</span><br><span class="line">            book.save(excel_name)</span><br></pre></td></tr></table></figure>
-<h5 id="创建-Xpath-爬虫类"><a href="#创建-Xpath-爬虫类" class="headerlink" title="创建 Xpath 爬虫类"></a>创建 Xpath 爬虫类</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">from Crawler import Crawler</span><br><span class="line">from lxml import etree</span><br><span class="line">from ExcelUtil import ExcelUtil</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Crawler_Xpath(Crawler):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        super().__init__()</span><br><span class="line"></span><br><span class="line">    def paser_list(self, text):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        解析数据</span><br><span class="line">        :param text: html 源码</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        select = etree.HTML(text)</span><br><span class="line">        infos = select.xpath(&apos;/html/body/div/div/div/div/div/ul/li&apos;)</span><br><span class="line">        try:</span><br><span class="line">            for info in infos:</span><br><span class="line">                if len(info) &gt; 2:</span><br><span class="line">                    nick_name = info.xpath(&apos;./div[1]/div[2]/a/text()&apos;)[0].strip()  # 昵称</span><br><span class="line">                    date = info.xpath(&apos;./div[1]/div[2]/span/text()&apos;)[0].strip()  # 发布时间</span><br><span class="line">                    content = info.xpath(&apos;./div[2]/div[1]/a/text()&apos;)[0].strip()  # 发布内容</span><br><span class="line">                    self.data.append(nick_name)</span><br><span class="line">                    self.data.append(date)</span><br><span class="line">                    self.data.append(content)</span><br><span class="line">                    img_links = info.xpath(&apos;./div[2]/div[2]/a/img/@data-original&apos;)  # 图片链接</span><br><span class="line">                    if len(img_links) == 0:</span><br><span class="line">                        self.data.append(&apos;http://morninggeng.cn/img/head.gif&apos;)</span><br><span class="line">                    else:</span><br><span class="line">                        img_link = info.xpath(&apos;./div[2]/div[2]/a/img/@data-original&apos;)[0].strip()  # 图片链接</span><br><span class="line">                        self.data.append(img_link)</span><br><span class="line"></span><br><span class="line">                    # 图片下载</span><br><span class="line">                    # Crawler.download_img(&apos;图片/&apos;, content, img_link)</span><br><span class="line">                    self.count += 1</span><br><span class="line">                    print(&apos;正在写入第%s条数据&apos; % self.count)</span><br><span class="line">                    ExcelUtil.write_excel(self.book, self.sheet, self.count, self.data, &apos;百思不得姐.xls&apos;)</span><br><span class="line">                    self.data = []</span><br><span class="line">        except Exception as e:</span><br><span class="line">            print(&apos;发生错误：&apos;, e)</span><br></pre></td></tr></table></figure>
-<h5 id="创建-bs4-爬虫类"><a href="#创建-bs4-爬虫类" class="headerlink" title="创建 bs4 爬虫类"></a>创建 bs4 爬虫类</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">from Crawler import Crawler</span><br><span class="line">from bs4 import BeautifulSoup</span><br><span class="line">from ExcelUtil import ExcelUtil</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Crawler_bs4(Crawler):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        super().__init__()</span><br><span class="line"></span><br><span class="line">    def paser_list(self, text):</span><br><span class="line">        try:</span><br><span class="line">            img_links = []</span><br><span class="line">            soup = BeautifulSoup(text, &apos;html.parser&apos;)</span><br><span class="line">            # 图片和信息分开获取</span><br><span class="line">            # 获取图片</span><br><span class="line">            infos = soup.find_all(&apos;div&apos;, class_=&apos;j-r-list-c&apos;)</span><br><span class="line">            for info in infos:</span><br><span class="line">                img_divs = info.find_all(&apos;div&apos;, class_=&apos;j-r-list-c-img&apos;)</span><br><span class="line">                if len(img_divs) == 0:</span><br><span class="line">                    img_links.append(&apos;http://morninggeng.cn/img/head.gif&apos;)</span><br><span class="line">                else:</span><br><span class="line">                    img_links.append(img_divs[0].img.get(&apos;data-original&apos;))</span><br><span class="line">            # 获取信息</span><br><span class="line">            for num in range(len(soup.find_all(&apos;div&apos;, class_=&apos;j-list-user&apos;))):</span><br><span class="line">                nick_name = soup.find_all(&apos;a&apos;, class_=&apos;u-user-name&apos;)[num].text.strip()</span><br><span class="line">                date = soup.find_all(&apos;div&apos;, class_=&apos;u-txt&apos;)[num].span.text.strip()</span><br><span class="line">                content = soup.find_all(&apos;div&apos;, class_=&apos;j-r-list-c-desc&apos;)[num].a.text.strip()</span><br><span class="line">                img_link = img_links[num].strip()</span><br><span class="line"></span><br><span class="line">                self.data.append(nick_name)</span><br><span class="line">                self.data.append(date)</span><br><span class="line">                self.data.append(content)</span><br><span class="line">                self.data.append(img_link)</span><br><span class="line">                # 图片下载</span><br><span class="line">                # Crawler.download_img(&apos;图片/&apos;, content, img_link)</span><br><span class="line">                self.count += 1</span><br><span class="line">                print(&apos;正在写入第%s条数据&apos; % self.count)</span><br><span class="line">                ExcelUtil.write_excel(self.book, self.sheet, self.count, self.data, &apos;百思不得姐.xls&apos;)</span><br><span class="line">                self.data = []</span><br><span class="line"></span><br><span class="line">        except Exception as e:</span><br><span class="line">            print(&apos;发生错误：&apos;, e)</span><br></pre></td></tr></table></figure>
-<h5 id="创建正则爬虫类"><a href="#创建正则爬虫类" class="headerlink" title="创建正则爬虫类"></a>创建正则爬虫类</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">from Crawler import Crawler</span><br><span class="line">from ExcelUtil import ExcelUtil</span><br><span class="line">import re</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Crawler_re(Crawler):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        super().__init__()</span><br><span class="line"></span><br><span class="line">    def paser_list(self, text):</span><br><span class="line">        infos = re.findall(</span><br><span class="line">            &apos;&lt;div class=&quot;j-list-user&quot;&gt;.*?&lt;a.*?class=&quot;u-user-name&quot;.*?&gt;(.*?)&lt;/a&gt;.*?&lt;span class=&quot;u-time  f-ib f-fr&quot;&gt;(.*?)&lt;/span&gt;.*?&lt;/div&gt;.*?&lt;div class=&quot;j-r-list-c&quot;&gt;.*?&lt;div class=&quot;j-r-list-c-desc&quot;&gt;.*?&lt;a.*?&gt;(.*?)&lt;/a&gt;.*?&lt;img.*?data-original=&quot;(.*?)&quot;.*?&gt;.*?&lt;/a&gt;.*?&lt;/div&gt;.*?&lt;/div&gt;&apos;,</span><br><span class="line">            text, re.S)</span><br><span class="line">        for info in infos:</span><br><span class="line">            nick_name = info[0].strip()</span><br><span class="line">            date = info[1].strip()</span><br><span class="line">            content = info[2].strip()</span><br><span class="line">            img_link = info[3].strip()</span><br><span class="line">            self.data.append(nick_name)</span><br><span class="line">            self.data.append(date)</span><br><span class="line">            self.data.append(content)</span><br><span class="line">            self.data.append(img_link)</span><br><span class="line"></span><br><span class="line">            ## 图片下载</span><br><span class="line">            # Crawler.download_img(&apos;图片/&apos;, content, img_link)</span><br><span class="line">            self.count += 1</span><br><span class="line">            print(&apos;正在写入第%s条数据&apos; % self.count)</span><br><span class="line">            ExcelUtil.write_excel(self.book, self.sheet, self.count, self.data, &apos;百思不得姐.xls&apos;)</span><br><span class="line">            self.data = []</span><br></pre></td></tr></table></figure>
-<p><strong>原创不易，请尊重他人的劳动成果，欢迎转载，但请注明出处。</strong></p>
+<pre><code>#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from Crawler_Xpath import Crawler_Xpath
+from Crawler_bs4 import Crawler_bs4
+from Crawler_re import Crawler_re
+
+
+def select_spider():
+    print(&#39;抓取不得姐网页信息操作说明：&#39;)
+    print(&#39;1.采用 Xpath 爬取&#39;)
+    print(&#39;2.采用 bs4 爬取&#39;)
+    print(&#39;3.采用正则表达式爬取&#39;)
+    try:
+        num = int(input(&#39;请选择一种爬取方式:&#39;))
+        if num == 1:
+            print(&#39;采用 Xpath 爬取&#39;)
+            result = Crawler_Xpath()
+            result.crawler_data()
+        elif num == 2:
+            print(&#39;采用 bs4 爬取&#39;)
+            result = Crawler_bs4()
+            result.crawler_data()
+        elif num == 3:
+            print(&#39;采用正则表达式爬取&#39;)
+            result = Crawler_re()
+            result.crawler_data()
+    except Exception as e:
+        print(&#39;输入错误：&#39;, e)
+
+
+if __name__ == &#39;__main__&#39;:
+    select_spider()
+</code></pre><h5 id="创建爬虫基类"><a href="#创建爬虫基类" class="headerlink" title="创建爬虫基类"></a>创建爬虫基类</h5><p>让每种方式都继承这个类，在该类中定义好信息保存的字段，并做好基本网络请求和图片下载工作，然后定义抽象方法，将具体的爬取工作让子类去实现。</p>
+<pre><code>#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from ExcelUtil import ExcelUtil
+import requests
+import time
+
+
+class Crawler(object):
+    def __init__(self):
+        self.title = [&#39;昵称&#39;, &#39;发布时间&#39;, &#39;发布内容&#39;, &#39;图片链接&#39;]
+        self.sheet_name = &#39;不得姐信息一览表&#39;
+        excel_info = ExcelUtil.create_excel(self.title, self.sheet_name)
+        self.book = excel_info[0]
+        self.sheet = excel_info[1]
+        self.count = 0
+        self.data = []
+
+    def crawler_data(self):
+
+        for page in range(1, 4):
+            print(&#39;开始抓取第%s页&#39; % page)
+            url = &#39;http://www.budejie.com/{}&#39;.format(page)
+            self.request_list(url)
+            time.sleep(1)
+        print(&#39;抓取完毕，快去看看吧&#39;)
+
+    def request_list(self, url):
+        headers = {
+            &#39;User-Agent&#39;: &#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36&#39;}
+        html = requests.get(url, headers=headers)
+        if html.status_code == 200:
+            self.paser_list(html.text)
+
+    def paser_list(self, text):
+        pass
+
+    def download_img(path, image_name, link):
+        data = requests.get(link, stream=True)
+        if data.status_code == 200:
+            if link.endswith(&#39;.gif&#39;):
+                with open(path + image_name + &#39;.gif&#39;, &#39;wb&#39;) as imageFile:
+                    for image in data:
+                        imageFile.write(image)
+            elif link.endswith(&#39;.jpg&#39;):
+                with open(path + image_name + &#39;.jpg&#39;, &#39;wb&#39;) as imageFile:
+                    for image in data:
+                        imageFile.write(image)
+</code></pre><h5 id="创建-Excel-表操作类"><a href="#创建-Excel-表操作类" class="headerlink" title="创建 Excel 表操作类"></a>创建 Excel 表操作类</h5><p>执行对 Excel 表的创建和写入工作。</p>
+<pre><code>#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import xlwt
+
+class ExcelUtil(object):
+
+    def create_excel(title, sheet_name):
+        &quot;&quot;&quot;
+        创建 Excel 表
+        :param sheet_name: 表单名
+        :return: 实例
+        &quot;&quot;&quot;
+        book = xlwt.Workbook()
+        sheet = book.add_sheet(sheet_name)
+        for i in range(len(title)):
+            sheet.write(0, i, title[i])
+        return book, sheet
+
+    def write_excel(book, sheet, count, data_info, excel_name):
+        &quot;&quot;&quot;
+        写入数据
+        :param sheet: 表单
+        :param count: 行
+        :param data_info: 数据
+        :param excel_name: 文件名
+        &quot;&quot;&quot;
+        if len(data_info) != 0:
+            for num in range(len(data_info)):
+                sheet.write(count, num, data_info[num])
+            book.save(excel_name)
+</code></pre><h5 id="创建-Xpath-爬虫类"><a href="#创建-Xpath-爬虫类" class="headerlink" title="创建 Xpath 爬虫类"></a>创建 Xpath 爬虫类</h5><pre><code>#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from Crawler import Crawler
+from lxml import etree
+from ExcelUtil import ExcelUtil
+
+
+class Crawler_Xpath(Crawler):
+    def __init__(self):
+        super().__init__()
+
+    def paser_list(self, text):
+        &quot;&quot;&quot;
+        解析数据
+        :param text: html 源码
+        &quot;&quot;&quot;
+        select = etree.HTML(text)
+        infos = select.xpath(&#39;/html/body/div/div/div/div/div/ul/li&#39;)
+        try:
+            for info in infos:
+                if len(info) &gt; 2:
+                    nick_name = info.xpath(&#39;./div[1]/div[2]/a/text()&#39;)[0].strip()  # 昵称
+                    date = info.xpath(&#39;./div[1]/div[2]/span/text()&#39;)[0].strip()  # 发布时间
+                    content = info.xpath(&#39;./div[2]/div[1]/a/text()&#39;)[0].strip()  # 发布内容
+                    self.data.append(nick_name)
+                    self.data.append(date)
+                    self.data.append(content)
+                    img_links = info.xpath(&#39;./div[2]/div[2]/a/img/@data-original&#39;)  # 图片链接
+                    if len(img_links) == 0:
+                        self.data.append(&#39;http://morninggeng.cn/img/head.gif&#39;)
+                    else:
+                        img_link = info.xpath(&#39;./div[2]/div[2]/a/img/@data-original&#39;)[0].strip()  # 图片链接
+                        self.data.append(img_link)
+
+                    # 图片下载
+                    # Crawler.download_img(&#39;图片/&#39;, content, img_link)
+                    self.count += 1
+                    print(&#39;正在写入第%s条数据&#39; % self.count)
+                    ExcelUtil.write_excel(self.book, self.sheet, self.count, self.data, &#39;百思不得姐.xls&#39;)
+                    self.data = []
+        except Exception as e:
+            print(&#39;发生错误：&#39;, e)
+</code></pre><h5 id="创建-bs4-爬虫类"><a href="#创建-bs4-爬虫类" class="headerlink" title="创建 bs4 爬虫类"></a>创建 bs4 爬虫类</h5><pre><code>#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from Crawler import Crawler
+from bs4 import BeautifulSoup
+from ExcelUtil import ExcelUtil
+
+
+class Crawler_bs4(Crawler):
+    def __init__(self):
+        super().__init__()
+
+    def paser_list(self, text):
+        try:
+            img_links = []
+            soup = BeautifulSoup(text, &#39;html.parser&#39;)
+            # 图片和信息分开获取
+            # 获取图片
+            infos = soup.find_all(&#39;div&#39;, class_=&#39;j-r-list-c&#39;)
+            for info in infos:
+                img_divs = info.find_all(&#39;div&#39;, class_=&#39;j-r-list-c-img&#39;)
+                if len(img_divs) == 0:
+                    img_links.append(&#39;http://morninggeng.cn/img/head.gif&#39;)
+                else:
+                    img_links.append(img_divs[0].img.get(&#39;data-original&#39;))
+            # 获取信息
+            for num in range(len(soup.find_all(&#39;div&#39;, class_=&#39;j-list-user&#39;))):
+                nick_name = soup.find_all(&#39;a&#39;, class_=&#39;u-user-name&#39;)[num].text.strip()
+                date = soup.find_all(&#39;div&#39;, class_=&#39;u-txt&#39;)[num].span.text.strip()
+                content = soup.find_all(&#39;div&#39;, class_=&#39;j-r-list-c-desc&#39;)[num].a.text.strip()
+                img_link = img_links[num].strip()
+
+                self.data.append(nick_name)
+                self.data.append(date)
+                self.data.append(content)
+                self.data.append(img_link)
+                # 图片下载
+                # Crawler.download_img(&#39;图片/&#39;, content, img_link)
+                self.count += 1
+                print(&#39;正在写入第%s条数据&#39; % self.count)
+                ExcelUtil.write_excel(self.book, self.sheet, self.count, self.data, &#39;百思不得姐.xls&#39;)
+                self.data = []
+
+        except Exception as e:
+            print(&#39;发生错误：&#39;, e)
+</code></pre><h5 id="创建正则爬虫类"><a href="#创建正则爬虫类" class="headerlink" title="创建正则爬虫类"></a>创建正则爬虫类</h5><pre><code>#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from Crawler import Crawler
+from ExcelUtil import ExcelUtil
+import re
+
+
+class Crawler_re(Crawler):
+    def __init__(self):
+        super().__init__()
+
+    def paser_list(self, text):
+        infos = re.findall(
+            &#39;&lt;div class=&quot;j-list-user&quot;&gt;.*?&lt;a.*?class=&quot;u-user-name&quot;.*?&gt;(.*?)&lt;/a&gt;.*?&lt;span class=&quot;u-time  f-ib f-fr&quot;&gt;(.*?)&lt;/span&gt;.*?&lt;/div&gt;.*?&lt;div class=&quot;j-r-list-c&quot;&gt;.*?&lt;div class=&quot;j-r-list-c-desc&quot;&gt;.*?&lt;a.*?&gt;(.*?)&lt;/a&gt;.*?&lt;img.*?data-original=&quot;(.*?)&quot;.*?&gt;.*?&lt;/a&gt;.*?&lt;/div&gt;.*?&lt;/div&gt;&#39;,
+            text, re.S)
+        for info in infos:
+            nick_name = info[0].strip()
+            date = info[1].strip()
+            content = info[2].strip()
+            img_link = info[3].strip()
+            self.data.append(nick_name)
+            self.data.append(date)
+            self.data.append(content)
+            self.data.append(img_link)
+
+            ## 图片下载
+            # Crawler.download_img(&#39;图片/&#39;, content, img_link)
+            self.count += 1
+            print(&#39;正在写入第%s条数据&#39; % self.count)
+            ExcelUtil.write_excel(self.book, self.sheet, self.count, self.data, &#39;百思不得姐.xls&#39;)
+            self.data = []
+</code></pre><p><strong>原创不易，请尊重他人的劳动成果，欢迎转载，但请注明出处。</strong></p>
 <hr>
 <p>morninggeng</p>
 <p>04/18/2018</p>
@@ -410,7 +641,7 @@
     
 	
 	
-  <div class="article-statement">
+  <!-- <div class="article-statement">
     <hr>  
     <strong>本文标题: </strong><a href="/2018/04/18/Python-SpiderBudejie/">3 种方式爬取不得姐</a><br>
     <strong>原始链接: </strong><a href="/2018/04/18/Python-SpiderBudejie/" title="3 种方式爬取不得姐">http://morninggeng.cn/2018/04/18/Python-SpiderBudejie/</a><br>
@@ -419,7 +650,7 @@
     <strong>最后更新: </strong>2018年04月19日-13:43<br>
     
     <strong>版权声明: </strong>本站文章均采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0协议</a>进行许可。转载请注明出处！<br>
-  </div>
+  </div>-->
 
 </div>
 
@@ -500,7 +731,7 @@ window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="tex
 <aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
     <div id="sidebar-main">
         <!-- Sidebar Header -->
-        <div class="sidebar-header header-cover" style="background-image: url(/img/daily_pic.png);">
+        <div class="sidebar-header header-cover" style="background-image: url(/img/manong.gif);">
     <!-- Top bar -->
     <div class="top-bar"></div>
 
@@ -533,7 +764,7 @@ window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="tex
         <ul id="settings-dropdown" class="dropdown-menu">
             
                 <li>
-                    <a href="mailto: morninggeng@gmail.com" target="_blank" title="Email Me">
+                    <a href="https://www.morninggeng@gmail.com" target="_blank" title="Email Me">
                         
                             <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
                         
@@ -737,6 +968,12 @@ It will not impact the appearance and can give developers a lot of support :)
 
     <!-- Zhihu -->
     
+        <a href="https://www.zhihu.com/" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-zhihu.svg);">
+                <span class="visuallyhidden">Zhihu</span>
+            </button><!--
+     --></a>
+    
 
     <!-- Bilibili -->
     
@@ -862,5 +1099,8 @@ It will not impact the appearance and can give developers a lot of support :)
                 </main>
             </div>
         </body>
+		
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
     
 </html>

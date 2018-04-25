@@ -147,8 +147,14 @@
 <!-- Theme Background Related-->
 
     <style>
-      body{
-        background-image: url(/img/dark.gif);
+      body {
+        <!--background-color: #F5F5F5;-->
+		background-image: url(https://api.i-meto.com/bing?color=white);
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text {
+        background-color: #fff;
       }
     </style>
 
@@ -194,11 +200,16 @@
 
     <!-- Bing Background -->
     
+        <script type="text/javascript">
+            queue.offer(function(){
+                $('body').attr('data-original', 'https://api.i-meto.com/bing?color=white');
+            });
+        </script>
+    
 
     <!-- Custom Head -->
     
-<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/prism-solarizedlight.css" type="text/css"></head>
 
 
     
@@ -901,7 +912,7 @@ SMTP：是发送邮件的协议，Python 内置对 SMTP 的支持，可以发送
 <aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
     <div id="sidebar-main">
         <!-- Sidebar Header -->
-        <div class="sidebar-header header-cover" style="background-image: url(/img/daily_pic.png);">
+        <div class="sidebar-header header-cover" style="background-image: url(/img/manong.gif);">
     <!-- Top bar -->
     <div class="top-bar"></div>
 
@@ -934,7 +945,7 @@ SMTP：是发送邮件的协议，Python 内置对 SMTP 的支持，可以发送
         <ul id="settings-dropdown" class="dropdown-menu">
             
                 <li>
-                    <a href="mailto: morninggeng@gmail.com" target="_blank" title="Email Me">
+                    <a href="https://www.morninggeng@gmail.com" target="_blank" title="Email Me">
                         
                             <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
                         
@@ -1138,6 +1149,12 @@ It will not impact the appearance and can give developers a lot of support :)
 
     <!-- Zhihu -->
     
+        <a href="https://www.zhihu.com/" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-zhihu.svg);">
+                <span class="visuallyhidden">Zhihu</span>
+            </button><!--
+     --></a>
+    
 
     <!-- Bilibili -->
     
@@ -1263,5 +1280,8 @@ It will not impact the appearance and can give developers a lot of support :)
                 </main>
             </div>
         </body>
+		
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
     
 </html>
