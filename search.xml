@@ -1105,9 +1105,9 @@ val name: String // 如果没有初始值类型不能省略
         
         <tags>
             
-            <tag> 插件 </tag>
-            
             <tag> Chrome </tag>
+            
+            <tag> 插件 </tag>
             
         </tags>
         
@@ -1454,9 +1454,9 @@ val name: String // 如果没有初始值类型不能省略
             
             <tag> Android </tag>
             
-            <tag> Android Studio </tag>
-            
             <tag> 插件 </tag>
+            
+            <tag> Android Studio </tag>
             
         </tags>
         
