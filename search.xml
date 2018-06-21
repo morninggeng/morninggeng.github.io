@@ -98,7 +98,7 @@ browser.find_element_by_name(&quot;password&quot;).send_keys(&#39;你的密码&#
 browser.find_element_by_id(&quot;dologin&quot;).click()
 </code></pre><p>执行完上面代码后会报错，错误信息如下：</p>
 <p><img src="http://opmd2oxww.bkt.clouddn.com/18-6-21/82445129.jpg" alt="无法定位到该元素"></p>
-<p>这是由于 163 页面的用户名、密码输入框和登录按钮被嵌入到一个 \<iframe\> 表单中了，如图所示：</iframe\></p>
+<p>这是由于 163 页面的用户名、密码输入框和登录按钮被嵌入到一个 <iframe> 表单中了，如图所示：</iframe></p>
 <p><img src="http://opmd2oxww.bkt.clouddn.com/18-6-21/68757014.jpg" alt=""></p>
 <p>我们在获取元素时必须先切换到该表单，才能获取到用户名和密码输入元素。所以在获取用户名和密码输入元素代码前，添加切换表单代码。</p>
 <p><code>browser.switch_to.frame(&quot;x-URS-iframe&quot;)</code></p>
@@ -1138,9 +1138,9 @@ val name: String // 如果没有初始值类型不能省略
         
         <tags>
             
-            <tag> Chrome </tag>
-            
             <tag> 插件 </tag>
+            
+            <tag> Chrome </tag>
             
         </tags>
         
@@ -1487,9 +1487,9 @@ val name: String // 如果没有初始值类型不能省略
             
             <tag> Android </tag>
             
-            <tag> 插件 </tag>
-            
             <tag> Android Studio </tag>
+            
+            <tag> 插件 </tag>
             
         </tags>
         
