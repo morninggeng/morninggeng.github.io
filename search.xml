@@ -214,6 +214,65 @@ print(response.text)
 <p><code>requests.get(url, auth=auth)</code></p>
 </li>
 </ul>
+<h5 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h5><ul>
+<li><p>re 库</p>
+<p>Python 的 re 库提供了整个正则表达式的实现，利用 re 库我们就可以在 Python 中使用正则表达式了。</p>
+</li>
+<li><p>match() 方法</p>
+<p>该方法会尝试从要匹配的字符串的起始位置进行匹配，如果匹配就返回匹配的字符串，如果不匹配就返回 None。</p>
+<p>例：</p>
+<pre><code>content = &#39;Hello 123 4567 World_This is a Regex Demo&#39;
+result = re.match(&#39;^Hello\s\d{3}\s\d{4}\s\w{10}&#39;, content)
+print(result.group())
+print(result.span())
+</code></pre><p>结果为：<code>Hello 123 4567 World_This</code>和<code>（0, 25）</code></p>
+<ul>
+<li>匹配目标：用<code>()</code>括号括起来的内容，然后调用<code>.group()</code>返回一个元组，如果有多个<code>()</code>，可调用<code>.group(1..)</code>来获取多个值。</li>
+<li>通用匹配：用<code>.*</code>组合在一起就可以匹配任意的字符。</li>
+<li>贪婪与非贪婪：<code>.*</code>是贪婪匹配，会匹配尽可能多的字符。<code>.*?</code>是非贪婪匹配，会匹配尽可能少的字符。</li>
+<li>修饰符：<code>re.i</code>：使匹配对大小写不敏感。<code>re.S</code>：使 . 匹配包括换行在内的所有字符。</li>
+<li>转义匹配：在要转义的字符前面加反斜线来进行转义一下就可以匹配了。</li>
+</ul>
+</li>
+<li><p>search() 方法</p>
+<p>与<code>match()</code>方法不同，<code>search()</code>方法可以从字符串任意位置开始匹配，并且只匹配匹配内容第一次出现的位置，并只匹配一次。</p>
+</li>
+<li><p>findall() 方法</p>
+<p>与<code>search()</code>方法不同，<code>findall()</code>方法可以从字符串任意位置开始匹配，并且匹配出所有符合条件的字符。以列表方式返回。</p>
+</li>
+<li><p>sub() 方法</p>
+<p>可使用该方法修改文本内容，例如：<code>sub(&#39;\d{3}&#39;，&#39; &#39;，content)</code>表示将文本中第一次出现的 3 个数字替换为空字符。</p>
+</li>
+<li><p>compile() 方法</p>
+<p>这个方法可以将正则字符串编译成正则表达式对象，以便于在后面的匹配中复用。</p>
+</li>
+</ul>
+<h3 id="解析库的使用"><a href="#解析库的使用" class="headerlink" title="解析库的使用"></a>解析库的使用</h3><h4 id="XPath-的使用"><a href="#XPath-的使用" class="headerlink" title="XPath 的使用"></a>XPath 的使用</h4><p>导包<code>from lxml import etree</code>，etree 的 tostring() 方法可以自动修复或者说补全不完整的 html 代码，然后返回 bytes 类型，可通过 decode() 方法转换为 str，并且还自动添加了 body、html 节点。</p>
+<p>parse() 方法解析 html 代码，然后调用 xpath() 方法获取标签内容。以列表方式返回。用 // 开头表示获取符合要求的标签，//li 表示获取所有 li 标签。</p>
+<p>/ 子节点  // 子孙节点</p>
+<p><code>&lt;ul&gt;  &lt;li class=&quot;item-0&quot;&gt;  &lt;a href=&quot;link1.html&quot;&gt;first item&lt;/a&gt;  &lt;/li&gt;  &lt;/ul&gt;</code></p>
+<p>以上述 html 代码为例，要获取 li 标签下的 a 标签可以写为 <code>//li/a</code>，要获取 ul 标签下的 a 标签，可以写为<code>//ul//a</code>。</p>
+<p>父节点获取可以用<code>..</code>或<code>parent::</code>来获取。</p>
+<p>使用<code>@</code>符号进行属性过滤，例如获取 class 属性为 item-1 的 li 标签，可以写为<code>//li[@class=&quot;item-1&quot;]</code>。</p>
+<p>使用 text() 获取节点上的文本信息，例如获取 class 属性为 item-1 的 li 标签的文本信息，可以写为<code>//li[@class=&quot;item-1&quot;]/text()</code>。</p>
+<p>使用<code>@</code>符号后加各种属性，可以获取节点的具体属性信息，例如<code>@href</code>。</p>
+<p>有时候某些节点的某个属性可能有多个值，如<code>&lt;li class=&quot;li li-first&quot;&gt;</code>，class 属性有两个值 li 和 li-first，在对 class 进行匹配时需加上 contains() 方法，可以写为<code>//li[contains(@class, &quot;li&quot;)]</code>。</p>
+<p>有时我们可能需要根据多个属性才能确定一个节点，这是就需要同时匹配多个属性才可以，那么这里可以使用运算符 and 来连接，例如<code>//li[contains(@class, &quot;li&quot;) and @name=&quot;item&quot;]</code>。and 其实是 XPath 中的运算符，另外还有很多运算符，如 or、mod 等等。</p>
+<p>有时候我们在选择的时候可能某些属性同时匹配了多个节点，但是我们只想要其中的某个节点，如第二个节点，或者最后一个节点，这时该怎么办呢？这时可以利用中括号传入索引的方法获取特定次序的节点。例如以下几种写法：</p>
+<ul>
+<li><code>//li[1]/a/text()</code>表示获取第一个节点的文本信息；</li>
+<li><code>//li[last()]/a/text()</code>表示获取最后一个节点的文本信息；</li>
+<li><code>//li[position()&lt;3]/a/text()</code>表示获取前两个节点的文本信息；</li>
+<li><code>//li[last()-2]/a/text()</code>表示获取倒数第三个节点的文本信息。</li>
+</ul>
+<h4 id="BeautifulSoup-的使用"><a href="#BeautifulSoup-的使用" class="headerlink" title="BeautifulSoup 的使用"></a>BeautifulSoup 的使用</h4><p>导包<code>from bs4 import BeautifulSoup</code>，通过<code>BeautifulSoup(html, &#39;lxml&#39;)</code>进行初始化得到实例化对象 soup，html 就是要解析的 html 代码，如果代码不完整，会自动补全，<code>lxml</code>是解析器。</p>
+<p>soup.prettify() 方法可以把要解析的字符串以标准的缩进格式输出。</p>
+<p>soup.节点，可以直接输出该节点的 html 代码，如果包括子节点会一并输出。如果有重复名称节点，只输出第一条，并不会全部输出。</p>
+<p>soup.节点.string，可以方便的输出该节点的文本信息，简直不要太方便。</p>
+<p>soup.节点.name，输出节点名称。</p>
+<p>soup.节点.attrs，获取节点的属性，也可以直接 soup.节点[‘属性名’]，获取其属性。</p>
+<p>soup.节点.子节点，可获取对应的子节点的名称。</p>
+<p>soup.节点.子节点.string，可获取对应的子节点的文本信息。</p>
 ]]></content>
       
         <categories>
